@@ -1,5 +1,10 @@
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
+import ipoEntity from "../models/ipo.entity";
+import company_financeEntity from "../models/company_finance.entity";
+import lotsEntity from "../models/lots.entity";
+import reservationsEntity from "../models/reservations.entity";
+import subscriptionsEntity from "../models/subscriptions.entity";
 
 dotenv.config()
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
@@ -11,7 +16,7 @@ export const myDataSource = new DataSource({
   database: process.env.DB_NAME,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
-  entities: [],
+  entities: [ipoEntity, company_financeEntity, lotsEntity, reservationsEntity, subscriptionsEntity],
   synchronize: true,
 });
 
