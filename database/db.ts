@@ -5,8 +5,9 @@ import company_financeEntity from "../models/company_finance.entity";
 import lotsEntity from "../models/lots.entity";
 import reservationsEntity from "../models/reservations.entity";
 import subscriptionsEntity from "../models/subscriptions.entity";
+import trackerEntity from "../models/tracker.entity";
 
-dotenv.config()
+dotenv.config();
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 export const myDataSource = new DataSource({
@@ -16,8 +17,13 @@ export const myDataSource = new DataSource({
   database: process.env.DB_NAME,
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
-  entities: [ipoEntity, company_financeEntity, lotsEntity, reservationsEntity, subscriptionsEntity],
+  entities: [
+    ipoEntity,
+    company_financeEntity,
+    lotsEntity,
+    reservationsEntity,
+    subscriptionsEntity,
+    trackerEntity,
+  ],
   synchronize: true,
 });
-
-
