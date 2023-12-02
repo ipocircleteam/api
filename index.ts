@@ -4,6 +4,7 @@ import cors from "cors";
 import http from "http";
 import { Router } from "express";
 import { Request, Response } from "express";
+import { myDataSource } from "./database/db";
 
 dotenv.config();
 const router = Router();
@@ -38,6 +39,16 @@ function StartServer() {
         `Server is running on port ${process.env.SERVER_PORT || 6969}`
       );
     });
+
+    myDataSource
+      .initialize()
+      .then(() => {
+        console.log("DB Connected via Typeorm");
+      })
+      .catch((err) => {
+          console.log(`Error during data source initialization: ${err}`);
+          throw(err)
+      });
   } catch (error) {
     console.log("Error starting server");
   }
