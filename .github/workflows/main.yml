@@ -1,4 +1,4 @@
-name: Build on Dockerhub and Deploy to AWS
+name: Build Image and Deploy
 on:
   push:
     branches:
