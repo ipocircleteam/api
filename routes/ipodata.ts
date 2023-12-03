@@ -1,10 +1,7 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
+import { getIpoData } from '../controllers/ipo-controllers';
 
-const router = express.Router()
+export const ipoDataRouter = express.Router()
 
-router.get("/details", (req: Request, res: Response) => {
-    
-})
+ipoDataRouter.get("/details", getIpoData)
 // concise=true, type=sme|main
-
-module.exports = router;
