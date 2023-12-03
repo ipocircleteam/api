@@ -1,4 +1,5 @@
 name: Build on Dockerhub and Deploy to AWS
+on:
   push:
     branches:
       - main
