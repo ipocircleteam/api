@@ -1,16 +1,16 @@
-# name: Deploying to production...
-# on:
-#   push:
-#     branches:
-#       - main
-#     workflow_run:
-#       workflows: ["Build Docker Image"]
-#       types: 
-#        -completed
+name: Deploying to production...
+on:
+  push:
+    branches:
+      - main
+    workflow_run:
+      workflows: ["Build Docker Image"]
+      types: 
+       -completed
 
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
     
-#     steps:
+    steps:
      
