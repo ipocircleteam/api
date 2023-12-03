@@ -10,6 +10,8 @@ import trackerEntity from "../models/tracker.entity";
 dotenv.config();
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
+console.log(process.env.DB_NAME);
+
 export const myDataSource = new DataSource({
   type: "postgres",
   host: process.env.DB_HOST,
@@ -22,8 +24,7 @@ export const myDataSource = new DataSource({
     company_financeEntity,
     lotsEntity,
     reservationsEntity,
-    subscriptionsEntity,
-    trackerEntity,
+    subscriptionsEntity
   ],
   synchronize: true,
   ssl: {

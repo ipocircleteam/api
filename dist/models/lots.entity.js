@@ -1,27 +1,35 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Lot = void 0;
 const typeorm_1 = require("typeorm");
-const uuid_1 = require("uuid");
 exports.default = new typeorm_1.EntitySchema({
     name: "Ipo Lots",
     tableName: "ipo_lots",
     columns: {
-        id: {
-            primary: true,
-            type: "uuid",
-            default: () => `'${(0, uuid_1.v4)()}'`,
-        },
         ipo_id: {
-            type: "uuid",
+            type: "int",
+            primary: true
         },
         category: {
             type: "text",
+            nullable: true
         },
         lots_min: {
             type: "bigint",
+            nullable: true
         },
         lots_max: {
             type: "bigint",
+            nullable: true
         },
     },
 });
+class Lot {
+    constructor() {
+        (this.ipo_id = ""),
+            (this.category = ""),
+            (this.lots_max = 0),
+            (this.lots_min = 0);
+    }
+}
+exports.Lot = Lot;
