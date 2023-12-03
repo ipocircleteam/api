@@ -39,7 +39,7 @@ app.use("/api/v1/tracker/", trackerRouter);
 app.use("/api/v1/expertAlgo/", algoRouter)
 
 
-app.listen(process.env.SERVER_PORT || 6969, () => {
+app.listen(process.env.PORT || 6969, () => {
   console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);
 });
 
