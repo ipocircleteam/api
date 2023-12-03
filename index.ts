@@ -2,12 +2,11 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
-import { Router } from "express";
 import { Request, Response } from "express";
 import { myDataSource } from "./database/db";
 import { ipoDataRouter } from "./routes/ipodata";
 import { trackerRouter } from "./routes/trackerdata";
-import { algoRouter } from "./routes/expertAlgo";
+import { algoRouter } from "./routes/algo";
 
 dotenv.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);

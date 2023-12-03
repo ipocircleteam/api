@@ -1,7 +1,7 @@
 import express from "express";
 import { runAlgo } from "../controllers/algo-controllers";
 import { check } from "express-validator";
-import validateRequest from "../utils/req-validator";
+import validateRequest from "../middlewares/req-validator";
 
 export const algoRouter = express.Router();
 

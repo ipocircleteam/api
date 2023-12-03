@@ -26,4 +26,7 @@ export const myDataSource = new DataSource({
     trackerEntity,
   ],
   synchronize: true,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
