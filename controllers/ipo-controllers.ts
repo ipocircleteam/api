@@ -46,4 +46,44 @@ const getIpoData = async (req: Request, res: Response) => {
   }
 };
 
-export { getIpoData };
+const getIpoDataFromId = async (req: Request, res: Response) => {
+  try {
+    const { id, concise } = req.query;
+    var ipoData
+
+    if (concise) {
+      ipoData = await myDataSource.getRepository(ipoEntity).find({
+        where: {
+          id: id
+        },
+        select: {
+          id: true,
+          name: true,
+          opening_date: true,
+          closing_date: true,
+        },
+      });
+    } else {
+      ipoData = await myDataSource.getRepository(ipoEntity).find({
+        where: {
+          id: id
+        },
+      });
+    }
+
+    res.status(200).send({
+      success: true,
+      data: ipoData,
+      msg: "Fetched data successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      data: [],
+      msg: "Internal Server Error",
+    });
+  }
+};
+
+export { getIpoData, getIpoDataFromId };

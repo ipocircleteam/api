@@ -17,7 +17,12 @@ const db_1 = require("../database/db");
 const tracker_entity_1 = __importDefault(require("../models/tracker.entity"));
 const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        var trackerData = yield db_1.myDataSource.getRepository(tracker_entity_1.default).find();
+        const { year } = req.query;
+        var trackerData = yield db_1.myDataSource.getRepository(tracker_entity_1.default).find({
+            where: {
+                year: year
+            }
+        });
         res.status(200).send({
             success: true,
             data: trackerData,

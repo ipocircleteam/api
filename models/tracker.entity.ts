@@ -6,32 +6,58 @@ export default new EntitySchema({
   tableName: "ipo_tracker",
   columns: {
     id: {
-      type: "int",
-      primary: true
+      type: "text",
+      primary: true,
     },
     company_name: {
       type: "text",
-      nullable: true
+      nullable: true,
     },
     sector: {
       type: "text",
-      nullable: true
+      nullable: true,
     },
     issue_price: {
       type: "double precision",
-      nullable: true
+      nullable: true,
     },
     current_price: {
       type: "double precision",
-      nullable: true
+      nullable: true,
     },
     listing_price: {
       type: "double precision",
-      nullable: true
+      nullable: true,
     },
     dayend_price: {
       type: "double precision",
-      nullable: true
+      nullable: true,
+    },
+    year: {
+      type: "bigint",
+      nullable: true,
     },
   },
 });
+
+export class TrackerClass {
+  id: string;
+  company_name: string;
+  sector: string;
+  issue_price: number;
+  current_price: number;
+  listing_price: number;
+  dayend_price: number;
+  year: number;
+
+  constructor() {
+    (this.id = ""),
+      (this.company_name = ""),
+      (this.sector = ""),
+      (this.issue_price = 0),
+      (this.current_price = 0),
+      (this.listing_price = 0),
+      (this.dayend_price = 0),
+      (this.year = 0);
+  }
+}
