@@ -8,7 +8,6 @@ import subscriptionsEntity from "../models/subscriptions.entity";
 import trackerEntity from "../models/tracker.entity";
 
 dotenv.config();
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 
 export const myDataSource = new DataSource({
   type: "postgres",
@@ -22,8 +21,7 @@ export const myDataSource = new DataSource({
     company_financeEntity,
     lotsEntity,
     reservationsEntity,
-    subscriptionsEntity,
-    trackerEntity,
+    subscriptionsEntity
   ],
   synchronize: true,
   ssl: {

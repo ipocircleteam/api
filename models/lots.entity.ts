@@ -1,26 +1,38 @@
 import { EntitySchema } from "typeorm";
-import { v4 as uuidv4 } from "uuid";
 
 export default new EntitySchema({
   name: "Ipo Lots",
   tableName: "ipo_lots",
   columns: {
-    id: {
-      primary: true,
-      type: "uuid",
-      default: () => `'${uuidv4()}'`,
-    },
     ipo_id: {
-      type: "uuid",
+      type: "int",
+      primary: true
     },
     category: {
       type: "text",
+      nullable: true
     },
     lots_min: {
       type: "bigint",
+      nullable: true
     },
     lots_max: {
       type: "bigint",
+      nullable: true
     },
   },
 });
+
+export class Lot {
+  ipo_id: string;
+  category: string;
+  lots_min: number;
+  lots_max: number;
+
+  constructor() {
+      (this.ipo_id = ""),
+      (this.category = ""),
+      (this.lots_max = 0),
+      (this.lots_min = 0);
+  }
+}

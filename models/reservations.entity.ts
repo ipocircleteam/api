@@ -7,17 +7,19 @@ export default new EntitySchema({
   columns: {
     id: {
       primary: true,
-      type: "uuid",
-      default: () => `'${uuidv4()}'`,
+      type: "int",
     },
     ipo_id: {
-      type: "uuid",
+      type: "int",
+      nullable: true
     },
     category: {
       type: "text",
+      nullable: true
     },
     shares_offered: {
       type: "bigint",
+      nullable: true
     },
   },
 });

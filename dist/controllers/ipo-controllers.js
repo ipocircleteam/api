@@ -17,14 +17,16 @@ const db_1 = require("../database/db");
 const ipo_entity_1 = __importDefault(require("../models/ipo.entity"));
 const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { concise, type } = req.query;
+        const { concise, type, count, start, end } = req.query;
         var ipoData;
+        const ipoType = type === "main" ? "eq" : type;
         if (concise) {
             ipoData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
                 where: {
-                    series: type,
+                    series: ipoType,
                 },
                 select: {
+                    id: true,
                     name: true,
                     opening_date: true,
                     closing_date: true,
@@ -34,13 +36,15 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         else {
             ipoData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
                 where: {
-                    series: type,
+                    series: ipoType,
                 },
             });
         }
+        const chunkStart = start === undefined ? 0 : Number(start);
+        const chunkEnd = end === undefined ? (count === undefined ? 150 : Number(count)) : Number(end);
         res.status(200).send({
             success: true,
-            data: ipoData,
+            data: ipoData.slice(chunkStart, chunkEnd),
             msg: "Fetched data successfully",
         });
     }

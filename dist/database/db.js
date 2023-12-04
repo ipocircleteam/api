@@ -11,9 +11,7 @@ const company_finance_entity_1 = __importDefault(require("../models/company_fina
 const lots_entity_1 = __importDefault(require("../models/lots.entity"));
 const reservations_entity_1 = __importDefault(require("../models/reservations.entity"));
 const subscriptions_entity_1 = __importDefault(require("../models/subscriptions.entity"));
-const tracker_entity_1 = __importDefault(require("../models/tracker.entity"));
 dotenv_1.default.config();
-dotenv_1.default.config({ path: `.env.${process.env.NODE_ENV}` });
 exports.myDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: process.env.DB_HOST,
@@ -26,8 +24,7 @@ exports.myDataSource = new typeorm_1.DataSource({
         company_finance_entity_1.default,
         lots_entity_1.default,
         reservations_entity_1.default,
-        subscriptions_entity_1.default,
-        tracker_entity_1.default,
+        subscriptions_entity_1.default
     ],
     synchronize: true,
     ssl: {

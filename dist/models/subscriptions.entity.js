@@ -1,27 +1,29 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const uuid_1 = require("uuid");
 exports.default = new typeorm_1.EntitySchema({
     name: "Subscriptions",
     tableName: "subscriptions",
     columns: {
         id: {
             primary: true,
-            type: "uuid",
-            default: () => `'${(0, uuid_1.v4)()}'`,
+            type: "int",
         },
         ipo_id: {
-            type: "uuid",
+            type: "int",
+            nullable: true
         },
         category: {
             type: "text",
+            nullable: true
         },
         shares_bid: {
             type: "bigint",
+            nullable: true
         },
         updated_at: {
             type: "timestamp",
+            nullable: true
         },
     },
 });

@@ -6,27 +6,32 @@ export default new EntitySchema({
   tableName: "ipo_tracker",
   columns: {
     id: {
-      type: "uuid",
-      primary: true,
-      default: () => `'${uuidv4()}'`,
+      type: "int",
+      primary: true
     },
     company_name: {
       type: "text",
+      nullable: true
     },
     sector: {
       type: "text",
+      nullable: true
     },
     issue_price: {
       type: "double precision",
+      nullable: true
     },
     current_price: {
       type: "double precision",
+      nullable: true
     },
     listing_price: {
       type: "double precision",
+      nullable: true
     },
     dayend_price: {
       type: "double precision",
+      nullable: true
     },
   },
 });
