@@ -4,15 +4,17 @@ import ipoEntity from "../models/ipo.entity";
 
 const getIpoData = async (req: Request, res: Response) => {
   try {
-    const { concise, type } = req.query;
+    const { concise, type, count, start, end } = req.query;
     var ipoData;
+    const ipoType = type === "main" ? "eq" : type;
 
     if (concise) {
       ipoData = await myDataSource.getRepository(ipoEntity).find({
         where: {
-          series: type,
+          series: ipoType,
         },
         select: {
+          id: true,
           name: true,
           opening_date: true,
           closing_date: true,
@@ -21,14 +23,17 @@ const getIpoData = async (req: Request, res: Response) => {
     } else {
       ipoData = await myDataSource.getRepository(ipoEntity).find({
         where: {
-          series: type,
+          series: ipoType,
         },
       });
     }
 
+    const chunkStart = start === undefined ? 0 : Number(start)
+    const chunkEnd = end === undefined ? (count === undefined ? 150 : Number(count)) : Number(end)
+
     res.status(200).send({
       success: true,
-      data: ipoData,
+      data: ipoData.slice(chunkStart, chunkEnd),
       msg: "Fetched data successfully",
     });
   } catch (error) {

@@ -17,7 +17,7 @@ export default async function extractDataFrom(fileName: string) {
     const rowLength = worksheet?._rows.length
     var extractionSuccess = false;
 
-    for (let i = 2; i <= rowLength; i++) {
+    for (let i = 2; i <= 152; i++) {
         try {
             const data = worksheet?.getRow(i).values;
             //@ts-ignore

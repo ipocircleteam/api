@@ -12,8 +12,6 @@ const lots_entity_1 = __importDefault(require("../models/lots.entity"));
 const reservations_entity_1 = __importDefault(require("../models/reservations.entity"));
 const subscriptions_entity_1 = __importDefault(require("../models/subscriptions.entity"));
 dotenv_1.default.config();
-dotenv_1.default.config({ path: `.env.${process.env.NODE_ENV}` });
-console.log(process.env.DB_NAME);
 exports.myDataSource = new typeorm_1.DataSource({
     type: "postgres",
     host: process.env.DB_HOST,

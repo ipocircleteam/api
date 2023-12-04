@@ -8,9 +8,6 @@ import subscriptionsEntity from "../models/subscriptions.entity";
 import trackerEntity from "../models/tracker.entity";
 
 dotenv.config();
-dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
-
-console.log(process.env.DB_NAME);
 
 export const myDataSource = new DataSource({
   type: "postgres",
