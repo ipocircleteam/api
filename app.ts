@@ -14,7 +14,7 @@ console.log(`Node Environment is ${process.env.NODE_ENV}`);
 const app = express();
 
 const corsOptions = {
-  origin: "*",
+  origin: ["https://ipocircle.com/", "https://beta-website-client.vercel.app/", "http://localhost:3000/"],
   methods: "PUT, GET, DELETE, PATCH, OPTIONS, POST",
   allowedHeaders:
     "Origin, X-Requested-With, Content-Type, Accept, Authorization",
