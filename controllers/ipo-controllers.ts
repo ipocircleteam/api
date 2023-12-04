@@ -1,9 +1,12 @@
 import { Request, Response } from "express";
 import { myDataSource } from "../database/db";
 import ipoEntity from "../models/ipo.entity";
+import initDb from "../database/initDb";
 
 const getIpoData = async (req: Request, res: Response) => {
   try {
+    await initDb()
+
     const { concise, type, count, start, end } = req.query;
     var ipoData;
     const ipoType = type === "main" ? "eq" : type;
@@ -48,6 +51,7 @@ const getIpoData = async (req: Request, res: Response) => {
 
 const getIpoDataFromId = async (req: Request, res: Response) => {
   try {
+    await initDb()
     const { id, concise } = req.query;
     var ipoData
 

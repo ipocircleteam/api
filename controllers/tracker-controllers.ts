@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import { myDataSource } from "../database/db";
 import trackerEntity from "../models/tracker.entity";
+import initDb from "../database/initDb";
 
 const getTrackerData = async (req: Request, res: Response) => {
   try {
+    await initDb()
     const { year } = req.query
     
     var trackerData = await myDataSource.getRepository(trackerEntity).find({
