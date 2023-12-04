@@ -82,7 +82,7 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 },
             });
         }
-        res.status(200).send({
+        res.status(200).json({
             success: true,
             data: ipoData,
             msg: "Fetched data successfully",
@@ -90,7 +90,7 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
     catch (error) {
         console.log(error);
-        res.status(500).send({
+        res.status(500).json({
             success: false,
             data: [],
             msg: "Internal Server Error",
