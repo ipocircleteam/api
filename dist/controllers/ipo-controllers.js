@@ -15,8 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getIpoDataFromId = exports.getIpoData = void 0;
 const db_1 = require("../database/db");
 const ipo_entity_1 = __importDefault(require("../models/ipo.entity"));
+const initDb_1 = __importDefault(require("../database/initDb"));
 const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, initDb_1.default)();
         const { concise, type, count, start, end } = req.query;
         var ipoData;
         const ipoType = type === "main" ? "eq" : type;
@@ -60,6 +62,7 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getIpoData = getIpoData;
 const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        yield (0, initDb_1.default)();
         const { id, concise } = req.query;
         var ipoData;
         if (concise) {
