@@ -71,14 +71,14 @@ const getIpoDataFromId = async (req: Request, res: Response) => {
       });
     }
 
-    res.status(200).send({
+    res.status(200).json({
       success: true,
       data: ipoData,
       msg: "Fetched data successfully",
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send({
+    res.status(500).json({
       success: false,
       data: [],
       msg: "Internal Server Error",

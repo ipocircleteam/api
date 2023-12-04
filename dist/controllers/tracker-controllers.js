@@ -23,7 +23,7 @@ const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function*
                 year: year
             }
         });
-        res.status(200).send({
+        res.status(200).json({
             success: true,
             data: trackerData,
             msg: "Fetched data successfully",
@@ -31,7 +31,7 @@ const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
     catch (error) {
         console.log(error);
-        res.status(500).send({
+        res.status(500).json({
             success: false,
             data: [],
             msg: "Internal Server Error",
