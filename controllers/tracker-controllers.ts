@@ -4,13 +4,20 @@ import trackerEntity from "../models/tracker.entity";
 
 const getTrackerData = async (req: Request, res: Response) => {
   try {
-    var trackerData = await myDataSource.getRepository(trackerEntity).find();
+    const { year } = req.query
+    
+    var trackerData = await myDataSource.getRepository(trackerEntity).find({
+      where: {
+        year: year
+      }
+    });
    
     res.status(200).send({
       success: true,
       data: trackerData,
       msg: "Fetched data successfully",
     });
+
   } catch (error) {
     console.log(error);
     res.status(500).send({

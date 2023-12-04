@@ -10,7 +10,8 @@
     "start": "node dist/app.js",
     "ts.check": "tsc --project tsconfig.json",
     "add-build": "git add dist",
-    "extract-data": "npm run build && clear && node dist/script/dataReader.js"
+    "extract-data": "npm run build && clear && node dist/script/dataReader.js",
+    "create-tracker-data": "npm run build && clear && node dist/script/generateTrackerData.js"
   },
   "author": "IPO CIRCLE",
   "license": "ISC",
