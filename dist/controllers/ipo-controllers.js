@@ -59,6 +59,9 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             error: error
         });
     }
+    finally {
+        db_1.myDataSource.destroy();
+    }
 });
 exports.getIpoData = getIpoData;
 const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -100,6 +103,9 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
             msg: "Internal Server Error",
             error: error
         });
+    }
+    finally {
+        db_1.myDataSource.destroy();
     }
 });
 exports.getIpoDataFromId = getIpoDataFromId;

@@ -29,6 +29,9 @@ const getTrackerData = async (req: Request, res: Response) => {
       error: error
     });
   }
+  finally {
+    myDataSource.destroy()
+  }
 };
 
 export { getTrackerData };
