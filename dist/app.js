@@ -15,7 +15,7 @@ dotenv_1.default.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
 const app = (0, express_1.default)();
 const corsOptions = {
-    origin: ["https://ipocircle.com/", "https://beta-website-client.vercel.app/", "http://localhost:3000/"],
+    origin: "*",
     methods: "PUT, GET, DELETE, PATCH, OPTIONS, POST",
     allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
     credentials: true,
