@@ -9,23 +9,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const ipo_entity_1 = require("../../models/ipo.entity");
 const lots_entity_1 = require("../../models/lots.entity");
-function formatData(data, fileName) {
+const ipoDetails_1 = require("../types/ipoDetails");
+function formatDatadata(data, fileName) {
     return __awaiter(this, void 0, void 0, function* () {
         var result;
         if (fileName === "chittor_ipos.xlsx") {
-            result = formatIpoData(data);
+            result = formatIpoDatadata(data);
         }
         else {
-            result = formatLotsData(data);
+            result = formatLotsDatadata(data);
         }
         return result;
     });
 }
-exports.default = formatData;
-function formatIpoData(data) {
-    const newIpo = new ipo_entity_1.Ipo();
+exports.default = formatDatadata;
+function formatIpoDatadata(data) {
+    const newIpo = new ipoDetails_1.IPOdetails();
     newIpo.id = data[1] + data[2] + data[3];
     newIpo.name = data[2];
     newIpo.series = data[3];
@@ -79,10 +79,80 @@ function formatIpoData(data) {
     newIpo.employee_discount = data[52];
     newIpo.anchor_portion = data[53];
     newIpo.debt = data[54];
+    // fetch data from sources
+    // put them below
+    newIpo.priceband = 0,
+        newIpo.ofs = 0,
+        newIpo.allotment_date = new Date(),
+        newIpo.credit_of = "",
+        newIpo.time_upf = "",
+        newIpo.min_retail = 0,
+        newIpo.max_retail = 0,
+        newIpo.min_shni = 0,
+        newIpo.max_shni = 0,
+        newIpo.min_bhni = 0,
+        newIpo.max_bhni = 0,
+        newIpo.qib = "",
+        newIpo.nii_snii = 0,
+        newIpo.nii_bnii = 0,
+        newIpo.retail = 0,
+        newIpo.anchor_shares_offerred = 0,
+        newIpo.qib_shares_offerred = 0,
+        newIpo.nil_shares_offerred = 0,
+        newIpo.retail_shares_offerred = 0,
+        newIpo.objectIssueData = "",
+        newIpo.gmpData = [],
+        newIpo.comp_fin = {
+            period1: {
+                period: "", //year
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                net_worth: 0,
+                reserves: 0,
+                borrowing: 0,
+            },
+            period2: {
+                period: "", //year
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                net_worth: 0,
+                reserves: 0,
+                borrowing: 0,
+            },
+            period3: {
+                period: "", //year
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                net_worth: 0,
+                reserves: 0,
+                borrowing: 0,
+            },
+            period4: {
+                period: "", //year
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                net_worth: 0,
+                reserves: 0,
+                borrowing: 0,
+            },
+            period5: {
+                period: "", //year
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                net_worth: 0,
+                reserves: 0,
+                borrowing: 0,
+            },
+        };
     return newIpo;
 }
-function formatLotsData(data) {
-    const newLot = new lots_entity_1.Lot();
+function formatLotsDatadata(data) {
+    const newLot = new lots_entity_1.Lot;
     newLot.ipo_id = data[1];
     newLot.category = data[2];
     newLot.lots_min = data[3];

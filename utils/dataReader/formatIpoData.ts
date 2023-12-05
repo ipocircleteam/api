@@ -1,22 +1,23 @@
 import ipoEntity from "../../models/ipo.entity";
 import { Ipo } from "../../models/ipo.entity";
 import { Lot } from "../../models/lots.entity";
+import { IPOdetails } from "../types/ipoDetails";
 
-export default async function formatData(data: any, fileName: any) {
+export default async function formatDatadata(data: any, fileName: any) {
     var result: Ipo | Lot
     
     if (fileName === "chittor_ipos.xlsx") {
-        result = formatIpoData(data)
+        result = formatIpoDatadata(data)
       } else {
-        result = formatLotsData(data)
+        result = formatLotsDatadata(data)
     }
     
 
     return result
 }
 
-function formatIpoData(data: any) {
-    const newIpo = new Ipo()
+function formatIpoDatadata(data: any) {
+    const newIpo = new IPOdetails()
 
     newIpo.id = data[1]+data[2]+data[3]
     newIpo.name = data[2]
@@ -72,12 +73,86 @@ function formatIpoData(data: any) {
     newIpo.anchor_portion = data[53]
     newIpo.debt = data[54]
 
+
+
+    // fetch data from sources
+    // put them below
+
+    newIpo.priceband = 0,
+      newIpo.ofs = 0,
+      newIpo.allotment_date = new Date(),
+      newIpo.credit_of = "",
+      newIpo.time_upf = "",
+      newIpo.min_retail = 0,
+      newIpo.max_retail = 0,
+      newIpo.min_shni = 0,
+      newIpo.max_shni = 0,
+      newIpo.min_bhni = 0,
+      newIpo.max_bhni = 0,
+      newIpo.qib = "",
+      newIpo.nii_snii = 0,
+      newIpo.nii_bnii = 0,
+      newIpo.retail = 0,
+      newIpo.anchor_shares_offerred = 0,
+      newIpo.qib_shares_offerred = 0,
+      newIpo.nil_shares_offerred = 0,
+      newIpo.retail_shares_offerred = 0,
+      newIpo.objectIssueData = "",
+      newIpo.gmpData = [],
+      newIpo.comp_fin = {
+        period1: {
+          period: "", //year
+          assets: 0,
+          revenue: 0,
+          profit_after_tax: 0,
+          net_worth: 0,
+          reserves: 0,
+          borrowing: 0,
+        },
+        period2: {
+          period: "", //year
+          assets: 0,
+          revenue: 0,
+          profit_after_tax: 0,
+          net_worth: 0,
+          reserves: 0,
+          borrowing: 0,
+        },
+        period3: {
+          period: "", //year
+          assets: 0,
+          revenue: 0,
+          profit_after_tax: 0,
+          net_worth: 0,
+          reserves: 0,
+          borrowing: 0,
+        },
+        period4: {
+          period: "", //year
+          assets: 0,
+          revenue: 0,
+          profit_after_tax: 0,
+          net_worth: 0,
+          reserves: 0,
+          borrowing: 0,
+        },
+        period5: {
+          period: "", //year
+          assets: 0,
+          revenue: 0,
+          profit_after_tax: 0,
+          net_worth: 0,
+          reserves: 0,
+          borrowing: 0,
+        },
+      };
+
     return newIpo
 }
 
 
-function formatLotsData(data: any) {
-    const newLot = new Lot()
+function formatLotsDatadata(data : any ){
+    const newLot = new Lot
 
     newLot.ipo_id = data[1]
     newLot.category = data[2]

@@ -5,13 +5,9 @@ export default new EntitySchema({
   name: "Reservations",
   tableName: "reservations",
   columns: {
-    id: {
-      primary: true,
-      type: "int",
-    },
     ipo_id: {
-      type: "int",
-      nullable: true
+      type: "text",
+      primary: true
     },
     category: {
       type: "text",
