@@ -5,13 +5,9 @@ export default new EntitySchema({
   name: "Subscriptions",
   tableName: "subscriptions",
   columns: {
-    id: {
-      primary: true,
-      type: "int",
-    },
     ipo_id: {
       type: "int",
-      nullable: true
+      primary: true
     },
     category: {
       type: "text",

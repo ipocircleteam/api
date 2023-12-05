@@ -6,12 +6,9 @@ export default new EntitySchema({
   name: "Company Finances",
   tableName: "company_finances",
   columns: {
-    id: {
-      primary: true,
-      type: "int",
-    },
     ipo_id: {
-      type: "int",
+      type: "text",
+      primary: true
     },
     period_start: {
       type: "timestamp",

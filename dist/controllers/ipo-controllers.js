@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getIpoDataFromId = exports.getIpoData = void 0;
+exports.updateIpoEntry = exports.createIpoEntry = exports.getIpoDataFromId = exports.getIpoData = void 0;
 const db_1 = require("../database/db");
 const ipo_entity_1 = __importDefault(require("../models/ipo.entity"));
 const initDb_1 = __importDefault(require("../database/initDb"));
@@ -43,7 +43,11 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             });
         }
         const chunkStart = start === undefined ? 0 : Number(start);
-        const chunkEnd = end === undefined ? (count === undefined ? 150 : Number(count)) : Number(end);
+        const chunkEnd = end === undefined
+            ? count === undefined
+                ? 150
+                : Number(count)
+            : Number(end);
         res.status(200).send({
             success: true,
             data: ipoData.slice(chunkStart, chunkEnd),
@@ -56,20 +60,20 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             success: false,
             data: [],
             msg: "Internal Server Error",
-            error: error
+            error: error,
         });
     }
 });
 exports.getIpoData = getIpoData;
 const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // await initDb()
+        yield (0, initDb_1.default)();
         const { id, concise } = req.query;
         var ipoData;
         if (concise) {
             ipoData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
                 where: {
-                    id: id
+                    id: id,
                 },
                 select: {
                     id: true,
@@ -82,7 +86,7 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
         else {
             ipoData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
                 where: {
-                    id: id
+                    id: id,
                 },
             });
         }
@@ -98,8 +102,53 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
             success: false,
             data: [],
             msg: "Internal Server Error",
-            error: error
+            error: error,
         });
     }
 });
 exports.getIpoDataFromId = getIpoDataFromId;
+const createIpoEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, initDb_1.default)();
+        const ipo = req.body;
+        const ipo_create = yield db_1.myDataSource.getRepository(ipo_entity_1.default).create(ipo);
+        const results = yield db_1.myDataSource
+            .getRepository(ipo_entity_1.default)
+            .save(ipo_create);
+        res.status(200).json({
+            success: true,
+            msg: "IPO saved successfully",
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            msg: "Internal Server Error",
+            error: error,
+        });
+    }
+});
+exports.createIpoEntry = createIpoEntry;
+const updateIpoEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, initDb_1.default)();
+        const ipo = req.body;
+        const ipo_update = yield db_1.myDataSource
+            .getRepository(ipo_entity_1.default)
+            .save(ipo);
+        res.status(200).json({
+            success: true,
+            msg: "IPO updated successfully",
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            msg: "Internal Server Error",
+            error: error,
+        });
+    }
+});
+exports.updateIpoEntry = updateIpoEntry;
