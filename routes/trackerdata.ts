@@ -1,6 +1,14 @@
-import express from 'express'
-import { getTrackerData } from '../controllers/tracker-controllers'
+import express from "express";
+import {
+  createTrackerEntry,
+  getTrackerData,
+  updateTrackerEntry,
+} from "../controllers/tracker-controllers";
 
-export const trackerRouter = express.Router()
+export const trackerRouter = express.Router();
 
-trackerRouter.get("/details", getTrackerData)
+trackerRouter.get("/details", getTrackerData);
+
+trackerRouter.post("/create", createTrackerEntry);
+
+trackerRouter.patch("/update", updateTrackerEntry);
