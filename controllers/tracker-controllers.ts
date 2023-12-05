@@ -5,7 +5,7 @@ import initDb from "../database/initDb";
 
 const getTrackerData = async (req: Request, res: Response) => {
   try {
-    // await initDb()
+    await initDb()
     const { year } = req.query
     
     var trackerData = await myDataSource.getRepository(trackerEntity).find({
