@@ -7,7 +7,6 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
-const db_1 = require("./database/db");
 const ipodata_1 = require("./routes/ipodata");
 const trackerdata_1 = require("./routes/trackerdata");
 const algo_1 = require("./routes/algo");
@@ -34,12 +33,12 @@ app.use("/api/v1/expertAlgo/", algo_1.algoRouter);
 app.listen(process.env.PORT || 6969, () => {
     console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);
 });
-db_1.myDataSource
-    .initialize()
-    .then(() => {
-    console.log("DB Connected via Typeorm");
-})
-    .catch((err) => {
-    console.log(`Error during data source initialization: ${err}`);
-    throw err;
-});
+// myDataSource
+//   .initialize()
+//   .then(() => {
+//     console.log("DB Connected via Typeorm");
+//   })
+//   .catch((err) => {
+//     console.log(`Error during data source initialization: ${err}`);
+//     throw err;
+//   });
