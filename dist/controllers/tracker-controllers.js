@@ -40,8 +40,5 @@ const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function*
             error: error
         });
     }
-    finally {
-        db_1.myDataSource.destroy();
-    }
 });
 exports.getTrackerData = getTrackerData;

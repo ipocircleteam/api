@@ -48,9 +48,6 @@ const getIpoData = async (req: Request, res: Response) => {
       error: error
     });
   }
-  finally {
-    myDataSource.destroy()
-  }
 };
 
 const getIpoDataFromId = async (req: Request, res: Response) => {
@@ -92,9 +89,6 @@ const getIpoDataFromId = async (req: Request, res: Response) => {
       msg: "Internal Server Error",
       error: error
     });
-  }
-  finally {
-    myDataSource.destroy()
   }
 };
 
