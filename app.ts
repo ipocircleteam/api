@@ -43,12 +43,12 @@ app.listen(process.env.PORT || 6969, () => {
   console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);
 });
 
-// myDataSource
-//   .initialize()
-//   .then(() => {
-//     console.log("DB Connected via Typeorm");
-//   })
-//   .catch((err) => {
-//     console.log(`Error during data source initialization: ${err}`);
-//     throw err;
-//   });
+myDataSource
+  .initialize()
+  .then(() => {
+    console.log("DB Connected via Typeorm");
+  })
+  .catch((err) => {
+    console.log(`Error during data source initialization: ${err}`);
+    throw err;
+  });
