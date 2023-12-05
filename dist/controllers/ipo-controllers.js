@@ -55,6 +55,7 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             success: false,
             data: [],
             msg: "Internal Server Error",
+            error: error
         });
     }
 });
@@ -96,6 +97,7 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
             success: false,
             data: [],
             msg: "Internal Server Error",
+            error: error
         });
     }
 });

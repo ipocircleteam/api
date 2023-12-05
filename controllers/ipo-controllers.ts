@@ -45,6 +45,7 @@ const getIpoData = async (req: Request, res: Response) => {
       success: false,
       data: [],
       msg: "Internal Server Error",
+      error: error
     });
   }
 };
@@ -86,6 +87,7 @@ const getIpoDataFromId = async (req: Request, res: Response) => {
       success: false,
       data: [],
       msg: "Internal Server Error",
+      error: error
     });
   }
 };

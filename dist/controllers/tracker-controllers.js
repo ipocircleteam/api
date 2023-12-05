@@ -36,6 +36,7 @@ const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function*
             success: false,
             data: [],
             msg: "Internal Server Error",
+            error: error
         });
     }
 });
