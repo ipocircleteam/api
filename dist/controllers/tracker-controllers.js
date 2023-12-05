@@ -15,9 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTrackerData = void 0;
 const db_1 = require("../database/db");
 const tracker_entity_1 = __importDefault(require("../models/tracker.entity"));
+const initDb_1 = __importDefault(require("../database/initDb"));
 const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // await initDb()
+        yield (0, initDb_1.default)();
         const { year } = req.query;
         var trackerData = yield db_1.myDataSource.getRepository(tracker_entity_1.default).find({
             where: {
