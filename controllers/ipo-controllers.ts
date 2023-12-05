@@ -52,7 +52,7 @@ const getIpoData = async (req: Request, res: Response) => {
 
 const getIpoDataFromId = async (req: Request, res: Response) => {
   try {
-    await initDb()
+    // await initDb()
     const { id, concise } = req.query;
     var ipoData
 

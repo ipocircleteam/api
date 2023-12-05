@@ -63,7 +63,7 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.getIpoData = getIpoData;
 const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, initDb_1.default)();
+        // await initDb()
         const { id, concise } = req.query;
         var ipoData;
         if (concise) {
