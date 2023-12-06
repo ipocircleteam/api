@@ -12,6 +12,7 @@ const trackerdata_1 = require("./routes/trackerdata");
 const algo_1 = require("./routes/algo");
 const initDb_1 = __importDefault(require("./database/initDb"));
 const gmp_1 = require("./routes/gmp");
+const review_1 = require("./routes/review");
 dotenv_1.default.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
 const app = (0, express_1.default)();
@@ -33,6 +34,7 @@ app.use("/api/v1/ipo/", ipodata_1.ipoDataRouter);
 app.use("/api/v1/tracker/", trackerdata_1.trackerRouter);
 app.use("/api/v1/expertAlgo/", algo_1.algoRouter);
 app.use("/api/v1/gmp/", gmp_1.gmpRouter);
+app.use("/api/v1/review/", review_1.reviewRouter);
 app.listen(process.env.PORT || 6969, () => {
     console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);
 });

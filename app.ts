@@ -8,6 +8,7 @@ import { trackerRouter } from "./routes/trackerdata";
 import { algoRouter } from "./routes/algo";
 import initDb from "./database/initDb";
 import { gmpRouter } from "./routes/gmp";
+import { reviewRouter } from "./routes/review";
 
 dotenv.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
@@ -38,7 +39,8 @@ app.get("/", (req: Request, res: Response) => {
 app.use("/api/v1/ipo/", ipoDataRouter);
 app.use("/api/v1/tracker/", trackerRouter);
 app.use("/api/v1/expertAlgo/", algoRouter);
-app.use("/api/v1/gmp/", gmpRouter)
+app.use("/api/v1/gmp/", gmpRouter);
+app.use("/api/v1/review/", reviewRouter)
 
 
 app.listen(process.env.PORT || 6969, () => {

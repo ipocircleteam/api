@@ -13,7 +13,7 @@ const reservations_entity_1 = __importDefault(require("../models/reservations.en
 const subscriptions_entity_1 = __importDefault(require("../models/subscriptions.entity"));
 const tracker_entity_1 = __importDefault(require("../models/tracker.entity"));
 const gmp_entity_1 = __importDefault(require("../models/gmp.entity"));
-const review_1 = __importDefault(require("../models/review"));
+const review_entity_1 = __importDefault(require("../models/review.entity"));
 dotenv_1.default.config();
 console.log(process.env.DB_NAME);
 exports.myDataSource = new typeorm_1.DataSource({
@@ -31,7 +31,7 @@ exports.myDataSource = new typeorm_1.DataSource({
         subscriptions_entity_1.default,
         tracker_entity_1.default,
         gmp_entity_1.default,
-        review_1.default
+        review_entity_1.default
     ],
     synchronize: true,
     ssl: {
