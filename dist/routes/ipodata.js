@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const ipo_controllers_1 = require("../controllers/ipo-controllers");
 exports.ipoDataRouter = express_1.default.Router();
 exports.ipoDataRouter.get("/details", ipo_controllers_1.getIpoData);
+exports.ipoDataRouter.get("/ipolist", ipo_controllers_1.getIpoList);
 exports.ipoDataRouter.get("/details/id", ipo_controllers_1.getIpoDataFromId);
 exports.ipoDataRouter.post("/create", ipo_controllers_1.createIpoEntry);
 exports.ipoDataRouter.patch("/update", ipo_controllers_1.updateIpoEntry);
