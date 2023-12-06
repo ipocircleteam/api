@@ -11,6 +11,9 @@ import { gmpRouter } from "./routes/web/gmp";
 import { reviewRouter } from "./routes/web/review";
 import { companyFinanceRouter } from "./routes/web/companyFinance";
 import { adminIpoRouter } from "./routes/admin/ipoDetails";
+import { adminTrackerRouter } from "./routes/admin/trackerDetails";
+import { adminGmpRouter } from "./routes/admin/gmpDetails";
+import { adminReviewRouter } from "./routes/admin/reviewDetails";
 
 dotenv.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
@@ -50,6 +53,10 @@ app.use("/api/v1/companyfinance/", companyFinanceRouter);
 
 //admin apis
 app.use("/api/admin/v1/ipo/", adminIpoRouter);
+app.use('/api/admin/v1/tracker/', adminTrackerRouter)
+app.use("/api/admin/v1/gmp/", adminGmpRouter)
+app.use("/api/admin/v1/review/", adminReviewRouter)
+
 
 app.listen(process.env.PORT || 6969, () => {
   console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);

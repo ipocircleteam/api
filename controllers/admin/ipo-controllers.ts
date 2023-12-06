@@ -64,6 +64,8 @@ const getCompleteIpoDetails = async (req: Request, res: Response) => {
   }
 };
 
+
+
 // POST REQUEST
 const addCompleteIpoDetails = async (req: Request, res: Response) => {
   try {
@@ -76,9 +78,6 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
       });
       return;
     }
-
-    console.log(reqData);
-    
 
     const newIpoDetails = await myDataSource
       .getRepository(ipoEntity)
@@ -125,6 +124,8 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
     });
   }
 };
+
+
 
 // PATCH REQUEST
 const updateCompleteIpoDetails = async (req: Request, res: Response) => {

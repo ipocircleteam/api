@@ -81,7 +81,6 @@ const addCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, fu
             });
             return;
         }
-        console.log(reqData);
         const newIpoDetails = yield db_1.myDataSource
             .getRepository(ipo_entity_1.default)
             .create(reqData.ipodetails);
