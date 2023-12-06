@@ -28,7 +28,7 @@ function extractDataFrom(fileName) {
         //@ts-ignore
         const rowLength = worksheet === null || worksheet === void 0 ? void 0 : worksheet._rows.length;
         var extractionSuccess = false;
-        for (let i = 2; i <= 152; i++) {
+        for (let i = 2; i <= 501; i++) {
             try {
                 const data = worksheet === null || worksheet === void 0 ? void 0 : worksheet.getRow(i).values;
                 //@ts-ignore

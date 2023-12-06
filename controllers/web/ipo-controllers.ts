@@ -103,13 +103,62 @@ const getIpoDataFromId = async (req: Request, res: Response) => {
 const getIpoList = async (req: Request, res: Response) => {
   try {
     await initDb();
+    const { series, segregated } = req.query;
+    var resData;
 
-    const resData = await myDataSource.getRepository(ipoEntity).find({
-      select: {
-        id: true,
-        name: true,
-      },
-    });
+    if (series === undefined) {
+      resData = await myDataSource.getRepository(ipoEntity).find({
+        select: {
+          id: true,
+          name: true,
+        },
+      });
+    }
+    else if (segregated) { 
+      const all = await myDataSource.getRepository(ipoEntity).find({
+        select: {
+          id: true,
+          name: true,
+        }
+      });
+
+      const main = await myDataSource.getRepository(ipoEntity).find({
+        select: {
+          id: true,
+          name: true,
+        },
+        where: {
+          series: "eq",
+        },
+      });
+
+      const sme = await myDataSource.getRepository(ipoEntity).find({
+        select: {
+          id: true,
+          name: true,
+        },
+        where: {
+          series: "sme",
+        },
+      });
+
+      resData = {
+        all: all,
+        main: main,
+        sme: sme
+      }
+    }
+    else {
+      resData = await myDataSource.getRepository(ipoEntity).find({
+        select: {
+          id: true,
+          name: true,
+        },
+        where: {
+          series: series,
+        },
+      });
+    }
 
     if (!resData) {
       res.status(400).json({ sucess: false, msg: "error fetching ipos list" });

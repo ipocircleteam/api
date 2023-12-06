@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateCompleteIpoDetails = exports.addCompleteIpoDetails = exports.getCompleteIpoDetails = void 0;
+exports.deleteIpoById = exports.updateCompleteIpoDetails = exports.addCompleteIpoDetails = exports.getCompleteIpoDetails = void 0;
 const db_1 = require("../../database/db");
 const initDb_1 = __importDefault(require("../../database/initDb"));
 const ipo_entity_1 = __importDefault(require("../../models/ipo.entity"));
@@ -74,13 +74,14 @@ const addCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, fu
     try {
         yield (0, initDb_1.default)();
         const reqData = req.body;
-        if (!reqData.ipodetails || !reqData.companyFinance || !reqData.reviews) {
+        if (!reqData.ipodetails || !reqData.companyFinance) {
             res.status(401).json({
                 success: false,
                 msg: "Invalid inputs passed!",
             });
             return;
         }
+        console.log(reqData);
         const newIpoDetails = yield db_1.myDataSource
             .getRepository(ipo_entity_1.default)
             .create(reqData.ipodetails);
@@ -93,13 +94,7 @@ const addCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, fu
         const savedNewCompany = yield db_1.myDataSource
             .getRepository(company_finance_entity_1.default)
             .save(newCompanyFinance);
-        const newReview = yield db_1.myDataSource
-            .getRepository(review_entity_1.default)
-            .create(reqData.reviews);
-        const savedNewReview = yield db_1.myDataSource
-            .getRepository(review_entity_1.default)
-            .save(newReview);
-        if (!savedNewCompany || !savedNewIpo || !savedNewReview) {
+        if (!savedNewCompany || !savedNewIpo) {
             res.status(400).json({
                 success: false,
                 msg: "Error creating data",
@@ -125,7 +120,7 @@ const updateCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0,
     try {
         yield (0, initDb_1.default)();
         const reqData = req.body;
-        if (!reqData.ipodetails || !reqData.companyFinance || !reqData.reviews) {
+        if (!reqData.ipodetails || !reqData.companyFinance) {
             res.status(401).json({
                 success: false,
                 msg: "Invalid inputs passed!",
@@ -138,10 +133,7 @@ const updateCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0,
         const savedNewCompany = yield db_1.myDataSource
             .getRepository(company_finance_entity_1.default)
             .save(reqData.companyFinance);
-        const savedNewReview = yield db_1.myDataSource
-            .getRepository(review_entity_1.default)
-            .save(reqData.reviews);
-        if (!savedNewCompany || !savedNewIpo || !savedNewReview) {
+        if (!savedNewCompany || !savedNewIpo) {
             res.status(400).json({
                 success: false,
                 msg: "Error updating data",
@@ -162,3 +154,39 @@ const updateCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.updateCompleteIpoDetails = updateCompleteIpoDetails;
+// DELETE REQUEST
+const deleteIpoById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, initDb_1.default)();
+        const { id } = req.query;
+        if (!id) {
+            res.status(401).json({
+                success: false,
+                msg: "Invalid inputs passed!",
+            });
+            return;
+        }
+        const deleteIpo = yield db_1.myDataSource
+            .getRepository(ipo_entity_1.default)
+            .delete({ id: id });
+        if (!deleteIpo) {
+            res.status(400).json({
+                success: false,
+                msg: "Error deleting data",
+            });
+            return;
+        }
+        res.status(200).json({
+            success: true,
+            msg: "Deleted Ipo",
+        });
+    }
+    catch (error) {
+        console.log(`Error in Admin Ipo DELETE request, ${error}`);
+        res.status(500).json({
+            success: false,
+            msg: "Internal Server Error",
+        });
+    }
+});
+exports.deleteIpoById = deleteIpoById;

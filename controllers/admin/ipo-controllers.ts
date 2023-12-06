@@ -69,13 +69,16 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
   try {
     await initDb();
     const reqData = req.body;
-    if (!reqData.ipodetails || !reqData.companyFinance || !reqData.reviews) {
+    if (!reqData.ipodetails || !reqData.companyFinance) {
       res.status(401).json({
         success: false,
         msg: "Invalid inputs passed!",
       });
       return;
     }
+
+    console.log(reqData);
+    
 
     const newIpoDetails = await myDataSource
       .getRepository(ipoEntity)
@@ -91,14 +94,8 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
       .getRepository(company_financeEntity)
       .save(newCompanyFinance);
 
-    const newReview = await myDataSource
-      .getRepository(reviewEntity)
-      .create(reqData.reviews);
-    const savedNewReview = await myDataSource
-      .getRepository(reviewEntity)
-      .save(newReview);
 
-    if (!savedNewCompany || !savedNewIpo || !savedNewReview) {
+    if (!savedNewCompany || !savedNewIpo) {
       res.status(400).json({
         success: false,
         msg: "Error creating data",
@@ -110,7 +107,7 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
       success: true,
       msg: "New Ipo Added",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.log(`Error in Admin Ipo POST request, ${error}`);
     res.status(500).json({
       success: false,
@@ -124,7 +121,7 @@ const updateCompleteIpoDetails = async (req: Request, res: Response) => {
   try {
     await initDb();
     const reqData = req.body;
-    if (!reqData.ipodetails || !reqData.companyFinance || !reqData.reviews) {
+    if (!reqData.ipodetails || !reqData.companyFinance) {
       res.status(401).json({
         success: false,
         msg: "Invalid inputs passed!",
@@ -140,11 +137,7 @@ const updateCompleteIpoDetails = async (req: Request, res: Response) => {
       .getRepository(company_financeEntity)
       .save(reqData.companyFinance);
 
-    const savedNewReview = await myDataSource
-      .getRepository(reviewEntity)
-      .save(reqData.reviews);
-
-    if (!savedNewCompany || !savedNewIpo || !savedNewReview) {
+    if (!savedNewCompany || !savedNewIpo) {
       res.status(400).json({
         success: false,
         msg: "Error updating data",
@@ -165,4 +158,43 @@ const updateCompleteIpoDetails = async (req: Request, res: Response) => {
   }
 };
 
-export { getCompleteIpoDetails, addCompleteIpoDetails, updateCompleteIpoDetails };
+
+// DELETE REQUEST
+const deleteIpoById = async (req: Request, res: Response) => {
+  try {
+    await initDb();
+    const {id} = req.query;
+    if (!id) {
+      res.status(401).json({
+        success: false,
+        msg: "Invalid inputs passed!",
+      });
+      return;
+    }
+
+    const deleteIpo = await myDataSource
+      .getRepository(ipoEntity)
+      .delete({id: id})
+
+    if (!deleteIpo) {
+      res.status(400).json({
+        success: false,
+        msg: "Error deleting data",
+      });
+      return;
+    }
+
+    res.status(200).json({
+      success: true,
+      msg: "Deleted Ipo",
+    });
+  } catch (error) {
+    console.log(`Error in Admin Ipo DELETE request, ${error}`);
+    res.status(500).json({
+      success: false,
+      msg: "Internal Server Error",
+    });
+  }
+}
+
+export { getCompleteIpoDetails, addCompleteIpoDetails, updateCompleteIpoDetails, deleteIpoById };
