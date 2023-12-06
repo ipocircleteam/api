@@ -93,9 +93,19 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
     const savedNewCompany = await myDataSource
       .getRepository(company_financeEntity)
       .save(newCompanyFinance);
+    
+      const newReview = await myDataSource
+      .getRepository(reviewEntity)
+        .create({
+          ipo_id: reqData.ipodetails.id,
+          review: ""
+      });
+    const savedNewReview = await myDataSource
+      .getRepository(reviewEntity)
+      .save(newReview);
 
 
-    if (!savedNewCompany || !savedNewIpo) {
+    if (!savedNewCompany || !savedNewIpo || !savedNewReview) {
       res.status(400).json({
         success: false,
         msg: "Error creating data",

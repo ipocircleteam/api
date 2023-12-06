@@ -94,7 +94,16 @@ const addCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, fu
         const savedNewCompany = yield db_1.myDataSource
             .getRepository(company_finance_entity_1.default)
             .save(newCompanyFinance);
-        if (!savedNewCompany || !savedNewIpo) {
+        const newReview = yield db_1.myDataSource
+            .getRepository(review_entity_1.default)
+            .create({
+            ipo_id: reqData.ipodetails.id,
+            review: ""
+        });
+        const savedNewReview = yield db_1.myDataSource
+            .getRepository(review_entity_1.default)
+            .save(newReview);
+        if (!savedNewCompany || !savedNewIpo || !savedNewReview) {
             res.status(400).json({
                 success: false,
                 msg: "Error creating data",
