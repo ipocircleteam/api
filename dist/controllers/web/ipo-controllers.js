@@ -113,12 +113,58 @@ exports.getIpoDataFromId = getIpoDataFromId;
 const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
-        const resData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
-            select: {
-                id: true,
-                name: true,
-            },
-        });
+        const { series, segregated } = req.query;
+        var resData;
+        if (series === undefined) {
+            resData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
+                select: {
+                    id: true,
+                    name: true,
+                },
+            });
+        }
+        else if (segregated) {
+            const all = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
+                select: {
+                    id: true,
+                    name: true,
+                }
+            });
+            const main = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
+                select: {
+                    id: true,
+                    name: true,
+                },
+                where: {
+                    series: "eq",
+                },
+            });
+            const sme = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
+                select: {
+                    id: true,
+                    name: true,
+                },
+                where: {
+                    series: "sme",
+                },
+            });
+            resData = {
+                all: all,
+                main: main,
+                sme: sme
+            };
+        }
+        else {
+            resData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
+                select: {
+                    id: true,
+                    name: true,
+                },
+                where: {
+                    series: series,
+                },
+            });
+        }
         if (!resData) {
             res.status(400).json({ sucess: false, msg: "error fetching ipos list" });
             return;

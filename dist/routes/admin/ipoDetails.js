@@ -10,3 +10,4 @@ exports.adminIpoRouter = express_1.default.Router();
 exports.adminIpoRouter.get("/details", ipo_controllers_1.getCompleteIpoDetails);
 exports.adminIpoRouter.post("/create", ipo_controllers_1.addCompleteIpoDetails);
 exports.adminIpoRouter.patch("/update", ipo_controllers_1.updateCompleteIpoDetails);
+exports.adminIpoRouter.delete("/delete", ipo_controllers_1.deleteIpoById);
