@@ -3,7 +3,7 @@ import {
   createIpoReview,
   getReviewData,
   updateIpoReview,
-} from "../controllers/reviews.controllers";
+} from "../../controllers/web/reviews.controllers";
 
 export const reviewRouter = express.Router();
 

@@ -79,8 +79,6 @@ function formatIpoDatadata(data) {
     newIpo.employee_discount = data[52];
     newIpo.anchor_portion = data[53];
     newIpo.debt = data[54];
-    // fetch data from sources
-    // put them below
     newIpo.priceband = 0,
         newIpo.ofs = 0,
         newIpo.allotment_date = new Date(),
@@ -100,55 +98,7 @@ function formatIpoDatadata(data) {
         newIpo.qib_shares_offerred = 0,
         newIpo.nil_shares_offerred = 0,
         newIpo.retail_shares_offerred = 0,
-        newIpo.objectIssueData = "",
-        newIpo.gmpData = [],
-        newIpo.comp_fin = {
-            period1: {
-                period: "", //year
-                assets: 0,
-                revenue: 0,
-                profit_after_tax: 0,
-                net_worth: 0,
-                reserves: 0,
-                borrowing: 0,
-            },
-            period2: {
-                period: "", //year
-                assets: 0,
-                revenue: 0,
-                profit_after_tax: 0,
-                net_worth: 0,
-                reserves: 0,
-                borrowing: 0,
-            },
-            period3: {
-                period: "", //year
-                assets: 0,
-                revenue: 0,
-                profit_after_tax: 0,
-                net_worth: 0,
-                reserves: 0,
-                borrowing: 0,
-            },
-            period4: {
-                period: "", //year
-                assets: 0,
-                revenue: 0,
-                profit_after_tax: 0,
-                net_worth: 0,
-                reserves: 0,
-                borrowing: 0,
-            },
-            period5: {
-                period: "", //year
-                assets: 0,
-                revenue: 0,
-                profit_after_tax: 0,
-                net_worth: 0,
-                reserves: 0,
-                borrowing: 0,
-            },
-        };
+        newIpo.objectIssueData = "";
     return newIpo;
 }
 function formatLotsDatadata(data) {

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import initDb from "../database/initDb";
-import { myDataSource } from "../database/db";
-import reviewEntity, { IpoReview } from "../models/review.entity";
+import initDb from "../../database/initDb";
+import { myDataSource } from "../../database/db";
+import reviewEntity, { IpoReview } from "../../models/review.entity";
 
 // GET REQUEST
 const getReviewData = async (req: Request, res: Response) => {
@@ -37,7 +37,6 @@ const getReviewData = async (req: Request, res: Response) => {
   }
 };
 
-
 // POST REQUEST
 const createIpoReview = async (req: Request, res: Response) => {
   try {
@@ -57,11 +56,15 @@ const createIpoReview = async (req: Request, res: Response) => {
       .create(newReview);
 
     if (!createReview) {
-      res.status(400).json({ success: false, msg: "error creating ipo review" });
+      res
+        .status(400)
+        .json({ success: false, msg: "error creating ipo review" });
       return;
     }
 
-    const saveReview = await myDataSource.getRepository(reviewEntity).save(createReview);
+    const saveReview = await myDataSource
+      .getRepository(reviewEntity)
+      .save(createReview);
     if (!saveReview) {
       res.status(400).json({ success: false, msg: "error saving ipo review" });
       return;
@@ -90,9 +93,13 @@ const updateIpoReview = async (req: Request, res: Response) => {
       return;
     }
 
-    const updateReview = await myDataSource.getRepository(reviewEntity).save(reqData);
+    const updateReview = await myDataSource
+      .getRepository(reviewEntity)
+      .save(reqData);
     if (!updateReview) {
-      res.status(400).json({ success: false, msg: "error updating ipo review" });
+      res
+        .status(400)
+        .json({ success: false, msg: "error updating ipo review" });
       return;
     }
 

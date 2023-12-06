@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { myDataSource } from "../database/db";
-import ipoEntity from "../models/ipo.entity";
-import initDb from "../database/initDb";
+import { myDataSource } from "../../database/db";
+import ipoEntity from "../../models/ipo.entity";
+import initDb from "../../database/initDb";
 
 // GET REQUEST
 const getIpoData = async (req: Request, res: Response) => {
@@ -102,26 +102,25 @@ const getIpoDataFromId = async (req: Request, res: Response) => {
 // GET REQUEST: IPO LIST
 const getIpoList = async (req: Request, res: Response) => {
   try {
-    await initDb()
+    await initDb();
 
     const resData = await myDataSource.getRepository(ipoEntity).find({
       select: {
         id: true,
-        name: true
-      }
-    })
+        name: true,
+      },
+    });
 
     if (!resData) {
-      res.status(400).json({ sucess: false, msg: 'error fetching ipos list' })
-      return
+      res.status(400).json({ sucess: false, msg: "error fetching ipos list" });
+      return;
     }
 
     res.status(200).json({
       success: true,
-      msg: 'Fetched IPOs list',
-      data: resData
-    })
-
+      msg: "Fetched IPOs list",
+      data: resData,
+    });
   } catch (error) {
     console.log(`Error in Ipo List GET request, ${error}`);
     res.status(500).json({
@@ -180,4 +179,10 @@ const updateIpoEntry = async (req: Request, res: Response) => {
   }
 };
 
-export { getIpoData, getIpoDataFromId, createIpoEntry, updateIpoEntry, getIpoList };
+export {
+  getIpoData,
+  getIpoDataFromId,
+  createIpoEntry,
+  updateIpoEntry,
+  getIpoList,
+};

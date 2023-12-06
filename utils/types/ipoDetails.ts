@@ -81,59 +81,6 @@ export class IPOdetails {
   nil_shares_offerred: number;
   retail_shares_offerred: number;
   objectIssueData: string;
-  //GMP data
-  gmpData: {
-    instant: string;
-    gmp: number;
-  }[];
-  // company financials
-  comp_fin: {
-    period1: {
-      period: string; //year
-      assets: number;
-      revenue: number;
-      profit_after_tax: number;
-      net_worth: number;
-      reserves: number;
-      borrowing: number;
-    };
-    period2: {
-      period: string; //year
-      assets: number;
-      revenue: number;
-      profit_after_tax: number;
-      net_worth: number;
-      reserves: number;
-      borrowing: number;
-    };
-    period3: {
-      period: string; //year
-      assets: number;
-      revenue: number;
-      profit_after_tax: number;
-      net_worth: number;
-      reserves: number;
-      borrowing: number;
-    };
-    period4: {
-      period: string; //year
-      assets: number;
-      revenue: number;
-      profit_after_tax: number;
-      net_worth: number;
-      reserves: number;
-      borrowing: number;
-    };
-    period5: {
-      period: string; //year
-      assets: number;
-      revenue: number;
-      profit_after_tax: number;
-      net_worth: number;
-      reserves: number;
-      borrowing: number;
-    };
-  };
 
   constructor() {
     (this.id = ""),
@@ -213,54 +160,6 @@ export class IPOdetails {
       (this.qib_shares_offerred = 0),
       (this.nil_shares_offerred = 0),
       (this.retail_shares_offerred = 0),
-      (this.objectIssueData = ""),
-      (this.gmpData = []),
-      (this.comp_fin = {
-        period1: {
-          period: "", //year
-          assets: 0,
-          revenue: 0,
-          profit_after_tax: 0,
-          net_worth: 0,
-          reserves: 0,
-          borrowing: 0,
-        },
-        period2: {
-          period: "", //year
-          assets: 0,
-          revenue: 0,
-          profit_after_tax: 0,
-          net_worth: 0,
-          reserves: 0,
-          borrowing: 0,
-        },
-        period3: {
-          period: "", //year
-          assets: 0,
-          revenue: 0,
-          profit_after_tax: 0,
-          net_worth: 0,
-          reserves: 0,
-          borrowing: 0,
-        },
-        period4: {
-          period: "", //year
-          assets: 0,
-          revenue: 0,
-          profit_after_tax: 0,
-          net_worth: 0,
-          reserves: 0,
-          borrowing: 0,
-        },
-        period5: {
-          period: "", //year
-          assets: 0,
-          revenue: 0,
-          profit_after_tax: 0,
-          net_worth: 0,
-          reserves: 0,
-          borrowing: 0,
-        },
-      });
+      (this.objectIssueData = "")
   }
 }

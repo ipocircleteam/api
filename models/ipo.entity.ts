@@ -316,15 +316,7 @@ export default new EntitySchema({
     objectIssueData: {
       type: "text",
       nullable: true,
-    },
-    gmpData: {
-      type: "jsonb",
-      nullable: true,
-    },
-    companyFinances: {
-      type: "jsonb",
-      nullable: true,
-    },
+    }
   },
 });
 
@@ -407,8 +399,6 @@ export class Ipo {
   nil_shares_offerred: number;
   retail_shares_offerred: number;
   objectIssueData: string;
-  gmpData: Record<string, any>;
-  comp_fin: Record<string, Record<string, any>>;
 
   constructor() {
     (this.id = ""),
@@ -488,8 +478,6 @@ export class Ipo {
       (this.qib_shares_offerred = 0),
       (this.nil_shares_offerred = 0),
       (this.retail_shares_offerred = 0),
-      (this.objectIssueData = ""),
-      (this.gmpData = {}),
-      (this.comp_fin = {});
+      (this.objectIssueData = "")
   }
 }

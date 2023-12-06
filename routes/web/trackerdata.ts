@@ -3,7 +3,7 @@ import {
   createTrackerEntry,
   getTrackerData,
   updateTrackerEntry,
-} from "../controllers/tracker-controllers";
+} from "../../controllers/web/tracker-controllers";
 
 export const trackerRouter = express.Router();
 

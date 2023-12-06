@@ -1,5 +1,9 @@
 import express from "express";
-import { createIpoGMP, getGmpData, updateIpoGmp } from "../controllers/gmp-controllers";
+import {
+  createIpoGMP,
+  getGmpData,
+  updateIpoGmp,
+} from "../../controllers/web/gmp-controllers";
 
 export const gmpRouter = express.Router();
 
