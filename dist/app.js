@@ -15,6 +15,9 @@ const gmp_1 = require("./routes/web/gmp");
 const review_1 = require("./routes/web/review");
 const companyFinance_1 = require("./routes/web/companyFinance");
 const ipoDetails_1 = require("./routes/admin/ipoDetails");
+const trackerDetails_1 = require("./routes/admin/trackerDetails");
+const gmpDetails_1 = require("./routes/admin/gmpDetails");
+const reviewDetails_1 = require("./routes/admin/reviewDetails");
 dotenv_1.default.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
 const app = (0, express_1.default)();
@@ -46,6 +49,9 @@ app.use("/api/v1/review/", review_1.reviewRouter);
 app.use("/api/v1/companyfinance/", companyFinance_1.companyFinanceRouter);
 //admin apis
 app.use("/api/admin/v1/ipo/", ipoDetails_1.adminIpoRouter);
+app.use('/api/admin/v1/tracker/', trackerDetails_1.adminTrackerRouter);
+app.use("/api/admin/v1/gmp/", gmpDetails_1.adminGmpRouter);
+app.use("/api/admin/v1/review/", reviewDetails_1.adminReviewRouter);
 app.listen(process.env.PORT || 6969, () => {
     console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);
 });
