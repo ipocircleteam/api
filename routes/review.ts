@@ -1,5 +1,9 @@
 import express from "express";
-import { createIpoReview, getReviewData, updateIpoReview } from "../controllers/reviews.controllers";
+import {
+  createIpoReview,
+  getReviewData,
+  updateIpoReview,
+} from "../controllers/reviews.controllers";
 
 export const reviewRouter = express.Router();
 

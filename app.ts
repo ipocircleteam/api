@@ -9,6 +9,7 @@ import { algoRouter } from "./routes/algo";
 import initDb from "./database/initDb";
 import { gmpRouter } from "./routes/gmp";
 import { reviewRouter } from "./routes/review";
+import { companyFinanceRouter } from "./routes/companyFinance";
 
 dotenv.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
@@ -41,6 +42,7 @@ app.use("/api/v1/tracker/", trackerRouter);
 app.use("/api/v1/expertAlgo/", algoRouter);
 app.use("/api/v1/gmp/", gmpRouter);
 app.use("/api/v1/review/", reviewRouter)
+app.use("/api/v1/companyfinance/", companyFinanceRouter)
 
 
 app.listen(process.env.PORT || 6969, () => {
