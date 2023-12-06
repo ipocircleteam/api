@@ -4,7 +4,6 @@ import ipoEntity from "../models/ipo.entity";
 import trackerEntity from "../models/tracker.entity";
 import { TrackerClass } from "../models/tracker.entity";
 import { IPO } from "../utils/types/ipo";
-import { createConnection } from "typeorm";
 
 async function generateTrackerData() {
   try {
