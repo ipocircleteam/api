@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import initDb from "../database/initDb";
-import { myDataSource } from "../database/db";
+import initDb from "../../database/initDb";
+import { myDataSource } from "../../database/db";
 import company_financeEntity, {
   CompanyFinances,
-} from "../models/company_finance.entity";
+} from "../../models/company_finance.entity";
 
 // GET REQUEST
 const getCompanyFinanceData = async (req: Request, res: Response) => {

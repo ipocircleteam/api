@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { myDataSource } from "../database/db";
-import trackerEntity from "../models/tracker.entity";
-import initDb from "../database/initDb";
+import { myDataSource } from "../../database/db";
+import trackerEntity from "../../models/tracker.entity";
+import initDb from "../../database/initDb";
 
 // GET REQUEST
 const getTrackerData = async (req: Request, res: Response) => {
@@ -31,7 +31,6 @@ const getTrackerData = async (req: Request, res: Response) => {
   }
 };
 
-
 // POST REQUEST
 const createTrackerEntry = async (req: Request, res: Response) => {
   try {
@@ -58,7 +57,6 @@ const createTrackerEntry = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 // PATCH REQUEST
 const updateTrackerEntry = async (req: Request, res: Response) => {

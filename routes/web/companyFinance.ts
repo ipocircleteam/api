@@ -3,7 +3,7 @@ import {
   createCompanyFinance,
   getCompanyFinanceData,
   updateCompanyFinance,
-} from "../controllers/companyFin-controllers";
+} from "../../controllers/web/companyFin-controllers";
 
 export const companyFinanceRouter = express.Router();
 

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import initDb from "../database/initDb";
-import { myDataSource } from "../database/db";
-import gmpEntity, { GMP } from "../models/gmp.entity";
-import { GMP_VALUE } from "../utils/types/gmp";
+import initDb from "../../database/initDb";
+import { myDataSource } from "../../database/db";
+import gmpEntity, { GMP } from "../../models/gmp.entity";
+import { GMP_VALUE } from "../../utils/types/gmp";
 
 // GET REQUEST
 const getGmpData = async (req: Request, res: Response) => {
@@ -37,7 +37,6 @@ const getGmpData = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 // POST REQUEST
 const createIpoGMP = async (req: Request, res: Response) => {

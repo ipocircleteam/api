@@ -317,15 +317,7 @@ exports.default = new typeorm_1.EntitySchema({
         objectIssueData: {
             type: "text",
             nullable: true,
-        },
-        gmpData: {
-            type: "jsonb",
-            nullable: true,
-        },
-        companyFinances: {
-            type: "jsonb",
-            nullable: true,
-        },
+        }
     },
 });
 class Ipo {
@@ -407,9 +399,7 @@ class Ipo {
             (this.qib_shares_offerred = 0),
             (this.nil_shares_offerred = 0),
             (this.retail_shares_offerred = 0),
-            (this.objectIssueData = ""),
-            (this.gmpData = {}),
-            (this.comp_fin = {});
+            (this.objectIssueData = "");
     }
 }
 exports.Ipo = Ipo;

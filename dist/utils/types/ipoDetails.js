@@ -80,55 +80,7 @@ class IPOdetails {
             (this.qib_shares_offerred = 0),
             (this.nil_shares_offerred = 0),
             (this.retail_shares_offerred = 0),
-            (this.objectIssueData = ""),
-            (this.gmpData = []),
-            (this.comp_fin = {
-                period1: {
-                    period: "", //year
-                    assets: 0,
-                    revenue: 0,
-                    profit_after_tax: 0,
-                    net_worth: 0,
-                    reserves: 0,
-                    borrowing: 0,
-                },
-                period2: {
-                    period: "", //year
-                    assets: 0,
-                    revenue: 0,
-                    profit_after_tax: 0,
-                    net_worth: 0,
-                    reserves: 0,
-                    borrowing: 0,
-                },
-                period3: {
-                    period: "", //year
-                    assets: 0,
-                    revenue: 0,
-                    profit_after_tax: 0,
-                    net_worth: 0,
-                    reserves: 0,
-                    borrowing: 0,
-                },
-                period4: {
-                    period: "", //year
-                    assets: 0,
-                    revenue: 0,
-                    profit_after_tax: 0,
-                    net_worth: 0,
-                    reserves: 0,
-                    borrowing: 0,
-                },
-                period5: {
-                    period: "", //year
-                    assets: 0,
-                    revenue: 0,
-                    profit_after_tax: 0,
-                    net_worth: 0,
-                    reserves: 0,
-                    borrowing: 0,
-                },
-            });
+            (this.objectIssueData = "");
     }
 }
 exports.IPOdetails = IPOdetails;
