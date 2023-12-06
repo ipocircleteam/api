@@ -3,10 +3,13 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { Request, Response } from "express";
-import { myDataSource } from "./database/db";
 import { ipoDataRouter } from "./routes/ipodata";
 import { trackerRouter } from "./routes/trackerdata";
 import { algoRouter } from "./routes/algo";
+import initDb from "./database/initDb";
+import { gmpRouter } from "./routes/gmp";
+import { reviewRouter } from "./routes/review";
+import { companyFinanceRouter } from "./routes/companyFinance";
 
 dotenv.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
@@ -36,19 +39,14 @@ app.get("/", (req: Request, res: Response) => {
 
 app.use("/api/v1/ipo/", ipoDataRouter);
 app.use("/api/v1/tracker/", trackerRouter);
-app.use("/api/v1/expertAlgo/", algoRouter)
+app.use("/api/v1/expertAlgo/", algoRouter);
+app.use("/api/v1/gmp/", gmpRouter);
+app.use("/api/v1/review/", reviewRouter)
+app.use("/api/v1/companyfinance/", companyFinanceRouter)
 
 
 app.listen(process.env.PORT || 6969, () => {
   console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);
 });
 
-myDataSource
-  .initialize()
-  .then(() => {
-    console.log("DB Connected via Typeorm");
-  })
-  .catch((err) => {
-    console.log(`Error during data source initialization: ${err}`);
-    throw err;
-  });
+initDb()

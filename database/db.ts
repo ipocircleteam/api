@@ -6,6 +6,8 @@ import lotsEntity from "../models/lots.entity";
 import reservationsEntity from "../models/reservations.entity";
 import subscriptionsEntity from "../models/subscriptions.entity";
 import trackerEntity from "../models/tracker.entity";
+import gmpEntity from "../models/gmp.entity";
+import review from "../models/review.entity";
 
 dotenv.config();
 console.log(process.env.DB_NAME);
@@ -24,7 +26,9 @@ export const myDataSource = new DataSource({
     lotsEntity,
     reservationsEntity,
     subscriptionsEntity,
-    trackerEntity
+    trackerEntity,
+    gmpEntity,
+    review
   ],
   synchronize: true,
   ssl: {

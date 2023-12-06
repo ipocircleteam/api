@@ -1,6 +1,8 @@
 import { myDataSource } from "./db";
 
 export default async function initDb() {
+  console.log('initializing database ...');
+  
   const isInitialized = await myDataSource.isInitialized;
 
   if (isInitialized === true) {

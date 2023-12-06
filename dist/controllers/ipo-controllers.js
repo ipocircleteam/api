@@ -12,10 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateIpoEntry = exports.createIpoEntry = exports.getIpoDataFromId = exports.getIpoData = void 0;
+exports.getIpoList = exports.updateIpoEntry = exports.createIpoEntry = exports.getIpoDataFromId = exports.getIpoData = void 0;
 const db_1 = require("../database/db");
 const ipo_entity_1 = __importDefault(require("../models/ipo.entity"));
 const initDb_1 = __importDefault(require("../database/initDb"));
+// GET REQUEST
 const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
@@ -65,6 +66,7 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getIpoData = getIpoData;
+// GET FROM ID REQUEST
 const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
@@ -107,6 +109,38 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getIpoDataFromId = getIpoDataFromId;
+// GET REQUEST: IPO LIST
+const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, initDb_1.default)();
+        const resData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
+            select: {
+                id: true,
+                name: true
+            }
+        });
+        if (!resData) {
+            res.status(400).json({ sucess: false, msg: 'error fetching ipos list' });
+            return;
+        }
+        res.status(200).json({
+            success: true,
+            msg: 'Fetched IPOs list',
+            data: resData
+        });
+    }
+    catch (error) {
+        console.log(`Error in Ipo List GET request, ${error}`);
+        res.status(500).json({
+            success: false,
+            data: [],
+            msg: "Internal Server Error",
+            error: error,
+        });
+    }
+});
+exports.getIpoList = getIpoList;
+// POST REQUEST
 const createIpoEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
@@ -130,13 +164,12 @@ const createIpoEntry = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.createIpoEntry = createIpoEntry;
+// PATCH REQUEST
 const updateIpoEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
         const ipo = req.body;
-        const ipo_update = yield db_1.myDataSource
-            .getRepository(ipo_entity_1.default)
-            .save(ipo);
+        const ipo_update = yield db_1.myDataSource.getRepository(ipo_entity_1.default).save(ipo);
         res.status(200).json({
             success: true,
             msg: "IPO updated successfully",

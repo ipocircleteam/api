@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("./db");
 function initDb() {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log('initializing database ...');
         const isInitialized = yield db_1.myDataSource.isInitialized;
         if (isInitialized === true) {
             console.log('DB Already initialized');

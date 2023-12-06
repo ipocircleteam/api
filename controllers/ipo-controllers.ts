@@ -2,9 +2,8 @@ import { Request, Response } from "express";
 import { myDataSource } from "../database/db";
 import ipoEntity from "../models/ipo.entity";
 import initDb from "../database/initDb";
-import { IPOdetails } from "../utils/types/ipoDetails";
-import { IPO } from "../utils/types/ipo";
 
+// GET REQUEST
 const getIpoData = async (req: Request, res: Response) => {
   try {
     await initDb();
@@ -57,6 +56,7 @@ const getIpoData = async (req: Request, res: Response) => {
   }
 };
 
+// GET FROM ID REQUEST
 const getIpoDataFromId = async (req: Request, res: Response) => {
   try {
     await initDb();
@@ -99,6 +99,41 @@ const getIpoDataFromId = async (req: Request, res: Response) => {
   }
 };
 
+// GET REQUEST: IPO LIST
+const getIpoList = async (req: Request, res: Response) => {
+  try {
+    await initDb()
+
+    const resData = await myDataSource.getRepository(ipoEntity).find({
+      select: {
+        id: true,
+        name: true
+      }
+    })
+
+    if (!resData) {
+      res.status(400).json({ sucess: false, msg: 'error fetching ipos list' })
+      return
+    }
+
+    res.status(200).json({
+      success: true,
+      msg: 'Fetched IPOs list',
+      data: resData
+    })
+
+  } catch (error) {
+    console.log(`Error in Ipo List GET request, ${error}`);
+    res.status(500).json({
+      success: false,
+      data: [],
+      msg: "Internal Server Error",
+      error: error,
+    });
+  }
+};
+
+// POST REQUEST
 const createIpoEntry = async (req: Request, res: Response) => {
   try {
     await initDb();
@@ -123,15 +158,13 @@ const createIpoEntry = async (req: Request, res: Response) => {
   }
 };
 
-
+// PATCH REQUEST
 const updateIpoEntry = async (req: Request, res: Response) => {
   try {
     await initDb();
     const ipo = req.body;
 
-    const ipo_update = await myDataSource
-      .getRepository(ipoEntity)
-      .save(ipo);
+    const ipo_update = await myDataSource.getRepository(ipoEntity).save(ipo);
 
     res.status(200).json({
       success: true,
@@ -147,4 +180,4 @@ const updateIpoEntry = async (req: Request, res: Response) => {
   }
 };
 
-export { getIpoData, getIpoDataFromId, createIpoEntry, updateIpoEntry };
+export { getIpoData, getIpoDataFromId, createIpoEntry, updateIpoEntry, getIpoList };
