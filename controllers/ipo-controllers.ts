@@ -2,9 +2,8 @@ import { Request, Response } from "express";
 import { myDataSource } from "../database/db";
 import ipoEntity from "../models/ipo.entity";
 import initDb from "../database/initDb";
-import { IPOdetails } from "../utils/types/ipoDetails";
-import { IPO } from "../utils/types/ipo";
 
+// GET REQUEST
 const getIpoData = async (req: Request, res: Response) => {
   try {
     await initDb();
@@ -57,6 +56,8 @@ const getIpoData = async (req: Request, res: Response) => {
   }
 };
 
+
+// GET FROM ID REQUEST
 const getIpoDataFromId = async (req: Request, res: Response) => {
   try {
     await initDb();
@@ -99,6 +100,7 @@ const getIpoDataFromId = async (req: Request, res: Response) => {
   }
 };
 
+// POST REQUEST
 const createIpoEntry = async (req: Request, res: Response) => {
   try {
     await initDb();
@@ -124,6 +126,7 @@ const createIpoEntry = async (req: Request, res: Response) => {
 };
 
 
+// PATCH REQUEST
 const updateIpoEntry = async (req: Request, res: Response) => {
   try {
     await initDb();

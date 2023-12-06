@@ -19,7 +19,8 @@ exports.default = new typeorm_1.EntitySchema({
                     return JSON.stringify(value);
                 },
                 from(value) {
-                    return JSON.parse(value);
+                    const data = JSON.parse(value);
+                    return data;
                 },
             },
         },

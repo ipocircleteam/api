@@ -18,7 +18,8 @@ export default new EntitySchema({
           return JSON.stringify(value);
         },
         from(value) {
-          return JSON.parse(value);
+            const data: GMP_VALUE = JSON.parse(value);
+            return data
         },
       },
     },

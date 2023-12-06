@@ -16,6 +16,7 @@ exports.updateTrackerEntry = exports.createTrackerEntry = exports.getTrackerData
 const db_1 = require("../database/db");
 const tracker_entity_1 = __importDefault(require("../models/tracker.entity"));
 const initDb_1 = __importDefault(require("../database/initDb"));
+// GET REQUEST
 const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
@@ -42,6 +43,7 @@ const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getTrackerData = getTrackerData;
+// POST REQUEST
 const createTrackerEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
@@ -67,6 +69,7 @@ const createTrackerEntry = (req, res) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.createTrackerEntry = createTrackerEntry;
+// PATCH REQUEST
 const updateTrackerEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();

@@ -16,6 +16,7 @@ exports.updateIpoEntry = exports.createIpoEntry = exports.getIpoDataFromId = exp
 const db_1 = require("../database/db");
 const ipo_entity_1 = __importDefault(require("../models/ipo.entity"));
 const initDb_1 = __importDefault(require("../database/initDb"));
+// GET REQUEST
 const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
@@ -65,6 +66,7 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getIpoData = getIpoData;
+// GET FROM ID REQUEST
 const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
@@ -107,6 +109,7 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getIpoDataFromId = getIpoDataFromId;
+// POST REQUEST
 const createIpoEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
@@ -130,6 +133,7 @@ const createIpoEntry = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.createIpoEntry = createIpoEntry;
+// PATCH REQUEST
 const updateIpoEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, initDb_1.default)();
