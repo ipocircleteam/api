@@ -3,10 +3,10 @@ import dotenv from "dotenv";
 import cors from "cors";
 import bodyParser from "body-parser";
 import { Request, Response } from "express";
-import { myDataSource } from "./database/db";
 import { ipoDataRouter } from "./routes/ipodata";
 import { trackerRouter } from "./routes/trackerdata";
 import { algoRouter } from "./routes/algo";
+import initDb from "./database/initDb";
 
 dotenv.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
@@ -43,12 +43,4 @@ app.listen(process.env.PORT || 6969, () => {
   console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);
 });
 
-myDataSource
-  .initialize()
-  .then(() => {
-    console.log("DB Connected via Typeorm");
-  })
-  .catch((err) => {
-    console.log(`Error during data source initialization: ${err}`);
-    throw err;
-  });
+initDb()

@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.CompanyFinances = void 0;
 const typeorm_1 = require("typeorm");
 exports.default = new typeorm_1.EntitySchema({
     name: "Company Finances",
@@ -7,55 +8,133 @@ exports.default = new typeorm_1.EntitySchema({
     columns: {
         ipo_id: {
             type: "text",
-            primary: true
+            primary: true,
         },
-        period_start: {
-            type: "timestamp",
+        y2024: {
+            type: "text",
+            nullable: true,
+            transformer: {
+                to(value) {
+                    return JSON.stringify(value);
+                },
+                from(value) {
+                    return JSON.parse(value);
+                },
+            },
         },
-        period_end: {
-            type: "timestamp",
+        y2023: {
+            type: "text",
+            nullable: true,
+            transformer: {
+                to(value) {
+                    return JSON.stringify(value);
+                },
+                from(value) {
+                    return JSON.parse(value);
+                },
+            },
         },
-        assets: {
-            type: "double precision",
+        y2022: {
+            type: "text",
+            nullable: true,
+            transformer: {
+                to(value) {
+                    return JSON.stringify(value);
+                },
+                from(value) {
+                    return JSON.parse(value);
+                },
+            },
         },
-        revenue: {
-            type: "double precision",
+        y2021: {
+            type: "text",
+            nullable: true,
+            transformer: {
+                to(value) {
+                    return JSON.stringify(value);
+                },
+                from(value) {
+                    return JSON.parse(value);
+                },
+            },
         },
-        profit_after_tax: {
-            type: "double precision",
+        y2020: {
+            type: "text",
+            nullable: true,
+            transformer: {
+                to(value) {
+                    return JSON.stringify(value);
+                },
+                from(value) {
+                    return JSON.parse(value);
+                },
+            },
         },
-        networth: {
-            type: "double precision",
-        },
-        reserves: {
-            type: "double precision",
-        },
-        borrowing: {
-            type: "double precision",
+        y2019: {
+            type: "text",
+            nullable: true,
+            transformer: {
+                to(value) {
+                    return JSON.stringify(value);
+                },
+                from(value) {
+                    return JSON.parse(value);
+                },
+            },
         },
     },
 });
-// export class CompanyFinances {
-//   id: string | undefined;
-//   ipo_id: string | undefined;
-//   period_start: Date | undefined;
-//   period_end: Date | undefined;
-//   assets: number | undefined;
-//   revenue: number | undefined;
-//   profit_after_tax: number | undefined;
-//   networth: number | undefined;
-//   reserves: number | undefined;
-//   borrowing: number | undefined;
-//   constructor() {
-//     (this.id = undefined),
-//       (this.ipo_id = undefined),
-//       (this.period_start = undefined),
-//       (this.period_end = undefined),
-//       (this.assets = undefined),
-//       (this.revenue = undefined),
-//       (this.profit_after_tax = undefined),
-//       (this.networth = undefined),
-//       (this.reserves = undefined),
-//       (this.borrowing = undefined);
-//   }
-// }
+class CompanyFinances {
+    constructor() {
+        (this.ipo_id = ""),
+            (this.y2019 = {
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                networth: 0,
+                reserves: 0,
+                borrowing: 0,
+            }),
+            (this.y2020 = {
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                networth: 0,
+                reserves: 0,
+                borrowing: 0,
+            }),
+            (this.y2021 = {
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                networth: 0,
+                reserves: 0,
+                borrowing: 0,
+            }),
+            (this.y2022 = {
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                networth: 0,
+                reserves: 0,
+                borrowing: 0,
+            }),
+            (this.y2023 = {
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                networth: 0,
+                reserves: 0,
+                borrowing: 0,
+            }),
+            (this.y2024 = {
+                assets: 0,
+                revenue: 0,
+                profit_after_tax: 0,
+                networth: 0,
+                reserves: 0,
+                borrowing: 0,
+            });
+    }
+}
+exports.CompanyFinances = CompanyFinances;
