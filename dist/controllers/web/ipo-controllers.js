@@ -34,6 +34,9 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     opening_date: true,
                     closing_date: true,
                 },
+                order: {
+                    opening_date: 'DESC'
+                }
             });
         }
         else {
@@ -41,6 +44,9 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 where: {
                     series: ipoType,
                 },
+                order: {
+                    opening_date: 'DESC'
+                }
             });
         }
         const chunkStart = start === undefined ? 0 : Number(start);
@@ -121,6 +127,9 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     id: true,
                     name: true,
                 },
+                order: {
+                    opening_date: 'DESC'
+                }
             });
         }
         else if (segregated) {
@@ -128,6 +137,9 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 select: {
                     id: true,
                     name: true,
+                },
+                order: {
+                    opening_date: 'DESC'
                 }
             });
             const main = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
@@ -138,6 +150,9 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 where: {
                     series: "eq",
                 },
+                order: {
+                    opening_date: 'DESC'
+                }
             });
             const sme = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
                 select: {
@@ -147,6 +162,9 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 where: {
                     series: "sme",
                 },
+                order: {
+                    opening_date: 'DESC'
+                }
             });
             resData = {
                 all: all,
@@ -163,6 +181,9 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                 where: {
                     series: series,
                 },
+                order: {
+                    opening_date: 'DESC'
+                }
             });
         }
         if (!resData) {

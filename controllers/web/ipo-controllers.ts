@@ -23,12 +23,18 @@ const getIpoData = async (req: Request, res: Response) => {
           opening_date: true,
           closing_date: true,
         },
+        order: {
+          opening_date: 'DESC'
+        }
       });
     } else {
       ipoData = await myDataSource.getRepository(ipoEntity).find({
         where: {
           series: ipoType,
         },
+        order: {
+          opening_date: 'DESC'
+        }
       });
     }
 
@@ -112,6 +118,9 @@ const getIpoList = async (req: Request, res: Response) => {
           id: true,
           name: true,
         },
+        order: {
+          opening_date: 'DESC'
+        }
       });
     }
     else if (segregated) { 
@@ -119,6 +128,9 @@ const getIpoList = async (req: Request, res: Response) => {
         select: {
           id: true,
           name: true,
+        },
+        order: {
+          opening_date: 'DESC'
         }
       });
 
@@ -130,6 +142,9 @@ const getIpoList = async (req: Request, res: Response) => {
         where: {
           series: "eq",
         },
+        order: {
+          opening_date: 'DESC'
+        }
       });
 
       const sme = await myDataSource.getRepository(ipoEntity).find({
@@ -140,6 +155,9 @@ const getIpoList = async (req: Request, res: Response) => {
         where: {
           series: "sme",
         },
+        order: {
+          opening_date: 'DESC'
+        }
       });
 
       resData = {
@@ -157,6 +175,9 @@ const getIpoList = async (req: Request, res: Response) => {
         where: {
           series: series,
         },
+        order: {
+          opening_date: 'DESC'
+        }
       });
     }
 
