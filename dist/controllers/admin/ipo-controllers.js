@@ -18,6 +18,9 @@ const initDb_1 = __importDefault(require("../../database/initDb"));
 const ipo_entity_1 = __importDefault(require("../../models/ipo.entity"));
 const review_entity_1 = __importDefault(require("../../models/review.entity"));
 const company_finance_entity_1 = __importDefault(require("../../models/company_finance.entity"));
+const gmp_entity_1 = __importDefault(require("../../models/gmp.entity"));
+const lots_entity_1 = __importDefault(require("../../models/lots.entity"));
+const tracker_entity_1 = __importDefault(require("../../models/tracker.entity"));
 // GET REQUEST
 const getCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -81,6 +84,7 @@ const addCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, fu
             });
             return;
         }
+        const year = new Date(reqData.ipodetails.closing_date).getFullYear();
         const newIpoDetails = yield db_1.myDataSource
             .getRepository(ipo_entity_1.default)
             .create(reqData.ipodetails);
@@ -93,16 +97,25 @@ const addCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, fu
         const savedNewCompany = yield db_1.myDataSource
             .getRepository(company_finance_entity_1.default)
             .save(newCompanyFinance);
-        const newReview = yield db_1.myDataSource
-            .getRepository(review_entity_1.default)
-            .create({
+        const newReview = yield db_1.myDataSource.getRepository(review_entity_1.default).create({
             ipo_id: reqData.ipodetails.id,
-            review: ""
+            review: "",
         });
         const savedNewReview = yield db_1.myDataSource
             .getRepository(review_entity_1.default)
             .save(newReview);
-        if (!savedNewCompany || !savedNewIpo || !savedNewReview) {
+        const newTracker = yield db_1.myDataSource.getRepository(tracker_entity_1.default).create({
+            id: reqData.ipodetails.id,
+            issue_price: 0,
+            current_price: 0,
+            dayend_price: 0,
+            listing_price: 0,
+            year: year,
+            sector: '',
+            company_name: reqData.ipodetails.name
+        });
+        const saveNewTracker = yield db_1.myDataSource.getRepository(tracker_entity_1.default).save(newTracker);
+        if (!savedNewCompany || !savedNewIpo || !savedNewReview || !saveNewTracker) {
             res.status(400).json({
                 success: false,
                 msg: "Error creating data",
@@ -177,7 +190,27 @@ const deleteIpoById = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const deleteIpo = yield db_1.myDataSource
             .getRepository(ipo_entity_1.default)
             .delete({ id: id });
-        if (!deleteIpo) {
+        const deleteIpoFromGmp = yield db_1.myDataSource
+            .getRepository(gmp_entity_1.default)
+            .delete({ ipo_id: id });
+        const deleteFromCompany = yield db_1.myDataSource
+            .getRepository(company_finance_entity_1.default)
+            .delete({ ipo_id: id });
+        const deleteFromLots = yield db_1.myDataSource
+            .getRepository(lots_entity_1.default)
+            .delete({ ipo_id: id });
+        const deleteReview = yield db_1.myDataSource
+            .getRepository(review_entity_1.default)
+            .delete({ ipo_id: id });
+        const deleteTracker = yield db_1.myDataSource
+            .getRepository(tracker_entity_1.default)
+            .delete({ id: id });
+        if (!deleteIpo ||
+            !deleteFromCompany ||
+            !deleteFromLots ||
+            !deleteReview ||
+            !deleteTracker ||
+            !deleteIpoFromGmp) {
             res.status(400).json({
                 success: false,
                 msg: "Error deleting data",

@@ -1,7 +1,8 @@
 import express from 'express'
-import { getTrackerDetails, updateTrackerDetails } from '../../controllers/admin/tracker-controllers'
+import { getTrackerDetails, getTrackerDetailsId, updateTrackerDetails } from '../../controllers/admin/tracker-controllers'
 
 export const adminTrackerRouter = express.Router()
 
 adminTrackerRouter.get("/details", getTrackerDetails)
+adminTrackerRouter.get("getIds", getTrackerDetailsId)
 adminTrackerRouter.patch("/update", updateTrackerDetails)

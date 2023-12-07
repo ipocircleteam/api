@@ -17,6 +17,7 @@
   "author": "IPO CIRCLE",
   "license": "ISC",
   "dependencies": {
+    "@types/axios": "^0.14.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/express-validator": "^3.0.0",
@@ -40,7 +41,7 @@
     "ts-node": "^10.9.1",
     "tsc": "^2.0.4",
     "typeorm": "^0.3.17",
-    "typescript": "^5.3.2",
+    "typescript": "^5.3.3",
     "uuid": "^9.0.1"
   },
   "pre-commit": [
