@@ -18,6 +18,7 @@ const ipoDetails_1 = require("./routes/admin/ipoDetails");
 const trackerDetails_1 = require("./routes/admin/trackerDetails");
 const gmpDetails_1 = require("./routes/admin/gmpDetails");
 const reviewDetails_1 = require("./routes/admin/reviewDetails");
+const marketfeed_1 = require("./routes/upstox/marketfeed");
 dotenv_1.default.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
 const app = (0, express_1.default)();
@@ -27,6 +28,7 @@ const corsOptions = {
         "http://localhost:3000",
         "https://dashboard-ipocircle.vercel.app",
         "https://ipocircle.com",
+        "https://dashboard.ipocircle.com"
     ],
     methods: "PUT, GET, DELETE, PATCH, OPTIONS, POST",
     allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
@@ -52,6 +54,8 @@ app.use("/api/admin/v1/ipo/", ipoDetails_1.adminIpoRouter);
 app.use('/api/admin/v1/tracker/', trackerDetails_1.adminTrackerRouter);
 app.use("/api/admin/v1/gmp/", gmpDetails_1.adminGmpRouter);
 app.use("/api/admin/v1/review/", reviewDetails_1.adminReviewRouter);
+// upstox apis
+app.use("/api/upstox/", marketfeed_1.marketFeedRouter);
 app.listen(process.env.PORT || 6969, () => {
     console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);
 });

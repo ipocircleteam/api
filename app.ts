@@ -14,6 +14,7 @@ import { adminIpoRouter } from "./routes/admin/ipoDetails";
 import { adminTrackerRouter } from "./routes/admin/trackerDetails";
 import { adminGmpRouter } from "./routes/admin/gmpDetails";
 import { adminReviewRouter } from "./routes/admin/reviewDetails";
+import { marketFeedRouter } from "./routes/upstox/marketfeed";
 
 dotenv.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
@@ -26,6 +27,7 @@ const corsOptions = {
     "http://localhost:3000",
     "https://dashboard-ipocircle.vercel.app",
     "https://ipocircle.com",
+    "https://dashboard.ipocircle.com"
   ],
   methods: "PUT, GET, DELETE, PATCH, OPTIONS, POST",
   allowedHeaders:
@@ -56,6 +58,10 @@ app.use("/api/admin/v1/ipo/", adminIpoRouter);
 app.use('/api/admin/v1/tracker/', adminTrackerRouter)
 app.use("/api/admin/v1/gmp/", adminGmpRouter)
 app.use("/api/admin/v1/review/", adminReviewRouter)
+
+
+// upstox apis
+app.use("/api/upstox/", marketFeedRouter)
 
 
 app.listen(process.env.PORT || 6969, () => {
