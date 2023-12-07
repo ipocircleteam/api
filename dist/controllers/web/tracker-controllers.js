@@ -17,7 +17,6 @@ const db_1 = require("../../database/db");
 const tracker_entity_1 = __importDefault(require("../../models/tracker.entity"));
 const initDb_1 = __importDefault(require("../../database/initDb"));
 const ipo_entity_1 = __importDefault(require("../../models/ipo.entity"));
-const getMainSmeTrackerData_1 = __importDefault(require("../../utils/dbUtilities/getMainSmeTrackerData"));
 // GET REQUEST
 const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -47,27 +46,50 @@ const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function*
 exports.getTrackerData = getTrackerData;
 // GET TRACKER DATA WITH SERIES
 const getTrackerWithSeries = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b;
     try {
         yield (0, initDb_1.default)();
         const { year } = req.query;
-        var ipoData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
-            select: {
-                id: true,
-                series: true
-            }
-        });
+        var eqData = [];
+        var smeData = [];
+        var alldata = [];
         var trackerData = yield db_1.myDataSource.getRepository(tracker_entity_1.default).find({
             where: {
                 year: year,
             },
+            order: {
+                year: "DESC",
+            },
         });
-        const allData = trackerData;
-        const [mainData, smeData] = yield (0, getMainSmeTrackerData_1.default)(ipoData, trackerData);
+        for (let i = 0; i < 50; i++) {
+            const id = trackerData[i].id;
+            if (trackerData[i].issue_price !== null &&
+                trackerData[i].listing_price !== null &&
+                trackerData[i].sector !== null) {
+                const ipoData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
+                    where: {
+                        id: id,
+                    },
+                    select: {
+                        series: true,
+                        name: true,
+                    },
+                });
+                if (((_a = ipoData[0]) === null || _a === void 0 ? void 0 : _a.series) === "eq") {
+                    eqData.push(trackerData[i]);
+                }
+                else if (((_b = ipoData[0]) === null || _b === void 0 ? void 0 : _b.series) === "sme") {
+                    smeData.push(trackerData[i]);
+                }
+            }
+            alldata.push(trackerData[i]);
+        }
         const data = {
-            all: allData,
-            main: mainData,
-            sme: smeData
+            all: alldata,
+            main: eqData,
+            sme: smeData,
         };
+        console.log(data);
         res.status(200).json({
             success: true,
             data: data,
