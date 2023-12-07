@@ -37,10 +37,10 @@ function generateTrackerData() {
                     const currIpo = ipoList[i];
                     data.id = currIpo.id;
                     data.company_name = currIpo.name;
-                    data.current_price = 0;
-                    data.dayend_price = 0;
-                    data.issue_price = 0;
-                    data.listing_price = 0;
+                    data.current_price = '';
+                    data.dayend_price = '';
+                    data.issue_price = '';
+                    data.listing_price = '';
                     data.sector = "";
                     data.year =
                         currIpo.closing_date === null

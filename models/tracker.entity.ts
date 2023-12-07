@@ -18,19 +18,19 @@ export default new EntitySchema({
       nullable: true,
     },
     issue_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     current_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     listing_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     dayend_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     year: {
@@ -44,20 +44,20 @@ export class TrackerClass {
   id: string;
   company_name: string;
   sector: string;
-  issue_price: number;
-  current_price: number;
-  listing_price: number;
-  dayend_price: number;
+  issue_price: string;
+  current_price: string;
+  listing_price: string;
+  dayend_price: string;
   year: number;
 
   constructor() {
     (this.id = ""),
       (this.company_name = ""),
       (this.sector = ""),
-      (this.issue_price = 0),
-      (this.current_price = 0),
-      (this.listing_price = 0),
-      (this.dayend_price = 0),
+      (this.issue_price = ''),
+      (this.current_price = ''),
+      (this.listing_price = ''),
+      (this.dayend_price = ''),
       (this.year = 0);
   }
 }
