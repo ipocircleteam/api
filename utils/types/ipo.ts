@@ -18,7 +18,7 @@ export type IPO = {
   init_refunds: Date;
   shares_to_demat: Date;
   listing_date: Date;
-  promoter_holding_pre: number;
+  promoter_holding_pre: string;
   promoter_holding_post: number;
   anchor_bid_date: Date;
   anchor_lockin_half: Date;
