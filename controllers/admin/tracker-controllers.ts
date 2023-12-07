@@ -7,7 +7,8 @@ import trackerEntity from "../../models/tracker.entity";
 const getTrackerDetails = async (req: Request, res: Response) => {
   try {
       await initDb();
-      const {id} = req.query
+      const { id } = req.query
+      
 
     const trackerDetails = await myDataSource
       .getRepository(trackerEntity)
@@ -15,7 +16,8 @@ const getTrackerDetails = async (req: Request, res: Response) => {
             where: {
               id: id
           }
-      });
+        });
+      
     if (!trackerDetails) {
       res.status(400).json({ success: false, msg: "Data not found!" });
       return;
@@ -34,6 +36,38 @@ const getTrackerDetails = async (req: Request, res: Response) => {
     });
   }
 }; 
+
+
+const getTrackerDetailsId = async (req: Request, res: Response) => {
+    try {
+        await initDb();
+  
+      const trackerDetails = await myDataSource
+        .getRepository(trackerEntity)
+          .find({
+              select: {
+                  company_name: true,
+                  id: true
+              }
+          });
+      if (!trackerDetails) {
+        res.status(400).json({ success: false, msg: "Data not found!" });
+        return;
+      }
+  
+      res.status(200).json({
+        success: false,
+        msg: "Data found!",
+        data: trackerDetails,
+      });
+    } catch (error) {
+      console.log(`Error in Tracker Id GET request, ${error}`);
+      res.status(500).json({
+        success: false,
+        msg: "Internal Server Error",
+      });
+    }
+  }; 
 
 
 // UPDATE TRACKER DETAILS
@@ -70,4 +104,4 @@ const updateTrackerDetails = async (req: Request, res: Response) => {
   }
 };
 
-export {getTrackerDetails, updateTrackerDetails}
+export {getTrackerDetails, getTrackerDetailsId, updateTrackerDetails}

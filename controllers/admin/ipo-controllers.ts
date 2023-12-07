@@ -5,6 +5,9 @@ import ipoEntity from "../../models/ipo.entity";
 import reviewEntity from "../../models/review.entity";
 import company_financeEntity from "../../models/company_finance.entity";
 import { IPO } from "../../utils/types/ipo";
+import gmpEntity from "../../models/gmp.entity";
+import lotsEntity from "../../models/lots.entity";
+import trackerEntity from "../../models/tracker.entity";
 
 // GET REQUEST
 const getCompleteIpoDetails = async (req: Request, res: Response) => {
@@ -64,8 +67,6 @@ const getCompleteIpoDetails = async (req: Request, res: Response) => {
   }
 };
 
-
-
 // POST REQUEST
 const addCompleteIpoDetails = async (req: Request, res: Response) => {
   try {
@@ -79,12 +80,15 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
       return;
     }
 
+    const year = new Date(reqData.ipodetails.closing_date).getFullYear()
+
     const newIpoDetails = await myDataSource
       .getRepository(ipoEntity)
       .create(reqData.ipodetails);
     const savedNewIpo = await myDataSource
       .getRepository(ipoEntity)
       .save(newIpoDetails);
+    
 
     const newCompanyFinance = await myDataSource
       .getRepository(company_financeEntity)
@@ -92,19 +96,30 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
     const savedNewCompany = await myDataSource
       .getRepository(company_financeEntity)
       .save(newCompanyFinance);
-    
-      const newReview = await myDataSource
-      .getRepository(reviewEntity)
-        .create({
-          ipo_id: reqData.ipodetails.id,
-          review: ""
-      });
+
+    const newReview = await myDataSource.getRepository(reviewEntity).create({
+      ipo_id: reqData.ipodetails.id,
+      review: "",
+    });
     const savedNewReview = await myDataSource
       .getRepository(reviewEntity)
       .save(newReview);
+    
+    
+    const newTracker = await myDataSource.getRepository(trackerEntity).create({
+      id: reqData.ipodetails.id,
+      issue_price: 0,
+      current_price: 0,
+      dayend_price: 0,
+      listing_price: 0,
+      year: year,
+      sector: '',
+      company_name: reqData.ipodetails.name
+    })
+    const saveNewTracker = await myDataSource.getRepository(trackerEntity).save(newTracker)
+    
 
-
-    if (!savedNewCompany || !savedNewIpo || !savedNewReview) {
+    if (!savedNewCompany || !savedNewIpo || !savedNewReview || !saveNewTracker) {
       res.status(400).json({
         success: false,
         msg: "Error creating data",
@@ -124,8 +139,6 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
     });
   }
 };
-
-
 
 // PATCH REQUEST
 const updateCompleteIpoDetails = async (req: Request, res: Response) => {
@@ -169,12 +182,11 @@ const updateCompleteIpoDetails = async (req: Request, res: Response) => {
   }
 };
 
-
 // DELETE REQUEST
 const deleteIpoById = async (req: Request, res: Response) => {
   try {
     await initDb();
-    const {id} = req.query;
+    const { id } = req.query;
     if (!id) {
       res.status(401).json({
         success: false,
@@ -185,9 +197,32 @@ const deleteIpoById = async (req: Request, res: Response) => {
 
     const deleteIpo = await myDataSource
       .getRepository(ipoEntity)
-      .delete({id: id})
+      .delete({ id: id });
 
-    if (!deleteIpo) {
+    const deleteIpoFromGmp = await myDataSource
+      .getRepository(gmpEntity)
+      .delete({ ipo_id: id });
+    const deleteFromCompany = await myDataSource
+      .getRepository(company_financeEntity)
+      .delete({ ipo_id: id });
+    const deleteFromLots = await myDataSource
+      .getRepository(lotsEntity)
+      .delete({ ipo_id: id });
+    const deleteReview = await myDataSource
+      .getRepository(reviewEntity)
+      .delete({ ipo_id: id });
+    const deleteTracker = await myDataSource
+      .getRepository(trackerEntity)
+      .delete({ id: id });
+
+    if (
+      !deleteIpo ||
+      !deleteFromCompany ||
+      !deleteFromLots ||
+      !deleteReview ||
+      !deleteTracker ||
+      !deleteIpoFromGmp
+    ) {
       res.status(400).json({
         success: false,
         msg: "Error deleting data",
@@ -206,6 +241,11 @@ const deleteIpoById = async (req: Request, res: Response) => {
       msg: "Internal Server Error",
     });
   }
-}
+};
 
-export { getCompleteIpoDetails, addCompleteIpoDetails, updateCompleteIpoDetails, deleteIpoById };
+export {
+  getCompleteIpoDetails,
+  addCompleteIpoDetails,
+  updateCompleteIpoDetails,
+  deleteIpoById,
+};

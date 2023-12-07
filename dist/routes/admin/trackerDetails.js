@@ -8,4 +8,5 @@ const express_1 = __importDefault(require("express"));
 const tracker_controllers_1 = require("../../controllers/admin/tracker-controllers");
 exports.adminTrackerRouter = express_1.default.Router();
 exports.adminTrackerRouter.get("/details", tracker_controllers_1.getTrackerDetails);
+exports.adminTrackerRouter.get("getIds", tracker_controllers_1.getTrackerDetailsId);
 exports.adminTrackerRouter.patch("/update", tracker_controllers_1.updateTrackerDetails);
