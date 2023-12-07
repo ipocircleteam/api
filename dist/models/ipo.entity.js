@@ -35,11 +35,11 @@ exports.default = new typeorm_1.EntitySchema({
             nullable: true,
         },
         total_issue: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         fresh_issue: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         issue_type: {
@@ -207,7 +207,7 @@ exports.default = new typeorm_1.EntitySchema({
             nullable: true,
         },
         shares_in_lot: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         dayend_price: {
@@ -259,27 +259,27 @@ exports.default = new typeorm_1.EntitySchema({
             nullable: true,
         },
         min_retail: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         max_retail: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         min_shni: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         max_shni: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         min_bhni: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         max_bhni: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         qib: {
@@ -299,19 +299,19 @@ exports.default = new typeorm_1.EntitySchema({
             nullable: true,
         },
         anchor_shares_offerred: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         qib_shares_offerred: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         nil_shares_offerred: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         retail_shares_offerred: {
-            type: "bigint",
+            type: "double precision",
             nullable: true,
         },
         objectIssueData: {
