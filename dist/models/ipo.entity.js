@@ -258,27 +258,75 @@ exports.default = new typeorm_1.EntitySchema({
             type: "text",
             nullable: true,
         },
-        min_retail: {
+        min_retail_lots: {
             type: "double precision",
             nullable: true,
         },
-        max_retail: {
+        max_retail_lots: {
             type: "double precision",
             nullable: true,
         },
-        min_shni: {
+        min_shni_lots: {
             type: "double precision",
             nullable: true,
         },
-        max_shni: {
+        max_shni_lots: {
             type: "double precision",
             nullable: true,
         },
-        min_bhni: {
+        min_bhni_lots: {
             type: "double precision",
             nullable: true,
         },
-        max_bhni: {
+        max_bhni_lots: {
+            type: "double precision",
+            nullable: true,
+        },
+        min_retail_shares: {
+            type: "double precision",
+            nullable: true,
+        },
+        max_retail_shares: {
+            type: "double precision",
+            nullable: true,
+        },
+        min_shni_shares: {
+            type: "double precision",
+            nullable: true,
+        },
+        max_shni_shares: {
+            type: "double precision",
+            nullable: true,
+        },
+        min_bhni_shares: {
+            type: "double precision",
+            nullable: true,
+        },
+        max_bhni_shares: {
+            type: "double precision",
+            nullable: true,
+        },
+        min_retail_price: {
+            type: "double precision",
+            nullable: true,
+        },
+        max_retail_price: {
+            type: "double precision",
+            nullable: true,
+        },
+        min_shni_price: {
+            type: "double precision",
+            nullable: true,
+        },
+        max_shni_price: {
+            type: "double precision",
+            nullable: true,
+        },
+        min_bhni_price: {
+            type: "double precision",
+            nullable: true,
+        },
+        max_bhni_price: {
             type: "double precision",
             nullable: true,
         },
