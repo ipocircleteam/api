@@ -38,28 +38,52 @@ const getTrackerWithSeries = async (req: Request, res: Response) => {
   try {
     await initDb();
     const { year } = req.query;
-
-    var ipoData = await myDataSource.getRepository(ipoEntity).find({
-      select: {
-        id: true,
-        series: true
-      }
-    })
+    var eqData = [];
+    var smeData = [];
+    var alldata = [];
 
     var trackerData = await myDataSource.getRepository(trackerEntity).find({
       where: {
         year: year,
       },
+      order: {
+        year: "DESC",
+      },
     });
 
-    const allData = trackerData
-    const [mainData, smeData] = await getSmeMainTrackerData(ipoData, trackerData)
+    for (let i = 0; i < 50; i++) {
+      const id: string | any = trackerData[i].id;
+      if (
+        trackerData[i].issue_price !== null &&
+        trackerData[i].listing_price !== null &&
+        trackerData[i].sector !== null
+      ) {
+        const ipoData = await myDataSource.getRepository(ipoEntity).find({
+          where: {
+            id: id,
+          },
+          select: {
+            series: true,
+            name: true,
+          },
+        });
+
+        if (ipoData[0]?.series === "eq") {
+          eqData.push(trackerData[i]);
+        } else if (ipoData[0]?.series === "sme") {
+          smeData.push(trackerData[i]);
+        }
+      }
+
+      alldata.push(trackerData[i]);
+    }
 
     const data = {
-      all: allData,
-      main: mainData,
-      sme: smeData
-    }
+      all: alldata,
+      main: eqData,
+      sme: smeData,
+    };
+    console.log(data);
 
     res.status(200).json({
       success: true,
