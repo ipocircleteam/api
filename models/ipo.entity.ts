@@ -22,23 +22,23 @@ export default new EntitySchema({
       nullable: true,
     },
     face_value: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     min_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     total_issue: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     fresh_issue: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     issue_type: {
@@ -50,11 +50,11 @@ export default new EntitySchema({
       nullable: true,
     },
     gen_holding_pre: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     gen_holding_post: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     opening_date: {
@@ -82,11 +82,11 @@ export default new EntitySchema({
       nullable: true,
     },
     promoter_holding_pre: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     promoter_holding_post: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     anchor_bid_date: {
@@ -102,27 +102,27 @@ export default new EntitySchema({
       nullable: true,
     },
     pe: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     market_cap: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     roe: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     roce: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     eps: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     ronw: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     bse_code: {
@@ -142,7 +142,7 @@ export default new EntitySchema({
       nullable: true,
     },
     final_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     pre_open_nse: {
@@ -206,11 +206,11 @@ export default new EntitySchema({
       nullable: true,
     },
     shares_in_lot: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     dayend_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     cutoffmandate: {
@@ -222,27 +222,27 @@ export default new EntitySchema({
       nullable: true,
     },
     retail_discount: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     employee_discount: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     anchor_portion: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     debt: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     priceband: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     ofs: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     allotment_date: {
@@ -258,75 +258,75 @@ export default new EntitySchema({
       nullable: true,
     },
     min_retail_lots: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_retail_lots: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     min_shni_lots: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_shni_lots: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     min_bhni_lots: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_bhni_lots: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     min_retail_shares: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_retail_shares: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     min_shni_shares: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_shni_shares: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     min_bhni_shares: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_bhni_shares: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     min_retail_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_retail_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     min_shni_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_shni_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     min_bhni_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     max_bhni_price: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     qib: {
@@ -334,31 +334,31 @@ export default new EntitySchema({
       nullable: true,
     },
     nii_snii: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     nii_bnii: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     retail: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     anchor_shares_offerred: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     qib_shares_offerred: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     nil_shares_offerred: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     retail_shares_offerred: {
-      type: "double precision",
+      type: "text",
       nullable: true,
     },
     objectIssueData: {
@@ -373,37 +373,37 @@ export class Ipo {
   name: string;
   series: string;
   description: string;
-  face_value: number;
-  min_price: number;
-  max_price: number;
-  total_issues: number;
-  fresh_issues: number;
+  face_value: string;
+  min_price: string;
+  max_price: string;
+  total_issues: string;
+  fresh_issues: string;
   issue_type: string;
   listing_at: string[];
-  gen_holding_pre: number;
-  gen_holding_post: number;
+  gen_holding_pre: string;
+  gen_holding_post: string;
   opening_date: Date;
   closing_date: Date;
   basis_date: Date;
   init_refunds: Date;
   shares_to_demat: Date;
   listing_date: Date;
-  promoter_holding_pre: number;
-  promoter_holding_post: number;
+  promoter_holding_pre: string;
+  promoter_holding_post: string;
   anchor_bid_date: Date;
   anchor_lockin_half: Date;
   anchor_lockin_rest: Date;
-  pe: number;
-  market_cap: number;
-  roe: number;
-  roce: number;
-  eps: number;
-  ronw: number;
+  pe: string;
+  market_cap: string;
+  roe: string;
+  roce: string;
+  eps: string;
+  ronw: string;
   bse_code: string;
   bse_url: string;
   nse_code: string;
   nse_url: string;
-  final_price: number;
+  final_price: string;
   pre_open_nse: string;
   pre_open_bse: string;
   company_address: string;
@@ -419,33 +419,33 @@ export class Ipo {
   drhp: string;
   rhp: string;
   anchor_list: string[];
-  shares_in_lot: number;
-  dayend_price: number;
-  cutoffmandate: number;
+  shares_in_lot: string;
+  dayend_price: string;
+  cutoffmandate: string;
   defunct: boolean;
-  retail_discount: number;
-  employee_discount: number;
-  anchor_portion: number;
-  debt: number;
-  priceband: number;
-  ofs: number;
+  retail_discount: string;
+  employee_discount: string;
+  anchor_portion: string;
+  debt: string;
+  priceband: string;
+  ofs: string;
   allotment_date: Date;
   credit_of: string;
   time_upf: string;
-  min_retail: number;
-  max_retail: number;
-  min_shni: number;
-  max_shni: number;
-  min_bhni: number;
-  max_bhni: number;
+  min_retail: string;
+  max_retail: string;
+  min_shni: string;
+  max_shni: string;
+  min_bhni: string;
+  max_bhni: string;
   qib: string;
-  nii_snii: number;
-  nii_bnii: number;
-  retail: number;
-  anchor_shares_offerred: number;
-  qib_shares_offerred: number;
-  nil_shares_offerred: number;
-  retail_shares_offerred: number;
+  nii_snii: string;
+  nii_bnii: string;
+  retail: string;
+  anchor_shares_offerred: string;
+  qib_shares_offerred: string;
+  nil_shares_offerred: string;
+  retail_shares_offerred: string;
   objectIssueData: string;
 
   constructor() {
@@ -453,37 +453,37 @@ export class Ipo {
       (this.name = ""),
       (this.series = ""),
       (this.description = ""),
-      (this.face_value = 0),
-      (this.min_price = 0),
-      (this.max_price = 0),
-      (this.total_issues = 0),
-      (this.fresh_issues = 0),
+      (this.face_value = ""),
+      (this.min_price = ""),
+      (this.max_price = ""),
+      (this.total_issues = ""),
+      (this.fresh_issues = ""),
       (this.issue_type = ""),
       (this.listing_at = [""]),
-      (this.gen_holding_pre = 0),
-      (this.gen_holding_post = 0),
+      (this.gen_holding_pre = ""),
+      (this.gen_holding_post = ""),
       (this.opening_date = new Date()),
       (this.closing_date = new Date()),
       (this.basis_date = new Date()),
       (this.init_refunds = new Date()),
       (this.shares_to_demat = new Date()),
       (this.listing_date = new Date()),
-      (this.promoter_holding_pre = 0),
-      (this.promoter_holding_post = 0),
+      (this.promoter_holding_pre = ""),
+      (this.promoter_holding_post = ""),
       (this.anchor_bid_date = new Date()),
       (this.anchor_lockin_half = new Date()),
       (this.anchor_lockin_rest = new Date()),
-      (this.pe = 0),
-      (this.market_cap = 0),
-      (this.roe = 0),
-      (this.roce = 0),
-      (this.eps = 0),
-      (this.ronw = 0),
+      (this.pe = ""),
+      (this.market_cap = ""),
+      (this.roe = ""),
+      (this.roce = ""),
+      (this.eps = ""),
+      (this.ronw = ""),
       (this.bse_code = ""),
       (this.bse_url = ""),
       (this.nse_code = ""),
       (this.nse_url = ""),
-      (this.final_price = 0),
+      (this.final_price = ""),
       (this.pre_open_nse = ""),
       (this.pre_open_bse = ""),
       (this.company_address = ""),
@@ -499,33 +499,33 @@ export class Ipo {
       (this.drhp = ""),
       (this.rhp = ""),
       (this.anchor_list = [""]),
-      (this.shares_in_lot = 0),
-      (this.dayend_price = 0),
-      (this.cutoffmandate = 0),
+      (this.shares_in_lot = ""),
+      (this.dayend_price = ""),
+      (this.cutoffmandate = ""),
       (this.defunct = false),
-      (this.retail_discount = 0),
-      (this.employee_discount = 0),
-      (this.anchor_portion = 0),
-      (this.debt = 0);
-    (this.priceband = 0),
-      (this.ofs = 0),
+      (this.retail_discount = ""),
+      (this.employee_discount = ""),
+      (this.anchor_portion = ""),
+      (this.debt = "");
+    (this.priceband = ""),
+      (this.ofs = ""),
       (this.allotment_date = new Date()),
       (this.credit_of = ""),
       (this.time_upf = ""),
-      (this.min_retail = 0),
-      (this.max_retail = 0),
-      (this.min_shni = 0),
-      (this.max_shni = 0),
-      (this.min_bhni = 0),
-      (this.max_bhni = 0),
+      (this.min_retail = ""),
+      (this.max_retail = ""),
+      (this.min_shni = ""),
+      (this.max_shni = ""),
+      (this.min_bhni = ""),
+      (this.max_bhni = ""),
       (this.qib = ""),
-      (this.nii_snii = 0),
-      (this.nii_bnii = 0),
-      (this.retail = 0),
-      (this.anchor_shares_offerred = 0),
-      (this.qib_shares_offerred = 0),
-      (this.nil_shares_offerred = 0),
-      (this.retail_shares_offerred = 0),
+      (this.nii_snii = ""),
+      (this.nii_bnii = ""),
+      (this.retail = ""),
+      (this.anchor_shares_offerred = ""),
+      (this.qib_shares_offerred = ""),
+      (this.nil_shares_offerred = ""),
+      (this.retail_shares_offerred = ""),
       (this.objectIssueData = "")
   }
 }
