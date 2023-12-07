@@ -12,10 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTrackerEntry = exports.createTrackerEntry = exports.getTrackerData = void 0;
+exports.updateTrackerEntry = exports.createTrackerEntry = exports.getTrackerWithSeries = exports.getTrackerData = void 0;
 const db_1 = require("../../database/db");
 const tracker_entity_1 = __importDefault(require("../../models/tracker.entity"));
 const initDb_1 = __importDefault(require("../../database/initDb"));
+const ipo_entity_1 = __importDefault(require("../../models/ipo.entity"));
+const getMainSmeTrackerData_1 = __importDefault(require("../../utils/dbUtilities/getMainSmeTrackerData"));
 // GET REQUEST
 const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -43,6 +45,46 @@ const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.getTrackerData = getTrackerData;
+// GET TRACKER DATA WITH SERIES
+const getTrackerWithSeries = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, initDb_1.default)();
+        const { year } = req.query;
+        var ipoData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
+            select: {
+                id: true,
+                series: true
+            }
+        });
+        var trackerData = yield db_1.myDataSource.getRepository(tracker_entity_1.default).find({
+            where: {
+                year: year,
+            },
+        });
+        const allData = trackerData;
+        const [mainData, smeData] = yield (0, getMainSmeTrackerData_1.default)(ipoData, trackerData);
+        const data = {
+            all: allData,
+            main: mainData,
+            sme: smeData
+        };
+        res.status(200).json({
+            success: true,
+            data: data,
+            msg: "Fetched data successfully",
+        });
+    }
+    catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            data: [],
+            msg: "Internal Server Error",
+            error: error,
+        });
+    }
+});
+exports.getTrackerWithSeries = getTrackerWithSeries;
 // POST REQUEST
 const createTrackerEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

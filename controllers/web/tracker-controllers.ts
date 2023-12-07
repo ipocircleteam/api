@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { myDataSource } from "../../database/db";
 import trackerEntity from "../../models/tracker.entity";
 import initDb from "../../database/initDb";
+import ipoEntity from "../../models/ipo.entity";
+import getSmeMainTrackerData from "../../utils/dbUtilities/getMainSmeTrackerData";
 
 // GET REQUEST
 const getTrackerData = async (req: Request, res: Response) => {
@@ -18,6 +20,50 @@ const getTrackerData = async (req: Request, res: Response) => {
     res.status(200).json({
       success: true,
       data: trackerData,
+      msg: "Fetched data successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      data: [],
+      msg: "Internal Server Error",
+      error: error,
+    });
+  }
+};
+
+// GET TRACKER DATA WITH SERIES
+const getTrackerWithSeries = async (req: Request, res: Response) => {
+  try {
+    await initDb();
+    const { year } = req.query;
+
+    var ipoData = await myDataSource.getRepository(ipoEntity).find({
+      select: {
+        id: true,
+        series: true
+      }
+    })
+
+    var trackerData = await myDataSource.getRepository(trackerEntity).find({
+      where: {
+        year: year,
+      },
+    });
+
+    const allData = trackerData
+    const [mainData, smeData] = await getSmeMainTrackerData(ipoData, trackerData)
+
+    const data = {
+      all: allData,
+      main: mainData,
+      sme: smeData
+    }
+
+    res.status(200).json({
+      success: true,
+      data: data,
       msg: "Fetched data successfully",
     });
   } catch (error) {
@@ -82,4 +128,9 @@ const updateTrackerEntry = async (req: Request, res: Response) => {
   }
 };
 
-export { getTrackerData, createTrackerEntry, updateTrackerEntry };
+export {
+  getTrackerData,
+  getTrackerWithSeries,
+  createTrackerEntry,
+  updateTrackerEntry,
+};
