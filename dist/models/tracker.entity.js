@@ -19,19 +19,19 @@ exports.default = new typeorm_1.EntitySchema({
             nullable: true,
         },
         issue_price: {
-            type: "double precision",
+            type: "text",
             nullable: true,
         },
         current_price: {
-            type: "double precision",
+            type: "text",
             nullable: true,
         },
         listing_price: {
-            type: "double precision",
+            type: "text",
             nullable: true,
         },
         dayend_price: {
-            type: "double precision",
+            type: "text",
             nullable: true,
         },
         year: {
@@ -45,10 +45,10 @@ class TrackerClass {
         (this.id = ""),
             (this.company_name = ""),
             (this.sector = ""),
-            (this.issue_price = 0),
-            (this.current_price = 0),
-            (this.listing_price = 0),
-            (this.dayend_price = 0),
+            (this.issue_price = ''),
+            (this.current_price = ''),
+            (this.listing_price = ''),
+            (this.dayend_price = ''),
             (this.year = 0);
     }
 }
