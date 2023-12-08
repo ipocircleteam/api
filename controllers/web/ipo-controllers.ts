@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { myDataSource } from "../../database/db";
 import ipoEntity from "../../models/ipo.entity";
 import initDb from "../../database/initDb";
+import company_financeEntity from "../../models/company_finance.entity";
 
 // GET REQUEST
 const getIpoData = async (req: Request, res: Response) => {
@@ -89,9 +90,17 @@ const getIpoDataFromId = async (req: Request, res: Response) => {
       });
     }
 
+    var financeData = await myDataSource.getRepository(company_financeEntity).find({
+      where: {
+        ipo_id: id
+      }
+    })
+
+    const data = {ipoData, financeData}
+
     res.status(200).json({
       success: true,
-      data: ipoData,
+      data: data,
       msg: "Fetched data successfully",
     });
   } catch (error) {
