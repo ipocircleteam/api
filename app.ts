@@ -15,6 +15,7 @@ import { adminTrackerRouter } from "./routes/admin/trackerDetails";
 import { adminGmpRouter } from "./routes/admin/gmpDetails";
 import { adminReviewRouter } from "./routes/admin/reviewDetails";
 import { marketFeedRouter } from "./routes/upstox/marketfeed";
+import { mailRouter } from "./routes/users/mail";
 
 dotenv.config();
 console.log(`Node Environment is ${process.env.NODE_ENV}`);
@@ -63,6 +64,9 @@ app.use("/api/admin/v1/review/", adminReviewRouter)
 
 // upstox apis
 app.use("/api/upstox/", marketFeedRouter)
+
+// mail apis
+app.use("/api/user/v1/mail", mailRouter)
 
 
 app.listen(process.env.PORT || 6969, () => {
