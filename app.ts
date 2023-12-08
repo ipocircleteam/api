@@ -66,7 +66,7 @@ app.use("/api/admin/v1/review/", adminReviewRouter)
 app.use("/api/upstox/", marketFeedRouter)
 
 // mail apis
-app.use("/api/user/v1/mail", mailRouter)
+app.use("/api/v1/user/mail", mailRouter)
 
 
 app.listen(process.env.PORT || 6969, () => {

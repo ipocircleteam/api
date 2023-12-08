@@ -6,7 +6,7 @@ export default new EntitySchema({
     columns: {
         mail: {
             type: 'text',
-            nullable: true,
+            nullable: false,
             primary: true
         }
     }
