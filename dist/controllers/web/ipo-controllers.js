@@ -16,6 +16,7 @@ exports.getIpoList = exports.updateIpoEntry = exports.createIpoEntry = exports.g
 const db_1 = require("../../database/db");
 const ipo_entity_1 = __importDefault(require("../../models/ipo.entity"));
 const initDb_1 = __importDefault(require("../../database/initDb"));
+const company_finance_entity_1 = __importDefault(require("../../models/company_finance.entity"));
 // GET REQUEST
 const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -98,9 +99,15 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 },
             });
         }
+        var financeData = yield db_1.myDataSource.getRepository(company_finance_entity_1.default).find({
+            where: {
+                ipo_id: id
+            }
+        });
+        const data = { ipoData, financeData };
         res.status(200).json({
             success: true,
-            data: ipoData,
+            data: data,
             msg: "Fetched data successfully",
         });
     }

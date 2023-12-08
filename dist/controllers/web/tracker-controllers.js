@@ -61,7 +61,7 @@ const getTrackerWithSeries = (req, res) => __awaiter(void 0, void 0, void 0, fun
                 year: "DESC",
             },
         });
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 100; i++) {
             const id = trackerData[i].id;
             if (trackerData[i].issue_price !== null &&
                 trackerData[i].listing_price !== null &&
