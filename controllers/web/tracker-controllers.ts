@@ -51,7 +51,7 @@ const getTrackerWithSeries = async (req: Request, res: Response) => {
       },
     });
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 100; i++) {
       const id: string | any = trackerData[i].id;
       if (
         trackerData[i].issue_price !== null &&
