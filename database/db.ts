@@ -8,6 +8,7 @@ import subscriptionsEntity from "../models/subscriptions.entity";
 import trackerEntity from "../models/tracker.entity";
 import gmpEntity from "../models/gmp.entity";
 import review from "../models/review.entity";
+import user_email from "../models/users/user_email";
 
 dotenv.config();
 console.log(process.env.DB_NAME);
@@ -28,7 +29,8 @@ export const myDataSource = new DataSource({
     subscriptionsEntity,
     trackerEntity,
     gmpEntity,
-    review
+    review,
+    user_email
   ],
   synchronize: true,
   ssl: {

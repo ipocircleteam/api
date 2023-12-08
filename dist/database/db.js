@@ -14,6 +14,7 @@ const subscriptions_entity_1 = __importDefault(require("../models/subscriptions.
 const tracker_entity_1 = __importDefault(require("../models/tracker.entity"));
 const gmp_entity_1 = __importDefault(require("../models/gmp.entity"));
 const review_entity_1 = __importDefault(require("../models/review.entity"));
+const user_email_1 = __importDefault(require("../models/users/user_email"));
 dotenv_1.default.config();
 console.log(process.env.DB_NAME);
 exports.myDataSource = new typeorm_1.DataSource({
@@ -31,7 +32,8 @@ exports.myDataSource = new typeorm_1.DataSource({
         subscriptions_entity_1.default,
         tracker_entity_1.default,
         gmp_entity_1.default,
-        review_entity_1.default
+        review_entity_1.default,
+        user_email_1.default
     ],
     synchronize: true,
     ssl: {
