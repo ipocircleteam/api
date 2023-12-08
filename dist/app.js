@@ -28,7 +28,8 @@ const corsOptions = {
         "http://localhost:3000",
         "https://dashboard-ipocircle.vercel.app",
         "https://ipocircle.com",
-        "https://dashboard.ipocircle.com"
+        "https://dashboard.ipocircle.com",
+        "https://www.ipocircle.com"
     ],
     methods: "PUT, GET, DELETE, PATCH, OPTIONS, POST",
     allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
