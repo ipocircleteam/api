@@ -59,7 +59,7 @@ app.use("/api/admin/v1/review/", reviewDetails_1.adminReviewRouter);
 // upstox apis
 app.use("/api/upstox/", marketfeed_1.marketFeedRouter);
 // mail apis
-app.use("/api/user/v1/mail", mail_1.mailRouter);
+app.use("/api/v1/user/mail", mail_1.mailRouter);
 app.listen(process.env.PORT || 6969, () => {
     console.log(`Server is running on port ${process.env.SERVER_PORT || 6969}`);
 });

@@ -8,7 +8,7 @@ exports.default = new typeorm_1.EntitySchema({
     columns: {
         mail: {
             type: 'text',
-            nullable: true,
+            nullable: false,
             primary: true
         }
     }
