@@ -4,15 +4,15 @@
     "name": "ipocircle-dev-server",
     "builds": [
         {
-            "src": "dist/app.js",
+            "src": "WebService/dist/index.js",
             "use": "@vercel/node",
-            "config": { "includeFiles": ["dist/**"] }
+            "config": { "includeFiles": ["WebService/dist/**"] }
         }
     ],
     "routes": [
         {
-            "src": "/(.*)",
-            "dest": "dist/app.js"
+            "src": "WebService/(.*)",
+            "dest": "WebService/dist/index.js"
         }
     ]
 }
