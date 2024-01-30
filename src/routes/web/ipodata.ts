@@ -1,6 +1,7 @@
 import express from "express";
 import {
   createIpoEntry,
+  getIpoCount,
   getIpoData,
   getIpoDataFromId,
   getIpoList,
@@ -14,6 +15,8 @@ ipoDataRouter.get("/details", getIpoData);
 ipoDataRouter.get("/ipolist", getIpoList);
 
 ipoDataRouter.get("/details/id", getIpoDataFromId);
+
+ipoDataRouter.get("/count", getIpoCount)
 
 ipoDataRouter.post("/create", createIpoEntry);
 

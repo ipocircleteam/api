@@ -211,6 +211,24 @@ const getIpoList = async (req: Request, res: Response) => {
   }
 };
 
+// GET REQUEST : NO OF IPOS
+const getIpoCount = async (req: Request, res: Response) => {
+  try {
+    await connectDb()
+    const count = await myDataSource.getRepository(ipoEntity).count()
+    
+    res.status(200).json({
+      success: true,
+      data: [count]
+    })
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      data: [-1]
+    })
+  }
+}
+
 // POST REQUEST
 const createIpoEntry = async (req: Request, res: Response) => {
   try {
@@ -264,4 +282,5 @@ export {
   createIpoEntry,
   updateIpoEntry,
   getIpoList,
+  getIpoCount
 };

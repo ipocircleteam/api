@@ -4,12 +4,12 @@ services:
   webservice:
     init: true
     build:
-     context: ./WebService
+     context: .
     restart: always
     ports: 
      - 8080:8080
     env_file:
-     - ./WebService/.env.sample
+     - ./.env.sample
 
   # Add other microservices over here
 
