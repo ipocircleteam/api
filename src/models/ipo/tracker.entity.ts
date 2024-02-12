@@ -54,10 +54,10 @@ export class TrackerClass {
     (this.id = ""),
       (this.company_name = ""),
       (this.sector = ""),
-      (this.issue_price = ''),
-      (this.current_price = ''),
-      (this.listing_price = ''),
-      (this.dayend_price = ''),
+      (this.issue_price = ""),
+      (this.current_price = ""),
+      (this.listing_price = ""),
+      (this.dayend_price = ""),
       (this.year = 0);
   }
 }

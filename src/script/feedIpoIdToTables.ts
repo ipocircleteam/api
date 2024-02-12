@@ -2,10 +2,10 @@ import { myDataSource } from "../db";
 import connectDb from "../db";
 import company_financeEntity, {
   CompanyFinances,
-} from "../models/company_finance.entity";
-import gmpEntity, { GMP } from "../models/gmp.entity";
-import ipoEntity from "../models/ipo.entity";
-import reviewEntity, { IpoReview } from "../models/review.entity";
+} from "../models/ipo/company_finance.entity";
+import gmpEntity, { GMP } from "../models/ipo/gmp.entity";
+import ipoEntity from "../models/ipo/ipo.entity";
+import reviewEntity, { IpoReview } from "../models/ipo/review.entity";
 import { IPO } from "../types/ipo.types";
 
 async function generateTrackerData() {

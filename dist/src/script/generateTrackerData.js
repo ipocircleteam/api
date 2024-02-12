@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("../db");
 const db_2 = __importDefault(require("../db"));
-const ipo_entity_1 = __importDefault(require("../models/ipo.entity"));
-const tracker_entity_1 = __importDefault(require("../models/tracker.entity"));
-const tracker_entity_2 = require("../models/tracker.entity");
+const ipo_entity_1 = __importDefault(require("../models/ipo/ipo.entity"));
+const tracker_entity_1 = __importDefault(require("../models/ipo/tracker.entity"));
+const tracker_entity_2 = require("../models/ipo/tracker.entity");
 function generateTrackerData() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -37,10 +37,10 @@ function generateTrackerData() {
                     const currIpo = ipoList[i];
                     data.id = currIpo.id;
                     data.company_name = currIpo.name;
-                    data.current_price = '';
-                    data.dayend_price = '';
-                    data.issue_price = '';
-                    data.listing_price = '';
+                    data.current_price = "";
+                    data.dayend_price = "";
+                    data.issue_price = "";
+                    data.listing_price = "";
                     data.sector = "";
                     data.year =
                         currIpo.closing_date === null

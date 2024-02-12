@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import connectDb from "../../db";
 import { myDataSource } from "../../db";
-import gmpEntity, { GMP } from "../../models/gmp.entity";
+import gmpEntity, { GMP } from "../../models/ipo/gmp.entity";
 import { GMP_VALUE } from "../../types/gmp.types";
 
 // GET REQUEST

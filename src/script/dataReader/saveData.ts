@@ -1,10 +1,9 @@
 import { myDataSource } from "../../db";
-import ipoEntity from "../../models/ipo.entity";
-import lotsEntity from "../../models/lots.entity";
+import ipoEntity from "../../models/ipo/ipo.entity";
+import lotsEntity from "../../models/ipo/lots.entity";
 
 export default async function saveData(data: any, fileName: any) {
   try {
-    
     var res;
     var results;
 
@@ -20,6 +19,5 @@ export default async function saveData(data: any, fileName: any) {
   } catch (error: any) {
     console.log(`Error saving data!`);
     console.log(error);
-    
   }
 }

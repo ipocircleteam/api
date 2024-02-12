@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateGmpDetails = exports.getGmpDetails = void 0;
 const db_1 = __importDefault(require("../../db"));
 const db_2 = require("../../db");
-const gmp_entity_1 = __importDefault(require("../../models/gmp.entity"));
+const gmp_entity_1 = __importDefault(require("../../models/ipo/gmp.entity"));
 // GET GMP DETAILS
 const getGmpDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

@@ -38,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateCompanyFinance = exports.createCompanyFinance = exports.getCompanyFinanceData = void 0;
 const db_1 = __importDefault(require("../../db"));
 const db_2 = require("../../db");
-const company_finance_entity_1 = __importStar(require("../../models/company_finance.entity"));
+const company_finance_entity_1 = __importStar(require("../../models/ipo/company_finance.entity"));
 // GET REQUEST
 const getCompanyFinanceData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

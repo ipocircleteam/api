@@ -16,7 +16,7 @@ ipoDataRouter.get("/ipolist", getIpoList);
 
 ipoDataRouter.get("/details/id", getIpoDataFromId);
 
-ipoDataRouter.get("/count", getIpoCount)
+ipoDataRouter.get("/count", getIpoCount);
 
 ipoDataRouter.post("/create", createIpoEntry);
 

@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { myDataSource } from "../../db";
-import trackerEntity from "../../models/tracker.entity";
+import trackerEntity from "../../models/ipo/tracker.entity";
 import connectDb from "../../db";
-import ipoEntity from "../../models/ipo.entity";
+import ipoEntity from "../../models/ipo/ipo.entity";
 import getSmeMainTrackerData from "../../utils/getIpoTrackerData";
 
 // GET REQUEST

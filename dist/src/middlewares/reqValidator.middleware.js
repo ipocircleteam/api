@@ -14,7 +14,9 @@ const validateRequest = (req, res, next) => __awaiter(void 0, void 0, void 0, fu
     const errors = (0, express_validator_1.validationResult)(req);
     if (!errors.isEmpty()) {
         console.log(errors);
-        res.status(400).send(`"Invalid inputs passed, please fill again", ${errors}`);
+        res
+            .status(400)
+            .send(`"Invalid inputs passed, please fill again", ${errors}`);
         return;
     }
     next();

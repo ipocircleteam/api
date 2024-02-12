@@ -35,5 +35,4 @@ function Router() {
   app.use("/api/v1/user/mail", mailRouter);
 }
 
-
-export default Router
+export default Router;

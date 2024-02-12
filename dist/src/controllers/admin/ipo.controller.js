@@ -15,12 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteIpoById = exports.updateCompleteIpoDetails = exports.addCompleteIpoDetails = exports.getCompleteIpoDetails = void 0;
 const db_1 = require("../../db");
 const db_2 = __importDefault(require("../../db"));
-const ipo_entity_1 = __importDefault(require("../../models/ipo.entity"));
-const review_entity_1 = __importDefault(require("../../models/review.entity"));
-const company_finance_entity_1 = __importDefault(require("../../models/company_finance.entity"));
-const gmp_entity_1 = __importDefault(require("../../models/gmp.entity"));
-const lots_entity_1 = __importDefault(require("../../models/lots.entity"));
-const tracker_entity_1 = __importDefault(require("../../models/tracker.entity"));
+const ipo_entity_1 = __importDefault(require("../../models/ipo/ipo.entity"));
+const review_entity_1 = __importDefault(require("../../models/ipo/review.entity"));
+const company_finance_entity_1 = __importDefault(require("../../models/ipo/company_finance.entity"));
+const gmp_entity_1 = __importDefault(require("../../models/ipo/gmp.entity"));
+const lots_entity_1 = __importDefault(require("../../models/ipo/lots.entity"));
+const tracker_entity_1 = __importDefault(require("../../models/ipo/tracker.entity"));
 // GET REQUEST
 const getCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -75,7 +75,7 @@ exports.getCompleteIpoDetails = getCompleteIpoDetails;
 // POST REQUEST
 const addCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield (0, db_2.default)();
+        // await connectDb();
         const reqData = req.body;
         if (!reqData.ipodetails || !reqData.companyFinance) {
             res.status(401).json({
@@ -111,11 +111,16 @@ const addCompleteIpoDetails = (req, res) => __awaiter(void 0, void 0, void 0, fu
             dayend_price: 0,
             listing_price: 0,
             year: year,
-            sector: '',
-            company_name: reqData.ipodetails.name
+            sector: "",
+            company_name: reqData.ipodetails.name,
         });
-        const saveNewTracker = yield db_1.myDataSource.getRepository(tracker_entity_1.default).save(newTracker);
-        if (!savedNewCompany || !savedNewIpo || !savedNewReview || !saveNewTracker) {
+        const saveNewTracker = yield db_1.myDataSource
+            .getRepository(tracker_entity_1.default)
+            .save(newTracker);
+        if (!savedNewCompany ||
+            !savedNewIpo ||
+            !savedNewReview ||
+            !saveNewTracker) {
             res.status(400).json({
                 success: false,
                 msg: "Error creating data",

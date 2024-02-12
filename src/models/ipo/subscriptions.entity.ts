@@ -7,19 +7,19 @@ export default new EntitySchema({
   columns: {
     ipo_id: {
       type: "int",
-      primary: true
+      primary: true,
     },
     category: {
       type: "text",
-      nullable: true
+      nullable: true,
     },
     shares_bid: {
       type: "bigint",
-      nullable: true
+      nullable: true,
     },
     updated_at: {
       type: "timestamp",
-      nullable: true
+      nullable: true,
     },
   },
 });

@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateTrackerDetails = exports.getTrackerDetailsId = exports.getTrackerDetails = void 0;
 const db_1 = __importDefault(require("../../db"));
 const db_2 = require("../../db");
-const tracker_entity_1 = __importDefault(require("../../models/tracker.entity"));
+const tracker_entity_1 = __importDefault(require("../../models/ipo/tracker.entity"));
 // GET TRACKER DETAILS
 const getTrackerDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -25,8 +25,8 @@ const getTrackerDetails = (req, res) => __awaiter(void 0, void 0, void 0, functi
             .getRepository(tracker_entity_1.default)
             .find({
             where: {
-                id: id
-            }
+                id: id,
+            },
         });
         if (!trackerDetails) {
             res.status(400).json({ success: false, msg: "Data not found!" });
@@ -55,8 +55,8 @@ const getTrackerDetailsId = (req, res) => __awaiter(void 0, void 0, void 0, func
             .find({
             select: {
                 company_name: true,
-                id: true
-            }
+                id: true,
+            },
         });
         if (!trackerDetails) {
             res.status(400).json({ success: false, msg: "Data not found!" });

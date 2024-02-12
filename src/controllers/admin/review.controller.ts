@@ -1,19 +1,17 @@
 import express, { Request, Response } from "express";
 import connectDb from "../../db";
 import { myDataSource } from "../../db";
-import trackerEntity from "../../models/tracker.entity";
-import gmpEntity from "../../models/gmp.entity";
-import reviewEntity from "../../models/review.entity";
+import trackerEntity from "../../models/ipo/tracker.entity";
+import gmpEntity from "../../models/ipo/gmp.entity";
+import reviewEntity from "../../models/ipo/review.entity";
 
 // GET IPO REVIEW
 const getReview = async (req: Request, res: Response) => {
   try {
-      await connectDb();
-      const { id } = req.query;
+    await connectDb();
+    const { id } = req.query;
 
-    const reviewDetails = await myDataSource
-      .getRepository(reviewEntity)
-      .find();
+    const reviewDetails = await myDataSource.getRepository(reviewEntity).find();
     if (!reviewDetails) {
       res.status(400).json({ success: false, msg: "Data not found!" });
       return;
@@ -31,8 +29,7 @@ const getReview = async (req: Request, res: Response) => {
       msg: "Internal Server Error",
     });
   }
-}; 
-
+};
 
 // UPDATE TRACKER DETAILS
 const updateReview = async (req: Request, res: Response) => {
@@ -68,4 +65,4 @@ const updateReview = async (req: Request, res: Response) => {
   }
 };
 
-export {getReview, updateReview}
+export { getReview, updateReview };

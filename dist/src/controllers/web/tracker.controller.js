@@ -14,9 +14,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateTrackerEntry = exports.createTrackerEntry = exports.getTrackerWithSeries = exports.getTrackerData = void 0;
 const db_1 = require("../../db");
-const tracker_entity_1 = __importDefault(require("../../models/tracker.entity"));
+const tracker_entity_1 = __importDefault(require("../../models/ipo/tracker.entity"));
 const db_2 = __importDefault(require("../../db"));
-const ipo_entity_1 = __importDefault(require("../../models/ipo.entity"));
+const ipo_entity_1 = __importDefault(require("../../models/ipo/ipo.entity"));
 // GET REQUEST
 const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

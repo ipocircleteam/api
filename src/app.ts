@@ -31,6 +31,6 @@ app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Welcome to IPO Circle APIs Phase 1");
 });
 
-AppRouter()
+AppRouter();
 
 export { app };

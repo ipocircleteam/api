@@ -1,5 +1,5 @@
 import { EntitySchema } from "typeorm";
-import { CompFin_VALUE } from "../types/companyFinance.types";
+import { CompFin_VALUE } from "../../types/companyFinance.types";
 
 export default new EntitySchema({
   name: "Company Finances",

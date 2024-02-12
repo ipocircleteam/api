@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import connectDb from "../../db";
 import { myDataSource } from "../../db";
-import gmpEntity from "../../models/gmp.entity";
+import gmpEntity from "../../models/ipo/gmp.entity";
 
 // GET GMP DETAILS
 const getGmpDetails = async (req: Request, res: Response) => {

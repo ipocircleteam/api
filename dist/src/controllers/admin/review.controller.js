@@ -15,15 +15,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateReview = exports.getReview = void 0;
 const db_1 = __importDefault(require("../../db"));
 const db_2 = require("../../db");
-const review_entity_1 = __importDefault(require("../../models/review.entity"));
+const review_entity_1 = __importDefault(require("../../models/ipo/review.entity"));
 // GET IPO REVIEW
 const getReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield (0, db_1.default)();
         const { id } = req.query;
-        const reviewDetails = yield db_2.myDataSource
-            .getRepository(review_entity_1.default)
-            .find();
+        const reviewDetails = yield db_2.myDataSource.getRepository(review_entity_1.default).find();
         if (!reviewDetails) {
             res.status(400).json({ success: false, msg: "Data not found!" });
             return;

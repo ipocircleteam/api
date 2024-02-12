@@ -37,10 +37,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("../db");
 const db_2 = __importDefault(require("../db"));
-const company_finance_entity_1 = __importStar(require("../models/company_finance.entity"));
-const gmp_entity_1 = __importStar(require("../models/gmp.entity"));
-const ipo_entity_1 = __importDefault(require("../models/ipo.entity"));
-const review_entity_1 = __importStar(require("../models/review.entity"));
+const company_finance_entity_1 = __importStar(require("../models/ipo/company_finance.entity"));
+const gmp_entity_1 = __importStar(require("../models/ipo/gmp.entity"));
+const ipo_entity_1 = __importDefault(require("../models/ipo/ipo.entity"));
+const review_entity_1 = __importStar(require("../models/ipo/review.entity"));
 function generateTrackerData() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
