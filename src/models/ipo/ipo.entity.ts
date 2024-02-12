@@ -364,7 +364,7 @@ export default new EntitySchema({
     objectIssueData: {
       type: "text",
       nullable: true,
-    }
+    },
   },
 });
 
@@ -526,6 +526,6 @@ export class Ipo {
       (this.qib_shares_offerred = ""),
       (this.nil_shares_offerred = ""),
       (this.retail_shares_offerred = ""),
-      (this.objectIssueData = "")
+      (this.objectIssueData = "");
   }
 }

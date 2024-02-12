@@ -1,23 +1,22 @@
 import express, { Request, Response } from "express";
 import connectDb from "../../db";
 import { myDataSource } from "../../db";
-import trackerEntity from "../../models/tracker.entity";
+import trackerEntity from "../../models/ipo/tracker.entity";
 
 // GET TRACKER DETAILS
 const getTrackerDetails = async (req: Request, res: Response) => {
   try {
-      await connectDb();
-      const { id } = req.query
-      
+    await connectDb();
+    const { id } = req.query;
 
     const trackerDetails = await myDataSource
       .getRepository(trackerEntity)
-        .find({
-            where: {
-              id: id
-          }
-        });
-      
+      .find({
+        where: {
+          id: id,
+        },
+      });
+
     if (!trackerDetails) {
       res.status(400).json({ success: false, msg: "Data not found!" });
       return;
@@ -35,40 +34,38 @@ const getTrackerDetails = async (req: Request, res: Response) => {
       msg: "Internal Server Error",
     });
   }
-}; 
-
+};
 
 const getTrackerDetailsId = async (req: Request, res: Response) => {
-    try {
-        await connectDb();
-  
-      const trackerDetails = await myDataSource
-        .getRepository(trackerEntity)
-          .find({
-              select: {
-                  company_name: true,
-                  id: true
-              }
-          });
-      if (!trackerDetails) {
-        res.status(400).json({ success: false, msg: "Data not found!" });
-        return;
-      }
-  
-      res.status(200).json({
-        success: false,
-        msg: "Data found!",
-        data: trackerDetails,
-      });
-    } catch (error) {
-      console.log(`Error in Tracker Id GET request, ${error}`);
-      res.status(500).json({
-        success: false,
-        msg: "Internal Server Error",
-      });
-    }
-  }; 
+  try {
+    await connectDb();
 
+    const trackerDetails = await myDataSource
+      .getRepository(trackerEntity)
+      .find({
+        select: {
+          company_name: true,
+          id: true,
+        },
+      });
+    if (!trackerDetails) {
+      res.status(400).json({ success: false, msg: "Data not found!" });
+      return;
+    }
+
+    res.status(200).json({
+      success: false,
+      msg: "Data found!",
+      data: trackerDetails,
+    });
+  } catch (error) {
+    console.log(`Error in Tracker Id GET request, ${error}`);
+    res.status(500).json({
+      success: false,
+      msg: "Internal Server Error",
+    });
+  }
+};
 
 // UPDATE TRACKER DETAILS
 const updateTrackerDetails = async (req: Request, res: Response) => {
@@ -104,4 +101,4 @@ const updateTrackerDetails = async (req: Request, res: Response) => {
   }
 };
 
-export {getTrackerDetails, getTrackerDetailsId, updateTrackerDetails}
+export { getTrackerDetails, getTrackerDetailsId, updateTrackerDetails };

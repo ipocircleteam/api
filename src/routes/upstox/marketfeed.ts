@@ -1,6 +1,6 @@
-import express from 'express'
-import { getMarketFeed } from '../../controllers/upstox/marketfeed.controller'
+import express from "express";
+import { getMarketFeed } from "../../controllers/upstox/marketfeed.controller";
 
-export const marketFeedRouter = express.Router()
+export const marketFeedRouter = express.Router();
 
-marketFeedRouter.get("/marketfeed", getMarketFeed)
+marketFeedRouter.get("/marketfeed", getMarketFeed);

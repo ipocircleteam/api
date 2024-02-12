@@ -12,18 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const extractFileData_1 = __importDefault(require("../utils/dataReader/extractFileData"));
+const extractFileData_1 = __importDefault(require("./dataReader/extractFileData"));
 const db_1 = __importDefault(require("../db"));
 const main = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('connecting to db...');
+        console.log("connecting to db...");
         yield (0, db_1.default)();
-        const ipo = yield (0, extractFileData_1.default)('chittor_ipos.xlsx');
-        const lots = yield (0, extractFileData_1.default)('chittor_lots.xlsx');
-        console.log('$$ DATA EXTRACTION SUCCESS $$');
+        const ipo = yield (0, extractFileData_1.default)("chittor_ipos.xlsx");
+        const lots = yield (0, extractFileData_1.default)("chittor_lots.xlsx");
+        console.log("$$ DATA EXTRACTION SUCCESS $$");
     }
     catch (error) {
-        console.log('XX DATA EXTRACTION FAILED XX');
+        console.log("XX DATA EXTRACTION FAILED XX");
         console.log(error);
     }
     finally {

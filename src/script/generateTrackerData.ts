@@ -1,8 +1,8 @@
 import { myDataSource } from "../db";
 import connectDb from "../db";
-import ipoEntity from "../models/ipo.entity";
-import trackerEntity from "../models/tracker.entity";
-import { TrackerClass } from "../models/tracker.entity";
+import ipoEntity from "../models/ipo/ipo.entity";
+import trackerEntity from "../models/ipo/tracker.entity";
+import { TrackerClass } from "../models/ipo/tracker.entity";
 import { IPO } from "../types/ipo.types";
 
 async function generateTrackerData() {
@@ -27,10 +27,10 @@ async function generateTrackerData() {
 
         data.id = currIpo.id;
         data.company_name = currIpo.name;
-        data.current_price = '';
-        data.dayend_price = '';
-        data.issue_price = '';
-        data.listing_price = '';
+        data.current_price = "";
+        data.dayend_price = "";
+        data.issue_price = "";
+        data.listing_price = "";
         data.sector = "";
         data.year =
           currIpo.closing_date === null

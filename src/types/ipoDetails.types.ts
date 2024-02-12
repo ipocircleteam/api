@@ -160,6 +160,6 @@ export class IPOdetails {
       (this.qib_shares_offerred = ""),
       (this.nil_shares_offerred = ""),
       (this.retail_shares_offerred = ""),
-      (this.objectIssueData = "")
+      (this.objectIssueData = "");
   }
 }

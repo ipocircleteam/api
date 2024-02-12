@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import connectDb from "../../db";
 import { myDataSource } from "../../db";
-import reviewEntity, { IpoReview } from "../../models/review.entity";
+import reviewEntity, { IpoReview } from "../../models/ipo/review.entity";
 
 // GET REQUEST
 const getReviewData = async (req: Request, res: Response) => {

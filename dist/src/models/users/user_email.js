@@ -3,19 +3,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NewUserMail = void 0;
 const typeorm_1 = require("typeorm");
 exports.default = new typeorm_1.EntitySchema({
-    name: 'User Mail',
-    tableName: 'user_mail',
+    name: "User Mail",
+    tableName: "user_mail",
     columns: {
         mail: {
-            type: 'text',
+            type: "text",
             nullable: false,
-            primary: true
-        }
-    }
+            primary: true,
+        },
+    },
 });
 class NewUserMail {
     constructor() {
-        this.mail = '';
+        this.mail = "";
     }
 }
 exports.NewUserMail = NewUserMail;

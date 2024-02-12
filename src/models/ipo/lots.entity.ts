@@ -6,19 +6,19 @@ export default new EntitySchema({
   columns: {
     ipo_id: {
       type: "int",
-      primary: true
+      primary: true,
     },
     category: {
       type: "text",
-      nullable: true
+      nullable: true,
     },
     lots_min: {
       type: "bigint",
-      nullable: true
+      nullable: true,
     },
     lots_max: {
       type: "bigint",
-      nullable: true
+      nullable: true,
     },
   },
 });
@@ -30,7 +30,7 @@ export class Lot {
   lots_max: number;
 
   constructor() {
-      (this.ipo_id = ""),
+    (this.ipo_id = ""),
       (this.category = ""),
       (this.lots_max = 0),
       (this.lots_min = 0);

@@ -10,7 +10,7 @@ export const trackerRouter = express.Router();
 
 trackerRouter.get("/details", getTrackerData);
 
-trackerRouter.get("/detailsWithSeries", getTrackerWithSeries)
+trackerRouter.get("/detailsWithSeries", getTrackerWithSeries);
 
 trackerRouter.post("/create", createTrackerEntry);
 

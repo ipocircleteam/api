@@ -38,7 +38,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateIpoReview = exports.createIpoReview = exports.getReviewData = void 0;
 const db_1 = __importDefault(require("../../db"));
 const db_2 = require("../../db");
-const review_entity_1 = __importStar(require("../../models/review.entity"));
+const review_entity_1 = __importStar(require("../../models/ipo/review.entity"));
 // GET REQUEST
 const getReviewData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

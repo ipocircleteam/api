@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { myDataSource } from "../../db";
-import ipoEntity from "../../models/ipo.entity";
+import ipoEntity from "../../models/ipo/ipo.entity";
 import connectDb from "../../db";
-import company_financeEntity from "../../models/company_finance.entity";
+import company_financeEntity from "../../models/ipo/company_finance.entity";
 
 // GET REQUEST
 const getIpoData = async (req: Request, res: Response) => {
@@ -25,8 +25,8 @@ const getIpoData = async (req: Request, res: Response) => {
           closing_date: true,
         },
         order: {
-          opening_date: 'DESC'
-        }
+          opening_date: "DESC",
+        },
       });
     } else {
       ipoData = await myDataSource.getRepository(ipoEntity).find({
@@ -34,8 +34,8 @@ const getIpoData = async (req: Request, res: Response) => {
           series: ipoType,
         },
         order: {
-          opening_date: 'DESC'
-        }
+          opening_date: "DESC",
+        },
       });
     }
 
@@ -90,13 +90,15 @@ const getIpoDataFromId = async (req: Request, res: Response) => {
       });
     }
 
-    var financeData = await myDataSource.getRepository(company_financeEntity).find({
-      where: {
-        ipo_id: id
-      }
-    })
+    var financeData = await myDataSource
+      .getRepository(company_financeEntity)
+      .find({
+        where: {
+          ipo_id: id,
+        },
+      });
 
-    const data = {ipoData, financeData}
+    const data = { ipoData, financeData };
 
     res.status(200).json({
       success: true,
@@ -128,19 +130,18 @@ const getIpoList = async (req: Request, res: Response) => {
           name: true,
         },
         order: {
-          opening_date: 'DESC'
-        }
+          opening_date: "DESC",
+        },
       });
-    }
-    else if (segregated) { 
+    } else if (segregated) {
       const all = await myDataSource.getRepository(ipoEntity).find({
         select: {
           id: true,
           name: true,
         },
         order: {
-          opening_date: 'DESC'
-        }
+          opening_date: "DESC",
+        },
       });
 
       const main = await myDataSource.getRepository(ipoEntity).find({
@@ -152,8 +153,8 @@ const getIpoList = async (req: Request, res: Response) => {
           series: "eq",
         },
         order: {
-          opening_date: 'DESC'
-        }
+          opening_date: "DESC",
+        },
       });
 
       const sme = await myDataSource.getRepository(ipoEntity).find({
@@ -165,17 +166,16 @@ const getIpoList = async (req: Request, res: Response) => {
           series: "sme",
         },
         order: {
-          opening_date: 'DESC'
-        }
+          opening_date: "DESC",
+        },
       });
 
       resData = {
         all: all,
         main: main,
-        sme: sme
-      }
-    }
-    else {
+        sme: sme,
+      };
+    } else {
       resData = await myDataSource.getRepository(ipoEntity).find({
         select: {
           id: true,
@@ -185,8 +185,8 @@ const getIpoList = async (req: Request, res: Response) => {
           series: series,
         },
         order: {
-          opening_date: 'DESC'
-        }
+          opening_date: "DESC",
+        },
       });
     }
 
@@ -214,20 +214,20 @@ const getIpoList = async (req: Request, res: Response) => {
 // GET REQUEST : NO OF IPOS
 const getIpoCount = async (req: Request, res: Response) => {
   try {
-    await connectDb()
-    const count = await myDataSource.getRepository(ipoEntity).count()
-    
+    await connectDb();
+    const count = await myDataSource.getRepository(ipoEntity).count();
+
     res.status(200).json({
       success: true,
-      data: [count]
-    })
+      data: [count],
+    });
   } catch (error) {
     res.status(500).json({
       success: false,
-      data: [-1]
-    })
+      data: [-1],
+    });
   }
-}
+};
 
 // POST REQUEST
 const createIpoEntry = async (req: Request, res: Response) => {
@@ -282,5 +282,5 @@ export {
   createIpoEntry,
   updateIpoEntry,
   getIpoList,
-  getIpoCount
+  getIpoCount,
 };

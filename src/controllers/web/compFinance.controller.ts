@@ -3,7 +3,8 @@ import connectDb from "../../db";
 import { myDataSource } from "../../db";
 import company_financeEntity, {
   CompanyFinances,
-} from "../../models/company_finance.entity";
+} from "../../models/ipo/company_finance.entity";
+import ApiResponse from "../../utils/ApiResponse";
 
 // GET REQUEST
 const getCompanyFinanceData = async (req: Request, res: Response) => {
@@ -26,14 +27,10 @@ const getCompanyFinanceData = async (req: Request, res: Response) => {
 
     if (!resData)
       res
-        .status(400)
-        .json({ success: false, msg: "Company Finances not found" });
+        .status(404)
+        .json(new ApiResponse(404, [], "Data not found"));
     else
-      res.status(200).json({
-        success: true,
-        msg: "Company Finances found",
-        data: resData,
-      });
+      res.status(200).json(new ApiResponse(200, resData, "Data found"));
   } catch (error) {
     console.log(`Error in Company Finance GET request : ${error}`);
     res.status(500).json({

@@ -1,13 +1,13 @@
 import { Request, Response } from "express";
 import { myDataSource } from "../../db";
 import connectDb from "../../db";
-import ipoEntity from "../../models/ipo.entity";
-import reviewEntity from "../../models/review.entity";
-import company_financeEntity from "../../models/company_finance.entity";
+import ipoEntity from "../../models/ipo/ipo.entity";
+import reviewEntity from "../../models/ipo/review.entity";
+import company_financeEntity from "../../models/ipo/company_finance.entity";
 import { IPO } from "../../types/ipo.types";
-import gmpEntity from "../../models/gmp.entity";
-import lotsEntity from "../../models/lots.entity";
-import trackerEntity from "../../models/tracker.entity";
+import gmpEntity from "../../models/ipo/gmp.entity";
+import lotsEntity from "../../models/ipo/lots.entity";
+import trackerEntity from "../../models/ipo/tracker.entity";
 
 // GET REQUEST
 const getCompleteIpoDetails = async (req: Request, res: Response) => {
@@ -70,7 +70,7 @@ const getCompleteIpoDetails = async (req: Request, res: Response) => {
 // POST REQUEST
 const addCompleteIpoDetails = async (req: Request, res: Response) => {
   try {
-    await connectDb();
+    // await connectDb();
     const reqData = req.body;
     if (!reqData.ipodetails || !reqData.companyFinance) {
       res.status(401).json({
@@ -80,7 +80,7 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
       return;
     }
 
-    const year = new Date(reqData.ipodetails.closing_date).getFullYear()
+    const year = new Date(reqData.ipodetails.closing_date).getFullYear();
 
     const newIpoDetails = await myDataSource
       .getRepository(ipoEntity)
@@ -88,7 +88,6 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
     const savedNewIpo = await myDataSource
       .getRepository(ipoEntity)
       .save(newIpoDetails);
-    
 
     const newCompanyFinance = await myDataSource
       .getRepository(company_financeEntity)
@@ -104,8 +103,7 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
     const savedNewReview = await myDataSource
       .getRepository(reviewEntity)
       .save(newReview);
-    
-    
+
     const newTracker = await myDataSource.getRepository(trackerEntity).create({
       id: reqData.ipodetails.id,
       issue_price: 0,
@@ -113,13 +111,19 @@ const addCompleteIpoDetails = async (req: Request, res: Response) => {
       dayend_price: 0,
       listing_price: 0,
       year: year,
-      sector: '',
-      company_name: reqData.ipodetails.name
-    })
-    const saveNewTracker = await myDataSource.getRepository(trackerEntity).save(newTracker)
-    
+      sector: "",
+      company_name: reqData.ipodetails.name,
+    });
+    const saveNewTracker = await myDataSource
+      .getRepository(trackerEntity)
+      .save(newTracker);
 
-    if (!savedNewCompany || !savedNewIpo || !savedNewReview || !saveNewTracker) {
+    if (
+      !savedNewCompany ||
+      !savedNewIpo ||
+      !savedNewReview ||
+      !saveNewTracker
+    ) {
       res.status(400).json({
         success: false,
         msg: "Error creating data",

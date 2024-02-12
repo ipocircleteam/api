@@ -12,11 +12,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getIpoList = exports.updateIpoEntry = exports.createIpoEntry = exports.getIpoDataFromId = exports.getIpoData = void 0;
+exports.getIpoCount = exports.getIpoList = exports.updateIpoEntry = exports.createIpoEntry = exports.getIpoDataFromId = exports.getIpoData = void 0;
 const db_1 = require("../../db");
-const ipo_entity_1 = __importDefault(require("../../models/ipo.entity"));
+const ipo_entity_1 = __importDefault(require("../../models/ipo/ipo.entity"));
 const db_2 = __importDefault(require("../../db"));
-const company_finance_entity_1 = __importDefault(require("../../models/company_finance.entity"));
+const company_finance_entity_1 = __importDefault(require("../../models/ipo/company_finance.entity"));
 // GET REQUEST
 const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -36,8 +36,8 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     closing_date: true,
                 },
                 order: {
-                    opening_date: 'DESC'
-                }
+                    opening_date: "DESC",
+                },
             });
         }
         else {
@@ -46,8 +46,8 @@ const getIpoData = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     series: ipoType,
                 },
                 order: {
-                    opening_date: 'DESC'
-                }
+                    opening_date: "DESC",
+                },
             });
         }
         const chunkStart = start === undefined ? 0 : Number(start);
@@ -99,10 +99,12 @@ const getIpoDataFromId = (req, res) => __awaiter(void 0, void 0, void 0, functio
                 },
             });
         }
-        var financeData = yield db_1.myDataSource.getRepository(company_finance_entity_1.default).find({
+        var financeData = yield db_1.myDataSource
+            .getRepository(company_finance_entity_1.default)
+            .find({
             where: {
-                ipo_id: id
-            }
+                ipo_id: id,
+            },
         });
         const data = { ipoData, financeData };
         res.status(200).json({
@@ -135,8 +137,8 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     name: true,
                 },
                 order: {
-                    opening_date: 'DESC'
-                }
+                    opening_date: "DESC",
+                },
             });
         }
         else if (segregated) {
@@ -146,8 +148,8 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     name: true,
                 },
                 order: {
-                    opening_date: 'DESC'
-                }
+                    opening_date: "DESC",
+                },
             });
             const main = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
                 select: {
@@ -158,8 +160,8 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     series: "eq",
                 },
                 order: {
-                    opening_date: 'DESC'
-                }
+                    opening_date: "DESC",
+                },
             });
             const sme = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
                 select: {
@@ -170,13 +172,13 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     series: "sme",
                 },
                 order: {
-                    opening_date: 'DESC'
-                }
+                    opening_date: "DESC",
+                },
             });
             resData = {
                 all: all,
                 main: main,
-                sme: sme
+                sme: sme,
             };
         }
         else {
@@ -189,8 +191,8 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
                     series: series,
                 },
                 order: {
-                    opening_date: 'DESC'
-                }
+                    opening_date: "DESC",
+                },
             });
         }
         if (!resData) {
@@ -214,6 +216,24 @@ const getIpoList = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getIpoList = getIpoList;
+// GET REQUEST : NO OF IPOS
+const getIpoCount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield (0, db_2.default)();
+        const count = yield db_1.myDataSource.getRepository(ipo_entity_1.default).count();
+        res.status(200).json({
+            success: true,
+            data: [count],
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            data: [-1],
+        });
+    }
+});
+exports.getIpoCount = getIpoCount;
 // POST REQUEST
 const createIpoEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {

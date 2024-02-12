@@ -1,5 +1,5 @@
 import { EntitySchema } from "typeorm";
-import { GMP_VALUE } from "../types/gmp.types";
+import { GMP_VALUE } from "../../types/gmp.types";
 
 export default new EntitySchema({
   name: "GMP Table",
@@ -18,8 +18,8 @@ export default new EntitySchema({
           return JSON.stringify(value);
         },
         from(value) {
-            const data: GMP_VALUE = JSON.parse(value);
-            return data
+          const data: GMP_VALUE = JSON.parse(value);
+          return data;
         },
       },
     },

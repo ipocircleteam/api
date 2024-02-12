@@ -18,17 +18,17 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const accessToken = process.env.UPSTOX_ACCESS_TOKEN;
 const url = process.env.UPSTOX_API_URL;
-const contentTypeHeader = '[CONTENT_TYPE_HEADER]';
+const contentTypeHeader = "[CONTENT_TYPE_HEADER]";
 const getMarketFeed = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let config = {
         method: "get",
         maxBodyLength: Infinity,
         url: "https://api.upstox.com/v2/feed/market-data-feed",
         headers: {
-            'accept': 'application/json',
-            'Api-Version': '2.0',
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': contentTypeHeader,
+            accept: "application/json",
+            "Api-Version": "2.0",
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": contentTypeHeader,
         },
     };
     (0, axios_1.default)(config)

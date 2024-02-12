@@ -21,7 +21,7 @@ export default async function getSmeMainTrackerData(
           sector: trackerData[j].sector,
           year: trackerData[j].year,
         };
-          
+
         if (ipoData[i].series === "eq") {
           mainData.push(data);
         } else if (ipoData[i].series === "sme") {

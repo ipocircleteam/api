@@ -15,14 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.myDataSource = void 0;
 const typeorm_1 = require("typeorm");
 const dotenv_1 = __importDefault(require("dotenv"));
-const ipo_entity_1 = __importDefault(require("../models/ipo.entity"));
-const company_finance_entity_1 = __importDefault(require("../models/company_finance.entity"));
-const lots_entity_1 = __importDefault(require("../models/lots.entity"));
-const reservations_entity_1 = __importDefault(require("../models/reservations.entity"));
-const subscriptions_entity_1 = __importDefault(require("../models/subscriptions.entity"));
-const tracker_entity_1 = __importDefault(require("../models/tracker.entity"));
-const gmp_entity_1 = __importDefault(require("../models/gmp.entity"));
-const review_entity_1 = __importDefault(require("../models/review.entity"));
+const ipo_entity_1 = __importDefault(require("../models/ipo/ipo.entity"));
+const company_finance_entity_1 = __importDefault(require("../models/ipo/company_finance.entity"));
+const lots_entity_1 = __importDefault(require("../models/ipo/lots.entity"));
+const reservations_entity_1 = __importDefault(require("../models/ipo/reservations.entity"));
+const subscriptions_entity_1 = __importDefault(require("../models/ipo/subscriptions.entity"));
+const tracker_entity_1 = __importDefault(require("../models/ipo/tracker.entity"));
+const gmp_entity_1 = __importDefault(require("../models/ipo/gmp.entity"));
+const review_entity_1 = __importDefault(require("../models/ipo/review.entity"));
 const user_email_1 = __importDefault(require("../models/users/user_email"));
 dotenv_1.default.config();
 console.log(`${process.env.ENV} ENVIRONMENT`);
@@ -42,12 +42,12 @@ exports.myDataSource = new typeorm_1.DataSource({
         tracker_entity_1.default,
         gmp_entity_1.default,
         review_entity_1.default,
-        user_email_1.default
+        user_email_1.default,
     ],
     synchronize: true,
     ssl: {
-        rejectUnauthorized: false
-    }
+        rejectUnauthorized: false,
+    },
 });
 function connectDb() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -56,17 +56,15 @@ function connectDb() {
             console.log("DB Already initialized");
             return;
         }
-        else {
-            yield exports.myDataSource
-                .initialize()
-                .then(() => {
-                console.log("DB Connected");
-            })
-                .catch((err) => {
-                console.log(`Connection to db failed! Error: \n ${err}`);
-                throw err;
-            });
-        }
+        yield exports.myDataSource
+            .initialize()
+            .then(() => {
+            console.log("DB Connected");
+        })
+            .catch((err) => {
+            console.log(`Connection to db failed! Error: \n ${err}`);
+            throw err;
+        });
     });
 }
 exports.default = connectDb;
