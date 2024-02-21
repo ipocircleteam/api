@@ -11,14 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateIpoReview = exports.createIpoReview = exports.getReviewData = void 0;
 // GET REQUEST
-const getReviewData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-});
+const getReviewData = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
 exports.getReviewData = getReviewData;
 // POST REQUEST
-const createIpoReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-});
+const createIpoReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
 exports.createIpoReview = createIpoReview;
 // PATCH REQUEST
-const updateIpoReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-});
+const updateIpoReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
 exports.updateIpoReview = updateIpoReview;

@@ -11,13 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getIpoCount = exports.getIpoList = exports.updateIpoEntry = exports.createIpoEntry = exports.getIpoDataFromId = exports.getIpoData = void 0;
 const client_1 = require("@prisma/client");
-const zod_1 = require("zod");
-const ipo_schema_1 = require("../../zod/ipo.schema");
 const utils_1 = require("../../utils");
 const prisma = new client_1.PrismaClient();
 // GET REQUEST
 const getIpoData = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { concise, type, count, start, end } = ipo_schema_1.getIpoDataSchema.parse(req.query);
+    const { concise, type, count, start, end } = req.query;
     const ipoType = type === "MAIN" ? "MAIN" : "SME";
     var ipoData;
     if (concise) {
@@ -80,10 +78,10 @@ const getIpoData = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, voi
 exports.getIpoData = getIpoData;
 // GET FROM ID REQUEST
 const getIpoDataFromId = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = ipo_schema_1.getIpoDataFromIdSchema.parse(req.query);
+    const { id } = req.query;
     var ipoData = yield prisma.ipo.findMany({
         where: {
-            id: id,
+            id: Number(id),
         },
         select: {
             ipoPrices: true,
@@ -109,7 +107,7 @@ const getIpoDataFromId = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 
 exports.getIpoDataFromId = getIpoDataFromId;
 // GET REQUEST: IPO LIST
 const getIpoList = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { series, segregated } = ipo_schema_1.getIpoListSchema.parse(req.query);
+    const { series, segregated } = req.query;
     var ipoList = yield prisma.ipo.findMany({
         select: {
             id: true,
@@ -130,7 +128,7 @@ const getIpoList = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, voi
         mainIpoList,
         smeIpoList,
     };
-    var resData = segregated === true
+    var resData = Boolean(segregated) === true
         ? segregatedIpoList
         : series === "MAIN"
             ? mainIpoList
@@ -143,16 +141,16 @@ exports.getIpoList = getIpoList;
 // GET REQUEST : NO OF IPOS
 const getIpoCount = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const count = yield prisma.ipo.count();
-    if (!count)
+    if (count < 0)
         throw new utils_1.ApiError(404, "Data not found!");
     res
         .status(200)
-        .json(new utils_1.ApiResponse(200, count, "Data fetched successfully!"));
+        .json(new utils_1.ApiResponse(200, { count }, "Data fetched successfully!"));
 }));
 exports.getIpoCount = getIpoCount;
 // POST REQUEST
 const createIpoEntry = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const ipoData = ipo_schema_1.createIpoSchema.parse(req.body);
+    const ipoData = req.body;
     let ipoId;
     // i think it can be optimised further
     // interactive transaction: bcoz need ipoId from master Ipo Table Entry
@@ -209,11 +207,11 @@ const createIpoEntry = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0,
 exports.createIpoEntry = createIpoEntry;
 // PATCH REQUEST
 const updateIpoEntry = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const ipoData = ipo_schema_1.createIpoSchema.parse(req.body);
-    const { ipoId } = zod_1.z.object({ ipoId: zod_1.z.number() }).parse(req.query);
+    const ipoData = req.body;
+    const { ipoId } = req.query;
     const updateIpo = yield prisma.ipo.update({
         where: {
-            id: ipoId,
+            id: Number(ipoId),
         },
         data: ipoData,
     });
