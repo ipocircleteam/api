@@ -1,280 +1,238 @@
 import { Request, Response } from "express";
-import { myDataSource } from "../../db";
-import ipoEntity from "../../models/ipo/ipo.entity";
-import connectDb from "../../db";
-import company_financeEntity from "../../models/ipo/company_finance.entity";
+import { PrismaClient } from "@prisma/client";
+import { asyncHandler, ApiError, ApiResponse } from "../../utils";
+
+const prisma = new PrismaClient();
 
 // GET REQUEST
-const getIpoData = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
+const getIpoData = asyncHandler(async (req: Request, res: Response) => {
+  const { concise, type, count, start, end } = req.query;
 
-    const { concise, type, count, start, end } = req.query;
-    var ipoData;
-    const ipoType = type === "main" ? "eq" : type;
+  const ipoType = type === "MAIN" ? "MAIN" : "SME";
+  var ipoData;
 
-    if (concise) {
-      ipoData = await myDataSource.getRepository(ipoEntity).find({
-        where: {
-          series: ipoType,
+  if (concise) {
+    ipoData = await prisma.ipo.findMany({
+      where: {
+        series: ipoType,
+      },
+      select: {
+        id: true,
+        name: true,
+        ipoDates: {
+          select: {
+            opening_date: true,
+            closing_date: true,
+          },
         },
-        select: {
-          id: true,
-          name: true,
-          opening_date: true,
-          closing_date: true,
+      },
+      orderBy: {
+        ipoDates: {
+          opening_date: "desc",
         },
-        order: {
-          opening_date: "DESC",
-        },
-      });
-    } else {
-      ipoData = await myDataSource.getRepository(ipoEntity).find({
-        where: {
-          series: ipoType,
-        },
-        order: {
-          opening_date: "DESC",
-        },
-      });
-    }
-
-    const chunkStart = start === undefined ? 0 : Number(start);
-    const chunkEnd =
-      end === undefined
-        ? count === undefined
-          ? 150
-          : Number(count)
-        : Number(end);
-
-    res.status(200).send({
-      success: true,
-      data: ipoData.slice(chunkStart, chunkEnd),
-      msg: "Fetched data successfully",
+      },
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      success: false,
-      data: [],
-      msg: "Internal Server Error",
-      error: error,
+  } else {
+    ipoData = await prisma.ipo.findMany({
+      where: {
+        series: ipoType,
+      },
+      select: {
+        id: true,
+        name: true,
+        ipoDates: {
+          select: {
+            opening_date: true,
+            closing_date: true,
+          },
+        },
+      },
+      orderBy: {
+        ipoDates: {
+          opening_date: "desc",
+        },
+      },
     });
   }
-};
+
+  if (!ipoData) {
+    throw new ApiError(404, "Data not found!");
+  }
+
+  const chunkStart = start === undefined ? 0 : Number(start);
+  const chunkEnd =
+    end === undefined
+      ? count === undefined
+        ? 150
+        : Number(count)
+      : Number(end);
+
+  return res
+    .status(201)
+    .json(
+      new ApiResponse(
+        200,
+        ipoData.slice(chunkStart, chunkEnd),
+        "Ipo Data Fetched Successfully!"
+      )
+    );
+});
 
 // GET FROM ID REQUEST
-const getIpoDataFromId = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
-    const { id, concise } = req.query;
-    var ipoData;
+const getIpoDataFromId = asyncHandler(async (req: Request, res: Response) => {
+  const { id } = req.query;
 
-    if (concise) {
-      ipoData = await myDataSource.getRepository(ipoEntity).find({
-        where: {
-          id: id,
-        },
-        select: {
-          id: true,
-          name: true,
-          opening_date: true,
-          closing_date: true,
-        },
-      });
-    } else {
-      ipoData = await myDataSource.getRepository(ipoEntity).find({
-        where: {
-          id: id,
-        },
-      });
-    }
+  var ipoData = await prisma.ipo.findMany({
+    where: {
+      id: Number(id),
+    },
+    select: {
+      ipoPrices: true,
+      ipoContactDetails: true,
+      ipoLots: true,
+      ipoOtherDetails: true,
+      ipoReview: true,
+      ipoReservations: true,
+      ipoAnchor: true,
+      ipoDates: true,
+      ipoShares: true,
+      ipoFinances: true,
+      ipoSubscriptions: true,
+      ipoFinProgress: true,
+    },
+  });
 
-    var financeData = await myDataSource
-      .getRepository(company_financeEntity)
-      .find({
-        where: {
-          ipo_id: id,
-        },
-      });
+  if (!ipoData) throw new ApiError(404, "Data not found!");
 
-    const data = { ipoData, financeData };
-
-    res.status(200).json({
-      success: true,
-      data: data,
-      msg: "Fetched data successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      data: [],
-      msg: "Internal Server Error",
-      error: error,
-    });
-  }
-};
+  res
+    .status(200)
+    .json(new ApiResponse(200, ipoData, "Data fetched successfully!"));
+});
 
 // GET REQUEST: IPO LIST
-const getIpoList = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
-    const { series, segregated } = req.query;
-    var resData;
+const getIpoList = asyncHandler(async (req: Request, res: Response) => {
+  const { series, segregated } = req.query;
 
-    if (series === undefined) {
-      resData = await myDataSource.getRepository(ipoEntity).find({
-        select: {
-          id: true,
-          name: true,
-        },
-        order: {
-          opening_date: "DESC",
-        },
-      });
-    } else if (segregated) {
-      const all = await myDataSource.getRepository(ipoEntity).find({
-        select: {
-          id: true,
-          name: true,
-        },
-        order: {
-          opening_date: "DESC",
-        },
-      });
+  var ipoList = await prisma.ipo.findMany({
+    select: {
+      id: true,
+      name: true,
+      series: true,
+    },
+    orderBy: {
+      ipoDates: {
+        opening_date: "desc",
+      },
+    },
+  });
 
-      const main = await myDataSource.getRepository(ipoEntity).find({
-        select: {
-          id: true,
-          name: true,
-        },
-        where: {
-          series: "eq",
-        },
-        order: {
-          opening_date: "DESC",
-        },
-      });
+  if (!ipoList) throw new ApiError(404, "Data not found!");
+  const mainIpoList = ipoList.filter((item) => item.series === "MAIN");
+  const smeIpoList = ipoList.filter((item) => item.series === "SME");
+  const segregatedIpoList = {
+    mainIpoList,
+    smeIpoList,
+  };
 
-      const sme = await myDataSource.getRepository(ipoEntity).find({
-        select: {
-          id: true,
-          name: true,
-        },
-        where: {
-          series: "sme",
-        },
-        order: {
-          opening_date: "DESC",
-        },
-      });
+  var resData =
+    Boolean(segregated) === true
+      ? segregatedIpoList
+      : series === "MAIN"
+        ? mainIpoList
+        : smeIpoList;
 
-      resData = {
-        all: all,
-        main: main,
-        sme: sme,
-      };
-    } else {
-      resData = await myDataSource.getRepository(ipoEntity).find({
-        select: {
-          id: true,
-          name: true,
-        },
-        where: {
-          series: series,
-        },
-        order: {
-          opening_date: "DESC",
-        },
-      });
-    }
-
-    if (!resData) {
-      res.status(400).json({ sucess: false, msg: "error fetching ipos list" });
-      return;
-    }
-
-    res.status(200).json({
-      success: true,
-      msg: "Fetched IPOs list",
-      data: resData,
-    });
-  } catch (error) {
-    console.log(`Error in Ipo List GET request, ${error}`);
-    res.status(500).json({
-      success: false,
-      data: [],
-      msg: "Internal Server Error",
-      error: error,
-    });
-  }
-};
+  res
+    .status(200)
+    .json(new ApiResponse(200, resData, "Data fetched successfully!"));
+});
 
 // GET REQUEST : NO OF IPOS
-const getIpoCount = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
-    const count = await myDataSource.getRepository(ipoEntity).count();
-
-    res.status(200).json({
-      success: true,
-      data: [count],
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      data: [-1],
-    });
-  }
-};
+const getIpoCount = asyncHandler(async (req: Request, res: Response) => {
+  const count = await prisma.ipo.count();
+  if (count < 0) throw new ApiError(404, "Data not found!");
+  res
+    .status(200)
+    .json(new ApiResponse(200, { count }, "Data fetched successfully!"));
+});
 
 // POST REQUEST
-const createIpoEntry = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
-    const ipo = req.body;
+const createIpoEntry = asyncHandler(async (req: Request, res: Response) => {
+  const ipoData = req.body;
+  let ipoId: number;
 
-    const ipo_create = await myDataSource.getRepository(ipoEntity).create(ipo);
-    const results = await myDataSource
-      .getRepository(ipoEntity)
-      .save(ipo_create);
+  // i think it can be optimised further
+  // interactive transaction: bcoz need ipoId from master Ipo Table Entry
+  await prisma
+    .$transaction(async (tx) => {
+      const result = await tx.ipo.create({ data: ipoData.ipo });
+      ipoId = result.id;
 
-    res.status(200).json({
-      success: true,
-      msg: "IPO saved successfully",
+      await tx.ipo_Anchor.create({
+        data: { ipo_id: ipoId, ...ipoData.anchor },
+      });
+      await tx.ipo_ContactDetails.create({
+        data: { ipo_id: ipoId, ...ipoData.contact },
+      });
+      await tx.ipo_Dates.create({ data: { ipo_id: ipoId, ...ipoData.dates } });
+      await tx.ipo_FinProgress.create({
+        data: { ipo_id: ipoId },
+      });
+      await tx.ipo_Finances.create({
+        data: { ipo_id: ipoId, ...ipoData.finance },
+      });
+      await tx.ipo_Gmp.create({ data: { ipo_id: ipoId } });
+      await tx.ipo_Lots.create({ data: { ipo_id: ipoId, ...ipoData.lots } });
+      await tx.ipo_OtherDetails.create({
+        data: { ipo_id: ipoId, ...ipoData.otherDetails },
+      });
+      await tx.ipo_Prices.create({
+        data: { ipo_id: ipoId, ...ipoData.prices },
+      });
+      await tx.ipo_Reservations.create({
+        data: { ipo_id: ipoId, ...ipoData.reservations },
+      });
+      await tx.ipo_Review.create({
+        data: { ipo_id: ipoId, ...ipoData.review },
+      });
+      await tx.ipo_Shares.create({
+        data: { ipo_id: ipoId, ...ipoData.shares },
+      });
+      await tx.ipo_Subscriptions.create({
+        data: { ipo_id: ipoId, ...ipoData.subscription },
+      });
+      await tx.ipo_Tracker.create({
+        data: { ipo_id: ipoId, ...ipoData.tracker },
+      });
+    })
+    .then(() => {
+      res
+        .status(200)
+        .json(
+          new ApiResponse(200, { ipo_id: ipoId }, "Ipo created successfully!")
+        );
+    })
+    .catch((err) => {
+      throw new ApiError(422, "data not added!", err);
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      msg: "Internal Server Error",
-      error: error,
-    });
-  }
-};
+});
 
 // PATCH REQUEST
-const updateIpoEntry = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
-    const ipo = req.body;
+const updateIpoEntry = asyncHandler(async (req: Request, res: Response) => {
+  const ipoData = req.body;
+  const { ipoId } = req.query;
 
-    const ipo_update = await myDataSource.getRepository(ipoEntity).save(ipo);
+  const updateIpo = await prisma.ipo.update({
+    where: {
+      id: Number(ipoId),
+    },
+    data: ipoData,
+  });
+  if (!updateIpo) throw new ApiError(422, "Failed to update Ipo!");
 
-    res.status(200).json({
-      success: true,
-      msg: "IPO updated successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      msg: "Internal Server Error",
-      error: error,
-    });
-  }
-};
+  res
+    .status(200)
+    .json(new ApiResponse(200, updateIpo, "Ipo created successfully!"));
+});
 
 export {
   getIpoData,

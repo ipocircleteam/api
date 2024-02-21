@@ -1,34 +1,26 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("./app");
-const ipodata_1 = require("./routes/web/ipodata");
-const trackerdata_1 = require("./routes/web/trackerdata");
-const algo_1 = require("./routes/web/algo");
-const gmp_1 = require("./routes/web/gmp");
-const review_1 = require("./routes/web/review");
-const companyFinance_1 = require("./routes/web/companyFinance");
-const ipoDetails_1 = require("./routes/admin/ipoDetails");
-const trackerDetails_1 = require("./routes/admin/trackerDetails");
-const gmpDetails_1 = require("./routes/admin/gmpDetails");
-const reviewDetails_1 = require("./routes/admin/reviewDetails");
-const marketfeed_1 = require("./routes/upstox/marketfeed");
-const mail_1 = require("./routes/users/mail");
+const ipodata_1 = __importDefault(require("./routes/web/ipodata"));
+const trackerdata_1 = __importDefault(require("./routes/web/trackerdata"));
+const algo_1 = __importDefault(require("./routes/web/algo"));
+// import { gmpRouter } from "./routes/web/gmp";
+const review_1 = __importDefault(require("./routes/web/review"));
+const marketfeed_1 = __importDefault(require("./routes/upstoxRouter/marketfeed"));
+const mail_1 = __importDefault(require("./routes/userRouter/mail"));
 function Router() {
     // web apis
-    app_1.app.use("/api/v1/ipo/", ipodata_1.ipoDataRouter);
-    app_1.app.use("/api/v1/tracker/", trackerdata_1.trackerRouter);
-    app_1.app.use("/api/v1/expertAlgo/", algo_1.algoRouter);
-    app_1.app.use("/api/v1/gmp/", gmp_1.gmpRouter);
-    app_1.app.use("/api/v1/review/", review_1.reviewRouter);
-    app_1.app.use("/api/v1/companyfinance/", companyFinance_1.companyFinanceRouter);
-    //admin apis
-    app_1.app.use("/api/admin/v1/ipo/", ipoDetails_1.adminIpoRouter);
-    app_1.app.use("/api/admin/v1/tracker/", trackerDetails_1.adminTrackerRouter);
-    app_1.app.use("/api/admin/v1/gmp/", gmpDetails_1.adminGmpRouter);
-    app_1.app.use("/api/admin/v1/review/", reviewDetails_1.adminReviewRouter);
+    app_1.app.use("/api/v1/ipo/", ipodata_1.default);
+    app_1.app.use("/api/v1/tracker/", trackerdata_1.default);
+    app_1.app.use("/api/v1/expertAlgo/", algo_1.default);
+    // app.use("/api/v1/gmp/", gmpRouter);
+    app_1.app.use("/api/v1/review/", review_1.default);
     // upstox apis
-    app_1.app.use("/api/upstox/", marketfeed_1.marketFeedRouter);
+    app_1.app.use("/api/upstox/", marketfeed_1.default);
     // mail apis
-    app_1.app.use("/api/v1/user/mail", mail_1.mailRouter);
+    app_1.app.use("/api/v1/user/mail", mail_1.default);
 }
 exports.default = Router;

@@ -1,4 +1,4 @@
-export default async function getSmeMainTrackerData(
+export default async function getIpoTrackerData(
   ipoData: any,
   trackerData: any
 ) {

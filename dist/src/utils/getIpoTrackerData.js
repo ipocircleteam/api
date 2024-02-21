@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-function getSmeMainTrackerData(ipoData, trackerData) {
+function getIpoTrackerData(ipoData, trackerData) {
     return __awaiter(this, void 0, void 0, function* () {
         var mainData = [];
         var smeData = [];
@@ -40,4 +40,4 @@ function getSmeMainTrackerData(ipoData, trackerData) {
         return [mainData, smeData];
     });
 }
-exports.default = getSmeMainTrackerData;
+exports.default = getIpoTrackerData;

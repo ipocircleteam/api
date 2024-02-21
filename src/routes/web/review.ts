@@ -5,10 +5,10 @@ import {
   updateIpoReview,
 } from "../../controllers/web/reviews.controller";
 
-export const reviewRouter = express.Router();
+const router = express.Router();
 
-reviewRouter.get("/details", getReviewData);
+router.get("/details", getReviewData);
+router.post("/create", createIpoReview);
+router.patch("/update", updateIpoReview);
 
-reviewRouter.post("/create", createIpoReview);
-
-reviewRouter.patch("/update", updateIpoReview);
+export default router;

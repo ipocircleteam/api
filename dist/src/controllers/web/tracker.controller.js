@@ -8,151 +8,69 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateTrackerEntry = exports.createTrackerEntry = exports.getTrackerWithSeries = exports.getTrackerData = void 0;
-const db_1 = require("../../db");
-const tracker_entity_1 = __importDefault(require("../../models/ipo/tracker.entity"));
-const db_2 = __importDefault(require("../../db"));
-const ipo_entity_1 = __importDefault(require("../../models/ipo/ipo.entity"));
-// GET REQUEST
-const getTrackerData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield (0, db_2.default)();
-        const { year } = req.query;
-        var trackerData = yield db_1.myDataSource.getRepository(tracker_entity_1.default).find({
-            where: {
-                year: year,
-            },
-        });
-        res.status(200).json({
-            success: true,
-            data: trackerData,
-            msg: "Fetched data successfully",
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            success: false,
-            data: [],
-            msg: "Internal Server Error",
-            error: error,
-        });
-    }
+exports.updateTrackerEntry = exports.getTrackerWithSeries = exports.getTrackerData = void 0;
+const utils_1 = require("../../utils");
+const zod_1 = require("zod");
+const client_1 = require("@prisma/client");
+const ipo_schema_1 = require("../../zod/ipo.schema");
+const prisma = new client_1.PrismaClient();
+const querySchema = zod_1.z.object({
+    year: zod_1.z.number().optional(),
+    ipoId: zod_1.z.number().optional()
 });
+// GET REQUEST
+const getTrackerData = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { year } = querySchema.parse(req.query);
+    const trackerData = yield prisma.ipo_Tracker.findMany({
+        where: {
+            year: year
+        }
+    });
+    if (!trackerData)
+        throw new utils_1.ApiError(404, "data not found!");
+    res.status(200).json(new utils_1.ApiResponse(200, trackerData, "data received successfully!"));
+}));
 exports.getTrackerData = getTrackerData;
 // GET TRACKER DATA WITH SERIES
-const getTrackerWithSeries = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a, _b;
-    try {
-        yield (0, db_2.default)();
-        const { year } = req.query;
-        var eqData = [];
-        var smeData = [];
-        var alldata = [];
-        var trackerData = yield db_1.myDataSource.getRepository(tracker_entity_1.default).find({
-            where: {
-                year: year,
+const getTrackerWithSeries = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { year } = querySchema.parse(req.query);
+    const trackerData = yield prisma.ipo_Tracker.findMany({
+        where: {
+            year: year,
+        },
+        select: {
+            ipo: {
+                select: {
+                    id: true,
+                    series: true,
+                },
             },
-            order: {
-                year: "DESC",
-            },
-        });
-        for (let i = 0; i < 100; i++) {
-            const id = trackerData[i].id;
-            if (trackerData[i].issue_price !== null &&
-                trackerData[i].listing_price !== null &&
-                trackerData[i].sector !== null) {
-                const ipoData = yield db_1.myDataSource.getRepository(ipo_entity_1.default).find({
-                    where: {
-                        id: id,
-                    },
-                    select: {
-                        series: true,
-                        name: true,
-                    },
-                });
-                if (((_a = ipoData[0]) === null || _a === void 0 ? void 0 : _a.series) === "eq") {
-                    eqData.push(trackerData[i]);
-                }
-                else if (((_b = ipoData[0]) === null || _b === void 0 ? void 0 : _b.series) === "sme") {
-                    smeData.push(trackerData[i]);
-                }
-            }
-            alldata.push(trackerData[i]);
-        }
-        const data = {
-            all: alldata,
-            main: eqData,
-            sme: smeData,
-        };
-        console.log(data);
-        res.status(200).json({
-            success: true,
-            data: data,
-            msg: "Fetched data successfully",
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            success: false,
-            data: [],
-            msg: "Internal Server Error",
-            error: error,
-        });
-    }
-});
+        },
+        orderBy: {
+            year: "desc",
+        },
+    });
+    const data = {
+        all: trackerData,
+        main: trackerData.filter(item => item.ipo.series === "MAIN"),
+        sme: trackerData.filter(item => item.ipo.series === "SME"),
+    };
+    res.status(200).json(new utils_1.ApiResponse(200, data, "data saved successfully!"));
+}));
 exports.getTrackerWithSeries = getTrackerWithSeries;
-// POST REQUEST
-const createTrackerEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield (0, db_2.default)();
-        const trackerData = req.body;
-        var created_tracker = yield db_1.myDataSource
-            .getRepository(tracker_entity_1.default)
-            .create(trackerData);
-        var save_tracker = yield db_1.myDataSource
-            .getRepository(tracker_entity_1.default)
-            .save(created_tracker);
-        res.status(200).json({
-            success: true,
-            msg: "Created data successfully",
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            success: false,
-            msg: "Internal Server Error",
-            error: error,
-        });
-    }
-});
-exports.createTrackerEntry = createTrackerEntry;
 // PATCH REQUEST
-const updateTrackerEntry = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        yield (0, db_2.default)();
-        const trackerData = req.body;
-        var save_tracker = yield db_1.myDataSource
-            .getRepository(tracker_entity_1.default)
-            .save(trackerData);
-        res.status(200).json({
-            success: true,
-            msg: "Updated data successfully",
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            success: false,
-            msg: "Internal Server Error",
-            error: error,
-        });
-    }
-});
+const updateTrackerEntry = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const trackerData = ipo_schema_1.ipoTrackerSchema.parse(req.body);
+    const { ipoId } = querySchema.parse(req.query);
+    const updateTracker = yield prisma.ipo_Tracker.update({
+        where: {
+            ipo_id: ipoId
+        },
+        data: trackerData
+    });
+    if (!updateTracker)
+        throw new utils_1.ApiError(404, "data not found!");
+    res.status(200).json(new utils_1.ApiResponse(200, {}, "data updated successfully!"));
+}));
 exports.updateTrackerEntry = updateTrackerEntry;
