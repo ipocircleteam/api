@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const getIpoDataSchema = z.object({
-  concise: z.boolean().optional(),
+  concise: z.string().optional(),
   type: z.string().optional(),
   count: z.string().optional(),
   start: z.string().optional(),
@@ -14,7 +14,7 @@ export const getIpoDataFromIdSchema = z.object({
 
 export const getIpoListSchema = z.object({
   series: z.string().optional(),
-  segregated: z.boolean().optional(),
+  segregated: z.string().optional(),
 });
 
 export const ipoAnchorSchema = z
@@ -218,3 +218,5 @@ export const createIpoSchema = z.object({
   contact: ipoContactDetailsSchema,
   anchor: ipoAnchorSchema
 })
+
+export const updateIpoQuerySchema = z.object({ ipoId: z.number() })

@@ -1,21 +1,12 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
-import { z } from "zod";
-import {
-  createIpoSchema,
-  getIpoDataFromIdSchema,
-  getIpoDataSchema,
-  getIpoListSchema,
-} from "../../zod/ipo.schema";
 import { asyncHandler, ApiError, ApiResponse } from "../../utils";
 
 const prisma = new PrismaClient();
 
 // GET REQUEST
 const getIpoData = asyncHandler(async (req: Request, res: Response) => {
-  const { concise, type, count, start, end } = getIpoDataSchema.parse(
-    req.query
-  );
+  const { concise, type, count, start, end } = req.query;
 
   const ipoType = type === "MAIN" ? "MAIN" : "SME";
   var ipoData;
@@ -89,11 +80,11 @@ const getIpoData = asyncHandler(async (req: Request, res: Response) => {
 
 // GET FROM ID REQUEST
 const getIpoDataFromId = asyncHandler(async (req: Request, res: Response) => {
-  const { id } = getIpoDataFromIdSchema.parse(req.query);
+  const { id } = req.query;
 
   var ipoData = await prisma.ipo.findMany({
     where: {
-      id: id,
+      id: Number(id),
     },
     select: {
       ipoPrices: true,
@@ -120,7 +111,7 @@ const getIpoDataFromId = asyncHandler(async (req: Request, res: Response) => {
 
 // GET REQUEST: IPO LIST
 const getIpoList = asyncHandler(async (req: Request, res: Response) => {
-  const { series, segregated } = getIpoListSchema.parse(req.query);
+  const { series, segregated } = req.query;
 
   var ipoList = await prisma.ipo.findMany({
     select: {
@@ -144,7 +135,7 @@ const getIpoList = asyncHandler(async (req: Request, res: Response) => {
   };
 
   var resData =
-    segregated === true
+    Boolean(segregated) === true
       ? segregatedIpoList
       : series === "MAIN"
         ? mainIpoList
@@ -158,15 +149,15 @@ const getIpoList = asyncHandler(async (req: Request, res: Response) => {
 // GET REQUEST : NO OF IPOS
 const getIpoCount = asyncHandler(async (req: Request, res: Response) => {
   const count = await prisma.ipo.count();
-  if (!count) throw new ApiError(404, "Data not found!");
+  if (count < 0) throw new ApiError(404, "Data not found!");
   res
     .status(200)
-    .json(new ApiResponse(200, count, "Data fetched successfully!"));
+    .json(new ApiResponse(200, {count}, "Data fetched successfully!"));
 });
 
 // POST REQUEST
 const createIpoEntry = asyncHandler(async (req: Request, res: Response) => {
-  const ipoData = createIpoSchema.parse(req.body);
+  const ipoData = req.body;
   let ipoId: number;
 
   // i think it can be optimised further
@@ -225,15 +216,14 @@ const createIpoEntry = asyncHandler(async (req: Request, res: Response) => {
     });
 });
 
-
 // PATCH REQUEST
 const updateIpoEntry = asyncHandler(async (req: Request, res: Response) => {
-  const ipoData = createIpoSchema.parse(req.body);
-  const { ipoId } = z.object({ ipoId: z.number() }).parse(req.query);
+  const ipoData = req.body;
+  const { ipoId } = req.query;
 
   const updateIpo = await prisma.ipo.update({
     where: {
-      id: ipoId,
+      id: Number(ipoId),
     },
     data: ipoData,
   });

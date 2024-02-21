@@ -1,10 +1,16 @@
 import dotenv from "dotenv";
 import { app } from "./app";
+import { ErrorHandler } from "./middlewares";
 
 dotenv.config({
   path: "../.env",
 });
 
-app.listen(process.env.PORT || 8080, () => {
-  console.log(`Server running on port: ${process.env.PORT}`);
+const port = process.env.PORT || 8080
+
+//@ts-ignore //TODO to be fixed later on
+app.use(ErrorHandler);
+
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
 });

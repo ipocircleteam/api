@@ -8,6 +8,7 @@ const app_1 = require("./app");
 dotenv_1.default.config({
     path: "../.env",
 });
-app_1.app.listen(process.env.PORT || 8080, () => {
-    console.log(`Server running on port: ${process.env.PORT}`);
+const port = process.env.PORT || 8080;
+app_1.app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
 });
