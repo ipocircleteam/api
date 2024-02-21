@@ -7,14 +7,15 @@ import {
   getIpoList,
   updateIpoEntry,
 } from "../../controllers/web/ipo.controller";
+import { ValidateInputs } from "../../middlewares";
 
 const router = express.Router();
 
-router.get("/details", getIpoData);
-router.get("/ipolist", getIpoList);
-router.get("/details/id", getIpoDataFromId);
-router.get("/count", getIpoCount);
-router.post("/create", createIpoEntry);
-router.patch("/update", updateIpoEntry);
+router.get("/details", ValidateInputs, getIpoData);
+router.get("/ipolist", ValidateInputs, getIpoList);
+router.get("/details/id", ValidateInputs, getIpoDataFromId);
+router.get("/count", ValidateInputs, getIpoCount);
+router.post("/create", ValidateInputs, createIpoEntry);
+router.patch("/update", ValidateInputs, updateIpoEntry);
 
 export default router;
