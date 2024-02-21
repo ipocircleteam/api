@@ -10,24 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.runAlgo = void 0;
-const runAlgo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        // add algo here
-        const { amount, no_of_demat_acc, risk_profile } = req.body;
-        console.log(req.body);
-        res.status(200).json({
-            success: true,
-            data: [],
-            msg: "Fetched data successfully",
-        });
-    }
-    catch (error) {
-        console.log(error);
-        res.status(500).json({
-            success: false,
-            data: [],
-            msg: "Internal Server Error",
-        });
-    }
-});
+const utils_1 = require("../../utils");
+const runAlgo = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    //TODO <<<<< Algorithm Logic Here >>>>>
+}));
 exports.runAlgo = runAlgo;

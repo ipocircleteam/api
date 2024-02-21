@@ -1,14 +1,14 @@
-import express from "express";
-import {
-  createIpoGMP,
-  getGmpData,
-  updateIpoGmp,
-} from "../../controllers/web/gmp.controller";
+// import express from "express";
+// import {
+//   createIpoGMP,
+//   getGmpData,
+//   updateIpoGmp,
+// } from "../../controllers/web/gmp.controller";
 
-export const gmpRouter = express.Router();
+// const router = express.Router();
 
-gmpRouter.get("/details", getGmpData);
+// router.get("/details", getGmpData);
+// router.post("/create", createIpoGMP);
+// router.patch("/update", updateIpoGmp);
 
-gmpRouter.post("/create", createIpoGMP);
-
-gmpRouter.patch("/update", updateIpoGmp);
+// export default router

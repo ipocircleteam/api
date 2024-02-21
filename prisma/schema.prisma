@@ -1,0 +1,226 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Ipo {
+  id                Int                 @id @unique @default(autoincrement())
+  name              String              @db.VarChar(255)
+  series            IPO_Series
+  description       String
+  face_value        Decimal
+  total_issue       String
+  fresh_issue       String
+  issue_type        String
+  listing_at        String[]
+  pre_open_nse      String
+  pre_open_bse      String
+  lot_size          BigInt
+  priceband_min     Decimal
+  priceband_max     Decimal
+  objectIssueData   String
+  ipoAnchor         Ipo_Anchor?
+  ipoContactDetails Ipo_ContactDetails?
+  ipoDates          Ipo_Dates?
+  ipoFinProgress    Ipo_FinProgress?
+  ipoFinances       Ipo_Finances?
+  ipoGmp            Ipo_Gmp?
+  ipoLots           Ipo_Lots?
+  ipoOtherDetails   Ipo_OtherDetails?
+  ipoPrices         Ipo_Prices?
+  ipoReservations   Ipo_Reservations?
+  ipoReview         Ipo_Review?
+  ipoShares         Ipo_Shares?
+  ipoSubscriptions  Ipo_Subscriptions?
+  ipoTracker        Ipo_Tracker?
+}
+
+model Ipo_Tracker {
+  id            Int     @id @unique @default(autoincrement())
+  ipo_id        Int     @unique
+  company_name  String
+  sector        String
+  issue_price   Decimal
+  current_price Decimal
+  listing_price Decimal
+  dayend_price  Decimal
+  year          Int
+  ipo           Ipo     @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_Prices {
+  id           Int     @id @unique @default(autoincrement())
+  ipo_id       Int     @unique
+  min_price    Decimal
+  max_price    Decimal
+  dayend_price Decimal
+  final_price  Decimal
+  ipo          Ipo     @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_ContactDetails {
+  id                Int    @id @unique @default(autoincrement())
+  ipo_id            Int    @unique
+  company_address   String
+  company_phone     String
+  company_email     String
+  company_website   String
+  company_logo      String
+  registrar_address String
+  registrar_phone   String
+  registrar_email   String
+  registrar_website String
+  registrar_name    String
+  ipo               Ipo    @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_Lots {
+  id                Int     @id @unique @default(autoincrement())
+  ipo_id            Int     @unique
+  
+  ipo               Ipo     @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_OtherDetails {
+  id                    Int      @id @unique @default(autoincrement())
+  ipo_id                Int      @unique
+  bse_code              String
+  bse_url               String
+  nse_code              String
+  nse_url               String
+  drhp                  String
+  anchor_list           String[]
+  defunct               Boolean
+  retail_discount       String
+  employee_discount     String
+  ofs                   String
+  credit_of             String
+  time_upf              String
+  gen_holding_pre       String
+  gen_holding_post      String
+  promoter_holding_pre  String
+  promoter_holding_post String
+  ipo                   Ipo      @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_Review {
+  id     Int    @id @unique @default(autoincrement())
+  ipo_id Int    @unique
+  review String
+  ipo    Ipo    @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_Reservations {
+  id              Int    @id @unique @default(autoincrement())
+  ipo_id          Int    @unique
+  category        String
+  shares_offerres BigInt
+  ipo             Ipo    @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_Gmp {
+  id         Int          @id @unique @default(autoincrement())
+  ipo_id     Int          @unique
+  gmp_values Gmp_Values[]
+  ipo        Ipo          @relation(fields: [ipo_id], references: [id])
+}
+
+model Gmp_Values {
+  id             Int      @id @unique @default(autoincrement())
+  gmp_id         Int      @unique
+  instant        DateTime
+  percent_value  Decimal
+  absolute_value Decimal
+  ipoGmp         Ipo_Gmp  @relation(fields: [gmp_id], references: [id])
+}
+
+model Ipo_Anchor {
+  id                     Int      @id @unique @default(autoincrement())
+  ipo_id                 Int      @unique
+  anchor_bid_date        DateTime
+  anchor_lockin_half     DateTime
+  anchor_lockin_full     DateTime
+  anchor_lockin_rest     DateTime
+  anchor_portion         Decimal
+  anchor_shares_offerred BigInt
+  ipo                    Ipo      @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_Dates {
+  id                        Int      @id @unique @default(autoincrement())
+  ipo_id                    Int      @unique
+  opening_date              DateTime
+  closing_date              DateTime
+  basis_date                DateTime
+  init_refunds              DateTime
+  credit_of_shares_to_demat DateTime
+  listing_date              DateTime
+  cutoff_mandate            DateTime
+  allotment_date            DateTime
+  ipo                       Ipo      @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_Shares {
+  id                       Int    @id @unique @default(autoincrement())
+  ipo_id                   Int    @unique
+  anchor_shares_offerred   BigInt
+  qib_shares_offerred      BigInt
+  nii_bnii_shares_offerred BigInt
+  nii_snii_shares_offerred BigInt
+  retail_shares_offerred   BigInt
+  ipo                      Ipo    @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_Finances {
+  id         Int     @id @unique @default(autoincrement())
+  ipo_id     Int     @unique
+  pe         Decimal
+  market_cap Decimal
+  roe        Decimal
+  roce       Decimal
+  eps        Decimal
+  ronw       Decimal
+  debt       Decimal
+  ipo        Ipo     @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_Subscriptions {
+  id         Int      @id @unique @default(autoincrement())
+  ipo_id     Int      @unique
+  shares_bid BigInt
+  qib        Int
+  nii_snii   Int
+  nii_bnii   Int
+  retail     Int
+  updated_at DateTime
+  ipo        Ipo      @relation(fields: [ipo_id], references: [id])
+}
+
+model Ipo_FinProgress {
+  id      Int                @id @unique @default(autoincrement())
+  ipo_id  Int                @unique
+  details Financial_Details[]
+  ipo     Ipo                @relation(fields: [ipo_id], references: [id])
+}
+
+model Financial_Details {
+  id                Int             @id @unique @default(autoincrement())
+  ipoFinProgress_id Int             @unique
+  period_ended      String
+  assets            Decimal
+  revenue           Decimal
+  profit_after_tax  Decimal
+  networth          Decimal
+  reserves          Decimal
+  borrowing         Decimal
+  ipoFinProgress    Ipo_FinProgress @relation(fields: [ipoFinProgress_id], references: [id])
+}
+
+enum IPO_Series {
+  MAIN
+  SME
+}

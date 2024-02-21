@@ -8,16 +8,13 @@ import {
   updateIpoEntry,
 } from "../../controllers/web/ipo.controller";
 
-export const ipoDataRouter = express.Router();
+const router = express.Router();
 
-ipoDataRouter.get("/details", getIpoData);
+router.get("/details", getIpoData);
+router.get("/ipolist", getIpoList);
+router.get("/details/id", getIpoDataFromId);
+router.get("/count", getIpoCount);
+router.post("/create", createIpoEntry);
+router.patch("/update", updateIpoEntry);
 
-ipoDataRouter.get("/ipolist", getIpoList);
-
-ipoDataRouter.get("/details/id", getIpoDataFromId);
-
-ipoDataRouter.get("/count", getIpoCount);
-
-ipoDataRouter.post("/create", createIpoEntry);
-
-ipoDataRouter.patch("/update", updateIpoEntry);
+export default router

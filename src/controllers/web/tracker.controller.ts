@@ -1,160 +1,76 @@
 import { Request, Response } from "express";
-import { myDataSource } from "../../db";
-import trackerEntity from "../../models/ipo/tracker.entity";
-import connectDb from "../../db";
-import ipoEntity from "../../models/ipo/ipo.entity";
-import getSmeMainTrackerData from "../../utils/getIpoTrackerData";
+import { ApiError, ApiResponse, asyncHandler } from "../../utils";
+import { z } from "zod";
+import { PrismaClient } from "@prisma/client";
+import { ipoTrackerSchema } from "../../zod/ipo.schema";
+
+const prisma = new PrismaClient()
+const querySchema = z.object({
+  year: z.number().optional(),
+  ipoId: z.number().optional()
+})
 
 // GET REQUEST
-const getTrackerData = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
-    const { year } = req.query;
+const getTrackerData = asyncHandler(async (req: Request, res: Response) => {
+  const { year } = querySchema.parse(req.query);
 
-    var trackerData = await myDataSource.getRepository(trackerEntity).find({
-      where: {
-        year: year,
-      },
-    });
-
-    res.status(200).json({
-      success: true,
-      data: trackerData,
-      msg: "Fetched data successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      data: [],
-      msg: "Internal Server Error",
-      error: error,
-    });
-  }
-};
+  const trackerData = await prisma.ipo_Tracker.findMany({
+    where: {
+      year: year
+    }
+  })
+  if (!trackerData) throw new ApiError(404, "data not found!") 
+  res.status(200).json(new ApiResponse(200, trackerData, "data received successfully!"))
+});
 
 // GET TRACKER DATA WITH SERIES
-const getTrackerWithSeries = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
-    const { year } = req.query;
-    var eqData = [];
-    var smeData = [];
-    var alldata = [];
+const getTrackerWithSeries = asyncHandler(async (req: Request, res: Response) => {
+  const { year } = querySchema.parse(req.query);
 
-    var trackerData = await myDataSource.getRepository(trackerEntity).find({
+    const trackerData = await prisma.ipo_Tracker.findMany({
       where: {
         year: year,
       },
-      order: {
-        year: "DESC",
+      select: {
+        ipo: {
+          select: {
+            id: true,
+            series: true,
+          },
+        },
+      },
+      orderBy: {
+        year: "desc",
       },
     });
-
-    for (let i = 0; i < 100; i++) {
-      const id: string | any = trackerData[i].id;
-      if (
-        trackerData[i].issue_price !== null &&
-        trackerData[i].listing_price !== null &&
-        trackerData[i].sector !== null
-      ) {
-        const ipoData = await myDataSource.getRepository(ipoEntity).find({
-          where: {
-            id: id,
-          },
-          select: {
-            series: true,
-            name: true,
-          },
-        });
-
-        if (ipoData[0]?.series === "eq") {
-          eqData.push(trackerData[i]);
-        } else if (ipoData[0]?.series === "sme") {
-          smeData.push(trackerData[i]);
-        }
-      }
-
-      alldata.push(trackerData[i]);
-    }
-
+  
     const data = {
-      all: alldata,
-      main: eqData,
-      sme: smeData,
+      all: trackerData,
+      main: trackerData.filter(item => item.ipo.series === "MAIN"),
+      sme: trackerData.filter(item => item.ipo.series === "SME"),
     };
-    console.log(data);
+    res.status(200).json(new ApiResponse(200, data, "data saved successfully!"))
+});
 
-    res.status(200).json({
-      success: true,
-      data: data,
-      msg: "Fetched data successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      data: [],
-      msg: "Internal Server Error",
-      error: error,
-    });
-  }
-};
-
-// POST REQUEST
-const createTrackerEntry = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
-    const trackerData = req.body;
-
-    var created_tracker = await myDataSource
-      .getRepository(trackerEntity)
-      .create(trackerData);
-    var save_tracker = await myDataSource
-      .getRepository(trackerEntity)
-      .save(created_tracker);
-
-    res.status(200).json({
-      success: true,
-      msg: "Created data successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      msg: "Internal Server Error",
-      error: error,
-    });
-  }
-};
 
 // PATCH REQUEST
-const updateTrackerEntry = async (req: Request, res: Response) => {
-  try {
-    await connectDb();
-    const trackerData = req.body;
+const updateTrackerEntry = asyncHandler(async (req: Request, res: Response) => {
+  const trackerData = ipoTrackerSchema.parse(req.body);
+  const { ipoId } = querySchema.parse(req.query)
 
-    var save_tracker = await myDataSource
-      .getRepository(trackerEntity)
-      .save(trackerData);
+  const updateTracker = await prisma.ipo_Tracker.update({
+    where: {
+      ipo_id: ipoId
+    },
+    data: trackerData
+  })
 
-    res.status(200).json({
-      success: true,
-      msg: "Updated data successfully",
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      success: false,
-      msg: "Internal Server Error",
-      error: error,
-    });
-  }
-};
+  if (!updateTracker) throw new ApiError(404, "data not found!")
+  res.status(200).json(new ApiResponse(200, {}, "data updated successfully!"))
+});
 
 export {
   getTrackerData,
   getTrackerWithSeries,
-  createTrackerEntry,
   updateTrackerEntry,
 };

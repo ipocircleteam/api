@@ -1,17 +1,14 @@
 import express from "express";
 import {
-  createTrackerEntry,
   getTrackerData,
   getTrackerWithSeries,
   updateTrackerEntry,
 } from "../../controllers/web/tracker.controller";
 
-export const trackerRouter = express.Router();
+const router = express.Router();
 
-trackerRouter.get("/details", getTrackerData);
+router.get("/details", getTrackerData);
+router.get("/detailsWithSeries", getTrackerWithSeries);
+router.patch("/update", updateTrackerEntry);
 
-trackerRouter.get("/detailsWithSeries", getTrackerWithSeries);
-
-trackerRouter.post("/create", createTrackerEntry);
-
-trackerRouter.patch("/update", updateTrackerEntry);
+export default router
