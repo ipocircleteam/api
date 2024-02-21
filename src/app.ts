@@ -27,7 +27,7 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
-app.use(ValidateInputs);
+// app.use(ValidateInputs);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Welcome to IPO Circle APIs Phase 1");
