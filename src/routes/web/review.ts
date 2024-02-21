@@ -11,4 +11,4 @@ router.get("/details", getReviewData);
 router.post("/create", createIpoReview);
 router.patch("/update", updateIpoReview);
 
-export default router
+export default router;

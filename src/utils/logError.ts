@@ -1,5 +1,3 @@
-const logError: Function = () => {
+const logError: Function = () => {};
 
-}
-
-export default logError
+export default logError;

@@ -1,8 +1,8 @@
 import { NextFunction } from "express";
 import ApiError from "../utils/ApiError";
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 export default function ErrorHandler(
   err: ApiError,
@@ -11,9 +11,12 @@ export default function ErrorHandler(
   next: NextFunction
 ) {
   const errStatus = err.statusCode || 500;
-  const errMsg = process.env.NODE_ENV === "DEVELOPMENT" ? err.message : "Something went wrong";
+  const errMsg =
+    process.env.NODE_ENV === "DEVELOPMENT"
+      ? err.message
+      : "Something went wrong";
   console.log("inside error handler");
-  
+
   //@ts-ignore
   res.status(errStatus).json({
     success: false,

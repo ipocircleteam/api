@@ -17,4 +17,4 @@ router.get("/count", getIpoCount);
 router.post("/create", createIpoEntry);
 router.patch("/update", updateIpoEntry);
 
-export default router
+export default router;

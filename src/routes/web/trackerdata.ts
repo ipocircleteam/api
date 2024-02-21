@@ -11,4 +11,4 @@ router.get("/details", getTrackerData);
 router.get("/detailsWithSeries", getTrackerWithSeries);
 router.patch("/update", updateTrackerEntry);
 
-export default router
+export default router;

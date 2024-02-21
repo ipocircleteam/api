@@ -152,7 +152,7 @@ const getIpoCount = asyncHandler(async (req: Request, res: Response) => {
   if (count < 0) throw new ApiError(404, "Data not found!");
   res
     .status(200)
-    .json(new ApiResponse(200, {count}, "Data fetched successfully!"));
+    .json(new ApiResponse(200, { count }, "Data fetched successfully!"));
 });
 
 // POST REQUEST

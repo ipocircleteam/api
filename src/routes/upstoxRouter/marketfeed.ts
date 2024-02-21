@@ -5,4 +5,4 @@ const router = express.Router();
 
 router.get("/marketfeed", getMarketFeed);
 
-export default router
+export default router;
