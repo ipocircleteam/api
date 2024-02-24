@@ -12,5 +12,6 @@ const port = process.env.PORT || 8080;
 app.use(ErrorHandler);
 
 app.listen(port, () => {
+  console.log(`${process.env.NODE_ENV} Environment`);
   console.log(`Server running on port ${port}`);
 });
