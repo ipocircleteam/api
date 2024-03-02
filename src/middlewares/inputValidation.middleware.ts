@@ -25,7 +25,7 @@ export default function ValidateInputs(
 ) {
   try {
     const urlPath = req.baseUrl.substring(7) + req.path;
-    
+
     const { body, query }: ValidationSchema = getValidationSchema(urlPath);
     if (body !== null) body.parse(req.body);
     if (query !== null) query.parse(req.query);
