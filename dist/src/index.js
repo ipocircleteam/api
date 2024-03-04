@@ -12,6 +12,7 @@ dotenv_1.default.config({
 const port = process.env.PORT || 8080;
 //@ts-ignore //TODO to be fixed later on
 app_1.app.use(middlewares_1.ErrorHandler);
+console.log(`${process.env.NODE_ENV} Environment`);
 app_1.app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });

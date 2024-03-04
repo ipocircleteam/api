@@ -8,7 +8,7 @@ const prisma = new PrismaClient();
 const getIpoData = asyncHandler(async (req: Request, res: Response) => {
   const { concise, type, count, start, end } = req.query;
 
-  const ipoType = type === "MAIN" ? "MAIN" : "SME";
+  const ipoType = type === "main" ? "main" : "sme";
   var ipoData;
 
   if (concise) {
@@ -127,8 +127,8 @@ const getIpoList = asyncHandler(async (req: Request, res: Response) => {
   });
 
   if (!ipoList) throw new ApiError(404, "Data not found!");
-  const mainIpoList = ipoList.filter((item) => item.series === "MAIN");
-  const smeIpoList = ipoList.filter((item) => item.series === "SME");
+  const mainIpoList = ipoList.filter((item) => item.series === "main");
+  const smeIpoList = ipoList.filter((item) => item.series === "sme");
   const segregatedIpoList = {
     mainIpoList,
     smeIpoList,
@@ -160,60 +160,58 @@ const createIpoEntry = asyncHandler(async (req: Request, res: Response) => {
   const ipoData = req.body;
   let ipoId: number;
 
-  // i think it can be optimised further
-  // interactive transaction: bcoz need ipoId from master Ipo Table Entry
-  await prisma
-    .$transaction(async (tx) => {
-      const result = await tx.ipo.create({ data: ipoData.ipo });
-      ipoId = result.id;
+  try {
+    const result = await prisma.ipo.create({ data: ipoData.ipo });
+    ipoId = result.id;
 
-      await tx.ipo_Anchor.create({
+    const transaction = await prisma.$transaction([
+      prisma.ipo_Anchor.create({
         data: { ipo_id: ipoId, ...ipoData.anchor },
-      });
-      await tx.ipo_ContactDetails.create({
+      }),
+      prisma.ipo_ContactDetails.create({
         data: { ipo_id: ipoId, ...ipoData.contact },
-      });
-      await tx.ipo_Dates.create({ data: { ipo_id: ipoId, ...ipoData.dates } });
-      await tx.ipo_FinProgress.create({
+      }),
+      prisma.ipo_Dates.create({
+        data: { ipo_id: ipoId, ...ipoData.dates },
+      }),
+      prisma.ipo_FinProgress.create({
         data: { ipo_id: ipoId },
-      });
-      await tx.ipo_Finances.create({
+      }),
+      prisma.ipo_Finances.create({
         data: { ipo_id: ipoId, ...ipoData.finance },
-      });
-      await tx.ipo_Gmp.create({ data: { ipo_id: ipoId } });
-      await tx.ipo_Lots.create({ data: { ipo_id: ipoId, ...ipoData.lots } });
-      await tx.ipo_OtherDetails.create({
+      }),
+      prisma.ipo_Gmp.create({ data: { ipo_id: ipoId } }),
+      prisma.ipo_Lots.create({ data: { ipo_id: ipoId, ...ipoData.lots } }),
+      prisma.ipo_OtherDetails.create({
         data: { ipo_id: ipoId, ...ipoData.otherDetails },
-      });
-      await tx.ipo_Prices.create({
+      }),
+      prisma.ipo_Prices.create({
         data: { ipo_id: ipoId, ...ipoData.prices },
-      });
-      await tx.ipo_Reservations.create({
+      }),
+      prisma.ipo_Reservations.create({
         data: { ipo_id: ipoId, ...ipoData.reservations },
-      });
-      await tx.ipo_Review.create({
+      }),
+      prisma.ipo_Review.create({
         data: { ipo_id: ipoId, ...ipoData.review },
-      });
-      await tx.ipo_Shares.create({
+      }),
+      prisma.ipo_Shares.create({
         data: { ipo_id: ipoId, ...ipoData.shares },
-      });
-      await tx.ipo_Subscriptions.create({
+      }),
+      prisma.ipo_Subscriptions.create({
         data: { ipo_id: ipoId, ...ipoData.subscription },
-      });
-      await tx.ipo_Tracker.create({
+      }),
+      prisma.ipo_Tracker.create({
         data: { ipo_id: ipoId, ...ipoData.tracker },
-      });
-    })
-    .then(() => {
-      res
-        .status(200)
-        .json(
-          new ApiResponse(200, { ipo_id: ipoId }, "Ipo created successfully!")
-        );
-    })
-    .catch((err) => {
-      throw new ApiError(422, "data not added!", err);
-    });
+      }),
+    ]);
+
+    res
+      .status(200)
+      .json(new ApiResponse(200, { ipoId: ipoId }, "Ipo added successfully!"));
+  } catch (err: any) {
+    console.log(err);
+    throw new ApiError(422, "data not added!", err);
+  }
 });
 
 // PATCH REQUEST
@@ -231,7 +229,7 @@ const updateIpoEntry = asyncHandler(async (req: Request, res: Response) => {
 
   res
     .status(200)
-    .json(new ApiResponse(200, updateIpo, "Ipo created successfully!"));
+    .json(new ApiResponse(200, updateIpo, "Ipo updated successfully!"));
 });
 
 export {

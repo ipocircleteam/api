@@ -16,7 +16,7 @@ const prisma = new client_1.PrismaClient();
 // GET REQUEST
 const getIpoData = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { concise, type, count, start, end } = req.query;
-    const ipoType = type === "MAIN" ? "MAIN" : "SME";
+    const ipoType = type === "main" ? "main" : "sme";
     var ipoData;
     if (concise) {
         ipoData = yield prisma.ipo.findMany({
@@ -122,8 +122,8 @@ const getIpoList = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, voi
     });
     if (!ipoList)
         throw new utils_1.ApiError(404, "Data not found!");
-    const mainIpoList = ipoList.filter((item) => item.series === "MAIN");
-    const smeIpoList = ipoList.filter((item) => item.series === "SME");
+    const mainIpoList = ipoList.filter((item) => item.series === "main");
+    const smeIpoList = ipoList.filter((item) => item.series === "sme");
     const segregatedIpoList = {
         mainIpoList,
         smeIpoList,
@@ -152,57 +152,57 @@ exports.getIpoCount = getIpoCount;
 const createIpoEntry = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const ipoData = req.body;
     let ipoId;
-    // i think it can be optimised further
-    // interactive transaction: bcoz need ipoId from master Ipo Table Entry
-    yield prisma
-        .$transaction((tx) => __awaiter(void 0, void 0, void 0, function* () {
-        const result = yield tx.ipo.create({ data: ipoData.ipo });
+    try {
+        const result = yield prisma.ipo.create({ data: ipoData.ipo });
         ipoId = result.id;
-        yield tx.ipo_Anchor.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.anchor),
-        });
-        yield tx.ipo_ContactDetails.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.contact),
-        });
-        yield tx.ipo_Dates.create({ data: Object.assign({ ipo_id: ipoId }, ipoData.dates) });
-        yield tx.ipo_FinProgress.create({
-            data: { ipo_id: ipoId },
-        });
-        yield tx.ipo_Finances.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.finance),
-        });
-        yield tx.ipo_Gmp.create({ data: { ipo_id: ipoId } });
-        yield tx.ipo_Lots.create({ data: Object.assign({ ipo_id: ipoId }, ipoData.lots) });
-        yield tx.ipo_OtherDetails.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.otherDetails),
-        });
-        yield tx.ipo_Prices.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.prices),
-        });
-        yield tx.ipo_Reservations.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.reservations),
-        });
-        yield tx.ipo_Review.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.review),
-        });
-        yield tx.ipo_Shares.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.shares),
-        });
-        yield tx.ipo_Subscriptions.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.subscription),
-        });
-        yield tx.ipo_Tracker.create({
-            data: Object.assign({ ipo_id: ipoId }, ipoData.tracker),
-        });
-    }))
-        .then(() => {
+        const transaction = yield prisma.$transaction([
+            prisma.ipo_Anchor.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.anchor),
+            }),
+            prisma.ipo_ContactDetails.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.contact),
+            }),
+            prisma.ipo_Dates.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.dates),
+            }),
+            prisma.ipo_FinProgress.create({
+                data: { ipo_id: ipoId },
+            }),
+            prisma.ipo_Finances.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.finance),
+            }),
+            prisma.ipo_Gmp.create({ data: { ipo_id: ipoId } }),
+            prisma.ipo_Lots.create({ data: Object.assign({ ipo_id: ipoId }, ipoData.lots) }),
+            prisma.ipo_OtherDetails.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.otherDetails),
+            }),
+            prisma.ipo_Prices.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.prices),
+            }),
+            prisma.ipo_Reservations.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.reservations),
+            }),
+            prisma.ipo_Review.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.review),
+            }),
+            prisma.ipo_Shares.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.shares),
+            }),
+            prisma.ipo_Subscriptions.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.subscription),
+            }),
+            prisma.ipo_Tracker.create({
+                data: Object.assign({ ipo_id: ipoId }, ipoData.tracker),
+            }),
+        ]);
         res
             .status(200)
-            .json(new utils_1.ApiResponse(200, { ipo_id: ipoId }, "Ipo created successfully!"));
-    })
-        .catch((err) => {
+            .json(new utils_1.ApiResponse(200, { ipoId: ipoId }, "Ipo added successfully!"));
+    }
+    catch (err) {
+        console.log(err);
         throw new utils_1.ApiError(422, "data not added!", err);
-    });
+    }
 }));
 exports.createIpoEntry = createIpoEntry;
 // PATCH REQUEST
@@ -219,6 +219,6 @@ const updateIpoEntry = (0, utils_1.asyncHandler)((req, res) => __awaiter(void 0,
         throw new utils_1.ApiError(422, "Failed to update Ipo!");
     res
         .status(200)
-        .json(new utils_1.ApiResponse(200, updateIpo, "Ipo created successfully!"));
+        .json(new utils_1.ApiResponse(200, updateIpo, "Ipo updated successfully!"));
 }));
 exports.updateIpoEntry = updateIpoEntry;

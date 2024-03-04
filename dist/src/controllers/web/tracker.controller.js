@@ -49,8 +49,8 @@ const getTrackerWithSeries = (0, utils_1.asyncHandler)((req, res) => __awaiter(v
     });
     const data = {
         all: trackerData,
-        main: trackerData.filter((item) => item.ipo.series === "MAIN"),
-        sme: trackerData.filter((item) => item.ipo.series === "SME"),
+        main: trackerData.filter((item) => item.ipo.series === "main"),
+        sme: trackerData.filter((item) => item.ipo.series === "sme"),
     };
     res
         .status(200)
