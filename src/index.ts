@@ -11,6 +11,8 @@ const port = process.env.PORT || 8080;
 //@ts-ignore //TODO to be fixed later on
 app.use(ErrorHandler);
 
+console.log(`${process.env.NODE_ENV} Environment`);
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

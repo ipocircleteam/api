@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Ipo {
@@ -79,10 +80,30 @@ model Ipo_ContactDetails {
 }
 
 model Ipo_Lots {
-  id                Int     @id @unique @default(autoincrement())
-  ipo_id            Int     @unique
-  
-  ipo               Ipo     @relation(fields: [ipo_id], references: [id])
+  id                Int      @id @unique @default(autoincrement())
+  ipo_id            Int      @unique
+  category          String[]
+  lots_max          Int[]
+  lots_min          Int[]
+  max_bhni_lots     Int[]
+  max_bhni_price    Int[]
+  max_bhni_shares   Int[]
+  max_retail_lots   Int[]
+  max_retail_price  Int[]
+  max_retail_shares Int[]
+  max_shni_lots     Int[]
+  max_shni_price    Int[]
+  max_shni_shares   Int[]
+  min_bhni_lots     Int[]
+  min_bhni_price    Int[]
+  min_bhni_shares   Int[]
+  min_retail_lots   Int[]
+  min_retail_price  Int[]
+  min_retail_shares Int[]
+  min_shni_lots     Int[]
+  min_shni_price    Int[]
+  min_shni_shares   Int[]
+  ipo               Ipo      @relation(fields: [ipo_id], references: [id])
 }
 
 model Ipo_OtherDetails {
@@ -115,27 +136,20 @@ model Ipo_Review {
 }
 
 model Ipo_Reservations {
-  id              Int    @id @unique @default(autoincrement())
-  ipo_id          Int    @unique
-  category        String
-  shares_offerres BigInt
-  ipo             Ipo    @relation(fields: [ipo_id], references: [id])
+  id              Int      @id @unique @default(autoincrement())
+  ipo_id          Int      @unique
+  category        String[]
+  shares_offerred Int[]
+  ipo             Ipo      @relation(fields: [ipo_id], references: [id])
 }
 
 model Ipo_Gmp {
-  id         Int          @id @unique @default(autoincrement())
-  ipo_id     Int          @unique
-  gmp_values Gmp_Values[]
-  ipo        Ipo          @relation(fields: [ipo_id], references: [id])
-}
-
-model Gmp_Values {
-  id             Int      @id @unique @default(autoincrement())
-  gmp_id         Int      @unique
-  instant        DateTime
-  percent_value  Decimal
-  absolute_value Decimal
-  ipoGmp         Ipo_Gmp  @relation(fields: [gmp_id], references: [id])
+  id             Int        @id @unique @default(autoincrement())
+  ipo_id         Int        @unique
+  absolute_value Decimal[]
+  instant        DateTime[]
+  percent_value  Decimal[]
+  ipo            Ipo        @relation(fields: [ipo_id], references: [id])
 }
 
 model Ipo_Anchor {
@@ -146,7 +160,7 @@ model Ipo_Anchor {
   anchor_lockin_full     DateTime
   anchor_lockin_rest     DateTime
   anchor_portion         Decimal
-  anchor_shares_offerred BigInt
+  anchor_shares_offerred Int
   ipo                    Ipo      @relation(fields: [ipo_id], references: [id])
 }
 
@@ -165,14 +179,14 @@ model Ipo_Dates {
 }
 
 model Ipo_Shares {
-  id                       Int    @id @unique @default(autoincrement())
-  ipo_id                   Int    @unique
-  anchor_shares_offerred   BigInt
-  qib_shares_offerred      BigInt
-  nii_bnii_shares_offerred BigInt
-  nii_snii_shares_offerred BigInt
-  retail_shares_offerred   BigInt
-  ipo                      Ipo    @relation(fields: [ipo_id], references: [id])
+  id                       Int @id @unique @default(autoincrement())
+  ipo_id                   Int @unique
+  anchor_shares_offerred   Int
+  qib_shares_offerred      Int
+  nii_bnii_shares_offerred Int
+  nii_snii_shares_offerred Int
+  retail_shares_offerred   Int
+  ipo                      Ipo @relation(fields: [ipo_id], references: [id])
 }
 
 model Ipo_Finances {
@@ -191,11 +205,11 @@ model Ipo_Finances {
 model Ipo_Subscriptions {
   id         Int      @id @unique @default(autoincrement())
   ipo_id     Int      @unique
-  shares_bid BigInt
-  qib        Int
-  nii_snii   Int
-  nii_bnii   Int
-  retail     Int
+  shares_bid Decimal
+  qib        Decimal
+  nii_snii   Decimal
+  nii_bnii   Decimal
+  retail     Decimal
   updated_at DateTime
   ipo        Ipo      @relation(fields: [ipo_id], references: [id])
 }
@@ -203,7 +217,7 @@ model Ipo_Subscriptions {
 model Ipo_FinProgress {
   id      Int                @id @unique @default(autoincrement())
   ipo_id  Int                @unique
-  details Financial_Details[]
+  details Financial_Details?
   ipo     Ipo                @relation(fields: [ipo_id], references: [id])
 }
 
@@ -221,6 +235,6 @@ model Financial_Details {
 }
 
 enum IPO_Series {
-  MAIN
-  SME
+  main
+  sme
 }

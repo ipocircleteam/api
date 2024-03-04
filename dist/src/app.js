@@ -8,7 +8,6 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const router_1 = __importDefault(require("./router"));
-const middlewares_1 = require("./middlewares");
 const app = (0, express_1.default)();
 exports.app = app;
 const corsOptions = {
@@ -19,6 +18,7 @@ const corsOptions = {
         "https://ipocircle.com",
         "https://dashboard.ipocircle.com",
         "https://www.ipocircle.com",
+        "http://localhost:6969",
     ],
     methods: "PUT, GET, DELETE, PATCH, OPTIONS, POST",
     allowedHeaders: "Origin, X-Requested-With, Content-Type, Accept, Authorization",
@@ -29,7 +29,7 @@ app.use(express_1.default.json({ limit: "10mb" }));
 app.use(express_1.default.urlencoded({ limit: "10mb", extended: true }));
 app.use(body_parser_1.default.json());
 app.use((0, cors_1.default)(corsOptions));
-app.use(middlewares_1.ValidateInputs);
+// app.use(ValidateInputs);
 app.get("/", (req, res) => {
     res.status(200).send("Welcome to IPO Circle APIs Phase 1");
 });

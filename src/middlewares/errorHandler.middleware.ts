@@ -15,7 +15,7 @@ export default function ErrorHandler(
     process.env.NODE_ENV === "DEVELOPMENT"
       ? err.message
       : "Something went wrong";
-  console.log(errMsg);
+  console.log(process.env.NODE_ENV === "DEVELOPMENT" ? errMsg : err.name);
 
   //@ts-ignore
   res.status(errStatus).json({

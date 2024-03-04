@@ -24,7 +24,8 @@ export default function ValidateInputs(
   next: NextFunction
 ) {
   try {
-    const urlPath = req.path;
+    const urlPath = req.baseUrl.substring(7) + req.path;
+
     const { body, query }: ValidationSchema = getValidationSchema(urlPath);
     if (body !== null) body.parse(req.body);
     if (query !== null) query.parse(req.query);
@@ -42,27 +43,27 @@ export default function ValidateInputs(
 
 function getValidationSchema(urlPath: string) {
   const querySchemas: Record<string, ZodSchema | null> = {
-    "/api/v1/ipo/details": getIpoDataSchema,
-    "/api/v1/ipo/ipolist": getIpoListSchema,
-    "/api/v1/ipo/details/id": getIpoDataFromIdSchema,
-    "/api/v1/ipo/count": null,
-    "/api/v1/ipo/create": null,
-    "/api/v1/ipo/update": updateIpoQuerySchema,
-    "/api/v1/tracker/details": trackerQuerySchema,
-    "/api/v1/tracker/detailsWithSeries": trackerQuerySchema,
-    "/api/v1/tracker/update": trackerQuerySchema,
+    "/ipo/details": getIpoDataSchema,
+    "/ipo/ipolist": getIpoListSchema,
+    "/ipo/details/id": getIpoDataFromIdSchema,
+    "/ipo/count": null,
+    "/ipo/create": null,
+    "/ipo/update": updateIpoQuerySchema,
+    "/tracker/details": trackerQuerySchema,
+    "/tracker/detailsWithSeries": trackerQuerySchema,
+    "/tracker/update": trackerQuerySchema,
   };
 
   const bodySchemas: Record<string, ZodSchema | null> = {
-    "/api/v1/ipo/details": null,
-    "/api/v1/ipo/ipolist": null,
-    "/api/v1/ipo/details/id": null,
-    "/api/v1/ipo/count": null,
-    "/api/v1/ipo/create": createIpoSchema,
-    "/api/v1/ipo/update": createIpoSchema,
-    "/api/v1/tracker/details": null,
-    "/api/v1/tracker/detailsWithSeries": null,
-    "/api/v1/tracker/update": ipoTrackerSchema,
+    "/ipo/details": null,
+    "/ipo/ipolist": null,
+    "/ipo/details/id": null,
+    "/ipo/count": null,
+    "/ipo/create": createIpoSchema,
+    "/ipo/update": createIpoSchema,
+    "/tracker/details": null,
+    "/tracker/detailsWithSeries": null,
+    "/tracker/update": ipoTrackerSchema,
   };
 
   const resSchema: ValidationSchema = {

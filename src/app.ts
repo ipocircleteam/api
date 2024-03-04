@@ -15,6 +15,7 @@ const corsOptions = {
     "https://ipocircle.com",
     "https://dashboard.ipocircle.com",
     "https://www.ipocircle.com",
+    "http://localhost:6969",
   ],
   methods: "PUT, GET, DELETE, PATCH, OPTIONS, POST",
   allowedHeaders:
