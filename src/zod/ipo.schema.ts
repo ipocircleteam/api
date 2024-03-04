@@ -9,7 +9,7 @@ export const getIpoDataSchema = z.object({
 });
 
 export const getIpoDataFromIdSchema = z.object({
-  id: z.number(),
+  id: z.string(),
 });
 
 export const getIpoListSchema = z.object({
@@ -18,10 +18,10 @@ export const getIpoListSchema = z.object({
 });
 
 export const ipoAnchorSchema = z.object({
-  anchor_bid_date: z.date(),
-  anchor_lockin_half: z.date(),
-  anchor_lockin_full: z.date(),
-  anchor_lockin_rest: z.date(),
+  anchor_bid_date: z.string(),
+  anchor_lockin_half: z.string(),
+  anchor_lockin_full: z.string(),
+  anchor_lockin_rest: z.string(),
   anchor_portion: z.number(),
   anchor_shares_offerred: z.number(),
 });
@@ -40,14 +40,14 @@ export const ipoContactDetailsSchema = z.object({
 });
 
 export const ipoDatesSchema = z.object({
-  opening_date: z.date(),
-  closing_date: z.date(),
-  basis_date: z.date(),
-  init_refunds: z.date(),
-  credit_of_shares_to_demat: z.date(),
-  listing_date: z.date(),
-  cutoff_mandate: z.date(),
-  allotment_date: z.date(),
+  opening_date: z.string(),
+  closing_date: z.string(),
+  basis_date: z.string(),
+  init_refunds: z.string(),
+  credit_of_shares_to_demat: z.string(),
+  listing_date: z.string(),
+  cutoff_mandate: z.string(),
+  allotment_date: z.string(),
 });
 
 export const ipoFinProgressSchema = z.object({
@@ -75,37 +75,33 @@ export const ipoFinanceSchema = z.object({
 });
 
 export const ipoGmpSchema = z.object({
-  gmp_values: z.array(
-    z.object({
-      instant: z.date(),
-      percent_value: z.number(),
-      absolute_value: z.number(),
-    })
-  ),
+  instant: z.array(z.string()),
+  percent_value: z.array(z.number()),
+  absolute_value: z.array(z.number()),
 });
 
 export const ipoLotsSchema = z.object({
-  category: z.string(),
-  lots_min: z.number(),
-  lots_max: z.number(),
-  min_retail_lots: z.number(),
-  max_retail_lots: z.number(),
-  min_shni_lots: z.number(),
-  max_shni_lots: z.number(),
-  min_bhni_lots: z.number(),
-  max_bhni_lots: z.number(),
-  min_retail_shares: z.number(),
-  max_retail_shares: z.number(),
-  min_shni_shares: z.number(),
-  max_shni_shares: z.number(),
-  min_bhni_shares: z.number(),
-  max_bhni_shares: z.number(),
-  min_retail_price: z.number(),
-  max_retail_price: z.number(),
-  min_shni_price: z.number(),
-  max_shni_price: z.number(),
-  min_bhni_price: z.number(),
-  max_bhni_price: z.number(),
+  category: z.array(z.string()),
+  lots_min: z.array(z.number()),
+  lots_max: z.array(z.number()),
+  min_retail_lots: z.array(z.number()),
+  max_retail_lots: z.array(z.number()),
+  min_shni_lots: z.array(z.number()),
+  max_shni_lots: z.array(z.number()),
+  min_bhni_lots: z.array(z.number()),
+  max_bhni_lots: z.array(z.number()),
+  min_retail_shares: z.array(z.number()),
+  max_retail_shares: z.array(z.number()),
+  min_shni_shares: z.array(z.number()),
+  max_shni_shares: z.array(z.number()),
+  min_bhni_shares: z.array(z.number()),
+  max_bhni_shares: z.array(z.number()),
+  min_retail_price: z.array(z.number()),
+  max_retail_price: z.array(z.number()),
+  min_shni_price: z.array(z.number()),
+  max_shni_price: z.array(z.number()),
+  min_bhni_price: z.array(z.number()),
+  max_bhni_price: z.array(z.number()),
 });
 
 export const ipoOtherDetailsSchema = z.object({
@@ -135,8 +131,8 @@ export const ipoPricesSchema = z.object({
 });
 
 export const ipoReservationSchema = z.object({
-  category: z.string(),
-  shares_offerres: z.number(),
+  category: z.array(z.string()),
+  shares_offerred: z.array(z.number()),
 });
 
 export const ipoReviewSchema = z.object({
@@ -157,7 +153,7 @@ export const ipoSubscriptionSchema = z.object({
   nii_snii: z.number(),
   nii_bnii: z.number(),
   retail: z.number(),
-  updated_at: z.date(),
+  updated_at: z.string(),
 });
 
 export const ipoTrackerSchema = z.object({
@@ -172,7 +168,7 @@ export const ipoTrackerSchema = z.object({
 
 export const ipoSchema = z.object({
   name: z.string(),
-  series: z.enum(["MAIN", "SME"]),
+  series: z.enum(["main", "sme"]),
   description: z.string(),
   face_value: z.number(),
   total_issue: z.string(),
