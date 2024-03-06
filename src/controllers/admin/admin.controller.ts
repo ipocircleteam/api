@@ -3,8 +3,8 @@ import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { asyncHandler, ApiError, ApiResponse } from "../../utils";
-import { generateRefreshToken } from '../../utils/genrateRefreshToken';
-import { generateAccessToken } from '../../utils/genrateAccessToken';
+import { generateRefreshToken } from '../../utils/getRefreshToken';
+import { generateAccessToken } from '../../utils/getAccessToken';
 
 const prisma = new PrismaClient();
 
@@ -52,17 +52,16 @@ const addAdmin = asyncHandler(async (req: Request, res: Response) => {
 
 
 const loginAdmin = asyncHandler(async(req : Request,res : Response) => {
-  const {usernameOremail , password} = req.body;
+  const {username , password} = req.body;
 
-  if (!usernameOremail) {
+  if (!username) {
     throw new ApiError(400, "username or email is required")
   }
 
   const user = await prisma.admin.findFirst({
     where : {
       OR:[
-        {username :usernameOremail},
-        {email : usernameOremail}
+        {username :username},
       ]
     }
   });
