@@ -3,24 +3,10 @@ import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 import { asyncHandler, ApiError, ApiResponse } from "../../utils";
+import { generateRefreshToken } from '../../utils/genrateRefreshToken';
+import { generateAccessToken } from '../../utils/genrateAccessToken';
 
 const prisma = new PrismaClient();
-
-const generateAccessToken = (admin: any) => {
-  if (!process.env.ACCESS_TOKEN_SECRET) {
-    throw new Error('ACCESS_TOKEN_SECRET is not defined');
-  }
-  return jwt.sign({ id: admin.id, username: admin.username }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
-};
-
-const generateRefreshToken = (admin: any) => {
-  if (!process.env.REFRESH_TOKEN_SECRET) {
-    throw new Error('REFRESH_TOKEN_SECRET is not defined');
-  }
-  return jwt.sign({ id: admin.id, username: admin.username }, process.env.REFRESH_TOKEN_SECRET, {expiresIn : '1h'});
-};
-
-
 
 const addAdmin = asyncHandler(async (req: Request, res: Response) => {
   const { username, email, fullName, password } = req.body;
@@ -149,8 +135,67 @@ const logoutAdmin = asyncHandler(async (req: CustomRequest, res: Response) => {
     .json(new ApiResponse(200, {}, "Admin logged out successfully"));
 });
 
+const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
+  const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken;
+
+  if (!incomingRefreshToken) {
+      throw new ApiError(401, "Unauthorized request");
+  }
+
+  const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET;
+
+  if (!refreshTokenSecret) {
+      throw new ApiError(500, "Refresh token secret is not defined");
+  }
+
+  try {
+      const decodedToken: any = jwt.verify(
+          incomingRefreshToken,
+          refreshTokenSecret
+      );
+
+      const user = await prisma.admin.findUnique({
+          where: { id: decodedToken.userId }
+      });
+
+      if (!user || incomingRefreshToken !== user.refreshToken) {
+          throw new ApiError(401, "Invalid refresh token");
+      }
+
+      const accessToken = generateAccessToken(user);
+      const refreshToken = generateRefreshToken(user);
+
+      await prisma.admin.update({
+          where: { id: user.id },
+          data: { refreshToken },
+      });
+
+      const options = {
+          httpOnly: true,
+          secure: true
+      };
+
+      return res
+          .status(200)
+          .cookie("accessToken", accessToken, options)
+          .cookie("refreshToken", refreshToken, options)
+          .json(
+              new ApiResponse(
+                  200, 
+                  { accessToken, refreshToken },
+                  "Access token refreshed"
+              )
+          );
+  } catch (error: any) {
+      const errorMessage = (error as Error).message || "Invalid refresh token";
+      throw new ApiError(401, errorMessage);
+  }
+
+});
+
 export {
   addAdmin,
   loginAdmin,
   logoutAdmin,
+  refreshAccessToken,
 };

@@ -7,7 +7,7 @@ import algoRouter from "./routes/web/algo";
 import reviewRouter from "./routes/web/review";
 import marketFeedRouter from "./routes/upstoxRouter/marketfeed";
 import mailRouter from "./routes/userRouter/mail";
-import adminRouter from "./routes/blogRouter/admin";
+import adminRouter from "./routes/admin/admin";
 
 function Router() {
   // web apis
