@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import jwt from "jsonwebtoken";
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client';
 import { asyncHandler, ApiError, ApiResponse } from "../../utils";
 import { generateRefreshToken } from '../../utils/getRefreshToken';
 import { generateAccessToken } from '../../utils/getAccessToken';
@@ -9,7 +9,7 @@ import { generateAccessToken } from '../../utils/getAccessToken';
 const prisma = new PrismaClient();
 
 const addAdmin = asyncHandler(async (req: Request, res: Response) => {
-  const { username, email, fullName, password } = req.body;
+  const { username, email, fullName, password, role } = req.body;
 
   try {
     const existingAdmin = await prisma.admin.findFirst({
@@ -33,6 +33,7 @@ const addAdmin = asyncHandler(async (req: Request, res: Response) => {
         email,
         fullName,
         password: hashedPassword,
+        role,
       },
     });
 
@@ -40,7 +41,8 @@ const addAdmin = asyncHandler(async (req: Request, res: Response) => {
       id: newAdmin.id, 
       username: newAdmin.username, 
       email: newAdmin.email, 
-      fullName: newAdmin.fullName 
+      fullName: newAdmin.fullName,
+      role : newAdmin.role,
     };
 
     res.status(201).json(new ApiResponse(201, { admin: responseAdmin }, 'Admin user registered successfully'));
@@ -70,6 +72,11 @@ const loginAdmin = asyncHandler(async(req : Request,res : Response) => {
     throw new ApiError(404, 'User not found');
   }
 
+  if(user?.role !== 'admin'){
+    throw new ApiError(401,"admin not found");
+  }
+ 
+
   const ispasswordValid = await bcrypt.compare(password,user.password);
   if(!ispasswordValid){
     throw new ApiError(401, 'Incorrect password');
@@ -85,7 +92,7 @@ const loginAdmin = asyncHandler(async(req : Request,res : Response) => {
 
   const loggedInUser = await prisma.admin.findUnique({
     where: { id: user.id },
-    select: { id: true, username: true, email: true, fullName: true },
+    select: { id: true, username: true, email: true, fullName: true, role: true },
   });
 
   const options = {
@@ -152,6 +159,7 @@ const refreshAccessToken = asyncHandler(async (req: Request, res: Response) => {
           incomingRefreshToken,
           refreshTokenSecret
       );
+      console.log('Decoded Refresh Token:', decodedToken); // Log decoded token for inspection
 
       const user = await prisma.admin.findUnique({
           where: { id: decodedToken.userId }
