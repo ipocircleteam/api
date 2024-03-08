@@ -7,6 +7,7 @@ import algoRouter from "./routes/web/algo";
 import reviewRouter from "./routes/web/review";
 import marketFeedRouter from "./routes/upstoxRouter/marketfeed";
 import mailRouter from "./routes/userRouter/mail";
+import adminRouter from "./routes/admin/admin";
 
 function Router() {
   // web apis
@@ -21,6 +22,9 @@ function Router() {
 
   // mail apis
   app.use("/api/v1/user/mail", mailRouter);
+
+  //admin apis
+  app.use("/api/v1/admin",adminRouter);
 }
 
 export default Router;

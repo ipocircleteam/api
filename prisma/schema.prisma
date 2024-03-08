@@ -138,8 +138,8 @@ model Ipo_Review {
 model Ipo_Reservations {
   id              Int      @id @unique @default(autoincrement())
   ipo_id          Int      @unique
-  category        String[]
   shares_offerred Int[]
+  category        String[]
   ipo             Ipo      @relation(fields: [ipo_id], references: [id])
 }
 
@@ -232,6 +232,18 @@ model Financial_Details {
   reserves          Decimal
   borrowing         Decimal
   ipoFinProgress    Ipo_FinProgress @relation(fields: [ipoFinProgress_id], references: [id])
+}
+
+model admin {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  email        String   @unique
+  fullName     String
+  password     String
+  role         String   @default("admin")
+  refreshToken String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
 
 enum IPO_Series {
