@@ -11,6 +11,7 @@ const algo_1 = __importDefault(require("./routes/web/algo"));
 const review_1 = __importDefault(require("./routes/web/review"));
 const marketfeed_1 = __importDefault(require("./routes/upstoxRouter/marketfeed"));
 const mail_1 = __importDefault(require("./routes/userRouter/mail"));
+const admin_1 = __importDefault(require("./routes/admin/admin"));
 function Router() {
     // web apis
     app_1.app.use("/api/v1/ipo/", ipodata_1.default);
@@ -22,5 +23,7 @@ function Router() {
     app_1.app.use("/api/upstox/", marketfeed_1.default);
     // mail apis
     app_1.app.use("/api/v1/user/mail", mail_1.default);
+    //admin apis
+    app_1.app.use("/api/v1/admin", admin_1.default);
 }
 exports.default = Router;
