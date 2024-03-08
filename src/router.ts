@@ -24,7 +24,7 @@ function Router() {
   app.use("/api/v1/user/mail", mailRouter);
 
   //admin apis
-  app.use("/api/v1/admin",adminRouter);
+  app.use("/api/v1/admin", adminRouter);
 }
 
 export default Router;

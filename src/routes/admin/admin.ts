@@ -1,12 +1,17 @@
 import express from "express";
-import { addAdmin, loginAdmin, logoutAdmin, refreshAccessToken} from '../../controllers/admin/admin.controller';
+import {
+  addAdmin,
+  loginAdmin,
+  logoutAdmin,
+  refreshAccessToken,
+} from "../../controllers/admin/admin.controller";
 import { verifyAccessToken } from "../../middlewares/auth.middleware";
 
 const router = express.Router();
 
-router.post("/addAdmin",addAdmin);
-router.post('/loginAdmin', loginAdmin);
-router.post('/logoutAdmin',verifyAccessToken, logoutAdmin);
-router.post('/refresh-token', refreshAccessToken);
+router.post("/addAdmin", addAdmin);
+router.post("/loginAdmin", loginAdmin);
+router.post("/logoutAdmin", verifyAccessToken, logoutAdmin);
+router.post("/refresh-token", refreshAccessToken);
 
-export default router
+export default router;
