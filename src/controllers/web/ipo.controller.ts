@@ -84,7 +84,7 @@ const getIpoDataFromId = asyncHandler(async (req: Request, res: Response) => {
 
   var ipoData = await prisma.ipo.findMany({
     where: {
-      id: Number(id),
+      id: String(id),
     },
     select: {
       ipoPrices: true,
@@ -158,7 +158,7 @@ const getIpoCount = asyncHandler(async (req: Request, res: Response) => {
 // POST REQUEST
 const createIpoEntry = asyncHandler(async (req: Request, res: Response) => {
   const ipoData = req.body;
-  let ipoId: number;
+  let ipoId: string;
 
   try {
     const result = await prisma.ipo.create({ data: ipoData.ipo });
@@ -221,7 +221,7 @@ const updateIpoEntry = asyncHandler(async (req: Request, res: Response) => {
 
   const updateIpo = await prisma.ipo.update({
     where: {
-      id: Number(ipoId),
+      id: String(ipoId),
     },
     data: ipoData,
   });

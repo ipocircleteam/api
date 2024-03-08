@@ -60,7 +60,7 @@ const updateTrackerEntry = asyncHandler(async (req: Request, res: Response) => {
 
   const updateTracker = await prisma.ipo_Tracker.update({
     where: {
-      ipo_id: Number(ipoId),
+      ipo_id: String(ipoId),
     },
     data: trackerData,
   });
