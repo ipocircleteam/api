@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { IPO_Series, PrismaClient } from "@prisma/client";
 import { asyncHandler, ApiError, ApiResponse } from "../../utils";
 
 const prisma = new PrismaClient();
@@ -232,6 +232,78 @@ const updateIpoEntry = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(200, updateIpo, "Ipo updated successfully!"));
 });
 
+const calculateIpoStats = async (ipoSeries: IPO_Series) => {
+  const ipos = await prisma.ipo.findMany({
+    where: {
+      series: ipoSeries,
+    },
+    include: {
+      ipoTracker: true,
+      ipoGmp: true,
+    },
+  });
+
+  let totalIPOs = 0;
+  let positiveListings = 0;
+  let negativeListings = 0;
+  let aboveGMP = 0;
+  let belowGMP = 0;
+
+  for (const ipo of ipos) {
+    totalIPOs++;
+    if (ipo.ipoTracker) {
+      const { listing_price, issue_price } = ipo.ipoTracker;
+      if (listing_price > issue_price) {
+        positiveListings++;
+      } else if (listing_price < issue_price) {
+        negativeListings++;
+      }
+    }
+
+    if (ipo.ipoGmp) {
+      const latestGMP = ipo.ipoGmp.absolute_value[0]; 
+      if (ipo.ipoTracker && ipo.ipoTracker.listing_price > latestGMP) {
+        aboveGMP++;
+      } else if (ipo.ipoTracker && ipo.ipoTracker.listing_price < latestGMP) {
+        belowGMP++;
+      }
+    }
+  }
+
+  return {
+    totalIPOs,
+    positiveListings,
+    negativeListings,
+    aboveGMP,
+    belowGMP,
+  };
+};
+
+const getIpoStats = asyncHandler(async (req: Request, res: Response) => {
+  try {
+    const mainlineStats = await calculateIpoStats(IPO_Series.main);
+    const smeStats = await calculateIpoStats(IPO_Series.sme);
+
+    const totalStats = {
+      totalIPOs: mainlineStats.totalIPOs + smeStats.totalIPOs,
+      positiveListings: mainlineStats.positiveListings + smeStats.positiveListings,
+      negativeListings: mainlineStats.negativeListings + smeStats.negativeListings,
+      aboveGMP: mainlineStats.aboveGMP + smeStats.aboveGMP,
+      belowGMP: mainlineStats.belowGMP + smeStats.belowGMP,
+    };
+
+    const stats = {
+      mainline: mainlineStats,
+      sme: smeStats,
+      total: totalStats,
+    };
+
+    res.status(200).json(new ApiResponse(200, stats, "IPO statistics fetched successfully!"));
+  } catch (error : any) {
+    throw new ApiError(500, "Internal Server Error", error);
+  }
+});
+
 export {
   getIpoData,
   getIpoDataFromId,
@@ -239,4 +311,6 @@ export {
   updateIpoEntry,
   getIpoList,
   getIpoCount,
+  getIpoStats,
+
 };
