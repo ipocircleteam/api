@@ -6,6 +6,7 @@ import {
   getIpoDataFromId,
   getIpoList,
   updateIpoEntry,
+  getIpoStats,
 } from "../../controllers/web/ipo.controller";
 import { ValidateInputs } from "../../middlewares";
 import { verifyAccessToken } from "../../middlewares/auth.middleware";
@@ -18,5 +19,7 @@ router.get("/details/id", ValidateInputs, getIpoDataFromId);
 router.get("/count", ValidateInputs, getIpoCount);
 router.post("/create", verifyAccessToken, ValidateInputs, createIpoEntry);
 router.patch("/update", verifyAccessToken, ValidateInputs, updateIpoEntry);
+
+router.get("/ipoStats",getIpoStats);
 
 export default router;

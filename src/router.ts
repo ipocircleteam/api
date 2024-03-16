@@ -5,6 +5,7 @@ import trackerRouter from "./routes/web/trackerdata";
 import algoRouter from "./routes/web/algo";
 // import { gmpRouter } from "./routes/web/gmp";
 import reviewRouter from "./routes/web/review";
+
 import marketFeedRouter from "./routes/upstoxRouter/marketfeed";
 import mailRouter from "./routes/userRouter/mail";
 import adminRouter from "./routes/admin/admin";
@@ -25,6 +26,7 @@ function Router() {
 
   //admin apis
   app.use("/api/v1/admin", adminRouter);
+
 }
 
 export default Router;

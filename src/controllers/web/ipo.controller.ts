@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
+import { IPO_Series, PrismaClient } from "@prisma/client";
 import { asyncHandler, ApiError, ApiResponse } from "../../utils";
+import { dummyCalculateIpoStats } from "./dummyCalculateIpoStats";
 
 const prisma = new PrismaClient();
 
@@ -232,6 +233,96 @@ const updateIpoEntry = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(200, updateIpo, "Ipo updated successfully!"));
 });
 
+//on real data
+// const calculateIpoStats = async (ipoSeries: IPO_Series) => {
+//   const ipos = await prisma.ipo.findMany({
+//     where: {
+//       series: ipoSeries,
+//     },
+//     include: {
+//       ipoDates: true,
+//       ipoTracker: true,
+//       ipoGmp: true,
+//     },
+//   });
+
+//   let totalIPOs = 0;
+//   let positiveListings = 0;
+//   let negativeListings = 0;
+//   let aboveGMP = 0;
+//   let belowGMP = 0;
+
+//   for (const ipo of ipos) {
+//     totalIPOs++;
+
+//     if (ipo.ipoTracker?.listing_price && ipo.ipoDates?.listing_date) {
+//       const { listing_price, issue_price } = ipo.ipoTracker;
+//       const listingDate = new Date(ipo.ipoDates.listing_date);
+
+//       if (
+//         listing_price > issue_price &&
+//         ipo.ipoGmp?.instant &&
+//         ipo.ipoGmp.absolute_value?.length &&
+//         listingDate >= new Date(ipo.ipoGmp.instant[ipo.ipoGmp.instant.length - 1])
+//       ) {
+//         positiveListings++;
+//       } else if (
+//         listing_price < issue_price &&
+//         ipo.ipoGmp?.instant &&
+//         ipo.ipoGmp.absolute_value?.length &&
+//         listingDate >= new Date(ipo.ipoGmp.instant[ipo.ipoGmp.instant.length - 1])
+//       ) {
+//         negativeListings++;
+//       }
+//     }
+
+//     if (ipo.ipoGmp?.absolute_value?.length) {
+//       const latestGMP = ipo.ipoGmp.absolute_value[ipo.ipoGmp.absolute_value.length - 1];
+//       if (ipo.ipoTracker?.listing_price && ipo.ipoGmp.instant && ipo.ipoTracker.listing_price > latestGMP) {
+//         aboveGMP++;
+//       } else if (ipo.ipoTracker?.listing_price && ipo.ipoGmp.instant && ipo.ipoTracker.listing_price < latestGMP) {
+//         belowGMP++;
+//       }
+//     }
+//   }
+
+//   return {
+//     totalIPOs,
+//     positiveListings,
+//     negativeListings,
+//     aboveGMP,
+//     belowGMP,
+//   };
+// };
+
+const getIpoStats = asyncHandler(async(req:Request,res:Response)=>{
+    try {
+      const mainlineStats = await dummyCalculateIpoStats(IPO_Series.main);
+      const smeStats = await dummyCalculateIpoStats(IPO_Series.sme);
+
+      // const mainlineStats = await calculateIpoStats(IPO_Series.main);
+      // const smeStats = await calculateIpoStats(IPO_Series.sme);
+
+      const totalStats = {
+        totalIPOs : mainlineStats.totalIPOs + smeStats.totalIPOs,
+        positiveListings : mainlineStats.positiveListings + smeStats.positiveListings,
+        negativeListings : mainlineStats.negativeListings + smeStats.negativeListings,
+        aboveGMP : mainlineStats.aboveGMP + smeStats.aboveGMP,
+        belowGMP : mainlineStats.belowGMP + smeStats.belowGMP,
+      };
+
+      const stats = {
+        total : totalStats,
+        mainline : mainlineStats,
+        sme : smeStats,
+      }
+
+      res.status(200).json(new ApiResponse(200,stats,"IPO statistics fetched successfully!"));
+    } catch (error:any) {
+      throw new ApiError(500,"Internal Server Error!",error);
+    }
+});
+
 export {
   getIpoData,
   getIpoDataFromId,
@@ -239,4 +330,6 @@ export {
   updateIpoEntry,
   getIpoList,
   getIpoCount,
+  getIpoStats,
+
 };
