@@ -8,5 +8,6 @@ const router = express.Router();
 
 router.post("/addBlog", verifyAccessToken, addBlog);
 router.post("/getBlog/id", getBlog);
+router.post("/updateBlog/id", verifyAccessToken, getBlog);
 
 export default router;
