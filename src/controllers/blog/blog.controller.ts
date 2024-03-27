@@ -14,7 +14,7 @@ const addBlog = asyncHandler(async (req: CustomRequest, res: Response) => {
 
     try {
         if (authorId === undefined) {
-            throw new Error("AuthorId is missing in the request");
+            throw new ApiError(400,"AuthorId is missing in the request");
         }
 
         const authorExists = await prisma.admin.findUnique({
@@ -24,7 +24,7 @@ const addBlog = asyncHandler(async (req: CustomRequest, res: Response) => {
         });
 
         if (!authorExists) {
-            throw new Error("Author not found");
+            throw new ApiError(400,"Author not found");
         }
 
         const newBlog = await prisma.blog.create({
@@ -59,5 +59,25 @@ const addBlog = asyncHandler(async (req: CustomRequest, res: Response) => {
         );
     }
 });
+const getBlog = asyncHandler(async(req:Request,res:Response)=>{
+    const blogId= Number(req.query);
+    const blog = await prisma.blog.findUnique({
+        where:{ id: blogId} ,
+        select:{
+            title:true,
+            description:true,
+            slug:true,
+            imageUrl:true,
+            content:true,
+            author: {select:{username:true}}
+        }
+    });
+    if(!blog){
+        throw new ApiError(400,"Blog not found");
+    }
+    res.status(200).json(
+        new ApiResponse(200,{blog},"Retrieved Blog Successfully")
+    );
+});
 
-export { addBlog };
+export { addBlog, getBlog};
