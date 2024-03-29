@@ -244,6 +244,22 @@ model admin {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   role         String   @default("admin")
+  blogs        Blog[]   @relation("AdminToBlog")
+}
+
+model Blog {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String
+  description String
+  tags        String[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  metadata    String
+  content     String
+  imageUrl    String?
+  authorId    Int
+  author      admin    @relation("AdminToBlog", fields: [authorId], references: [id])
 }
 
 enum IPO_Series {

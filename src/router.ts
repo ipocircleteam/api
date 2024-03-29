@@ -9,7 +9,7 @@ import reviewRouter from "./routes/web/review";
 import marketFeedRouter from "./routes/upstoxRouter/marketfeed";
 import mailRouter from "./routes/userRouter/mail";
 import adminRouter from "./routes/admin/admin";
-
+import  blogRouter from "./routes/blogRouter/blog";
 function Router() {
   // web apis
   app.use("/api/v1/ipo/", ipoDataRouter);
@@ -26,6 +26,9 @@ function Router() {
 
   //admin apis
   app.use("/api/v1/admin", adminRouter);
+  
+  //blog apis
+  app.use("api/v1/blog",blogRouter);
 
 }
 
