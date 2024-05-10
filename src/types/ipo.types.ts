@@ -70,3 +70,16 @@ export type getIpoQueries = {
   count: string | undefined;
   page: string | undefined;
 };
+
+export type IpoStatsType = {
+  totalIpos: number;
+  positiveListings: number;
+  negativeListings: number;
+  aboveGmp: number;
+  belowGmp: number;
+};
+
+export type IpoStatsResponse = {
+  main?: IpoStatsType;
+  sme?: IpoStatsType;
+};
