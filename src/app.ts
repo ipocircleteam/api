@@ -2,8 +2,6 @@ import express, { Request, Response, NextFunction } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import AppRouter from "./router";
-import { ApiError } from "./utils";
-import { ErrorHandler, ValidateInputs } from "./middlewares";
 
 const app = express();
 
@@ -28,7 +26,6 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 app.use(bodyParser.json());
 app.use(cors(corsOptions));
-// app.use(ValidateInputs);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).send("Welcome to IPO Circle APIs Phase 1");

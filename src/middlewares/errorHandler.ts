@@ -22,6 +22,5 @@ export default function ErrorHandler(
     success: false,
     status: errStatus,
     message: errMsg,
-    stack: process.env.NODE_ENV === "DEVELOPMENT" ? err.stack : {},
   });
 }

@@ -58,3 +58,14 @@ export type IPO = {
   anchor_portion: number;
   debt: number;
 };
+
+export enum IPO_Series {
+  main = "main",
+  sme = "sme",
+}
+
+export type getIpoQueries = {
+  concise: string | undefined;
+  type: string | undefined;
+  count: number | undefined;
+};

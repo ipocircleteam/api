@@ -4,26 +4,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("./app");
-const ipodata_1 = __importDefault(require("./routes/web/ipodata"));
-const trackerdata_1 = __importDefault(require("./routes/web/trackerdata"));
-const algo_1 = __importDefault(require("./routes/web/algo"));
-// import { gmpRouter } from "./routes/web/gmp";
-const review_1 = __importDefault(require("./routes/web/review"));
-const marketfeed_1 = __importDefault(require("./routes/upstoxRouter/marketfeed"));
-const mail_1 = __importDefault(require("./routes/userRouter/mail"));
-const admin_1 = __importDefault(require("./routes/admin/admin"));
+const ipo_routes_1 = __importDefault(require("./routes/ipo.routes"));
 function Router() {
-    // web apis
-    app_1.app.use("/api/v1/ipo/", ipodata_1.default);
-    app_1.app.use("/api/v1/tracker/", trackerdata_1.default);
-    app_1.app.use("/api/v1/expertAlgo/", algo_1.default);
-    // app.use("/api/v1/gmp/", gmpRouter);
-    app_1.app.use("/api/v1/review/", review_1.default);
-    // upstox apis
-    app_1.app.use("/api/upstox/", marketfeed_1.default);
-    // mail apis
-    app_1.app.use("/api/v1/user/mail", mail_1.default);
-    //admin apis
-    app_1.app.use("/api/v1/admin", admin_1.default);
+    app_1.app.use("/api/v1/ipo", ipo_routes_1.default);
+    app_1.app.use("/api/v1/blog", () => { });
+    app_1.app.use("/api/v1/auth", () => { });
+    app_1.app.use("/api/v1/user", () => { });
 }
 exports.default = Router;
+// app.use("/api/v1/ipo/stats", ipoDataRouter);
+// app.use("/api/v1/ipo/suggested", () => {});
+// app.use("/api/v1/ipo/tracker", () => {});
+// app.use("/api/v1/ipo/gmp", () => {});
+// app.use("/api/v1/ipo/algorithm", () => {});
