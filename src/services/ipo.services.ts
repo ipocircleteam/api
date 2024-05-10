@@ -126,4 +126,26 @@ const getIpoStats = async (type: string): Promise<IpoStatsType | undefined> => {
   }
 };
 
-export { getIpoData, getIpoStats };
+const getIpo = async (id: string) => {
+  try {
+    const data = await prisma.ipo.findUniqueOrThrow({
+      where: {
+        id: id,
+      },
+    });
+
+    return {
+      success: true,
+      data,
+    };
+  } catch (error: any) {
+    logError(error);
+    return {
+      success: false,
+      errorMsg:
+        error.code === "P2025" ? "Ipo not found!" : "Something went wrong!",
+    };
+  }
+};
+
+export { getIpoData, getIpoStats, getIpo };

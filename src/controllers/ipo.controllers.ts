@@ -6,7 +6,7 @@ import {
   IpoStatsType,
   getIpoQueries,
 } from "../types/ipo.types";
-import { getIpoStats } from "../services/ipo.services";
+import { getIpo, getIpoStats } from "../services/ipo.services";
 
 const getRequest = asyncHandler(async (req: Request, res: Response) => {
   const { concise, type, count, page } = req.query as getIpoQueries;
@@ -57,4 +57,16 @@ const getStatsRequest = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(201, reqData, "Ipo Stats Fetched Successfully!"));
 });
 
-export default { getRequest, getStatsRequest };
+const getIpoRequest = asyncHandler(async (req: Request, res: Response) => {
+  const ipoId = req.params.id;
+  const ipo = await getIpo(ipoId);
+  if (!ipo.success) {
+    throw new ApiError(404, ipo.errorMsg);
+  }
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, ipo.data, "Ipo fetched successfully!"));
+});
+
+export default { getRequest, getStatsRequest, getIpoRequest };
