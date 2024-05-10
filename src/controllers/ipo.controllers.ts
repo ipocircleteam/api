@@ -6,7 +6,12 @@ import {
   IpoStatsType,
   getIpoQueries,
 } from "../types/ipo.types";
-import { getIpo, getIpoStats } from "../services/ipo.services";
+import {
+  createIpo,
+  getIpo,
+  getIpoStats,
+  getTrackerData,
+} from "../services/ipo.services";
 
 const getRequest = asyncHandler(async (req: Request, res: Response) => {
   const { concise, type, count, page } = req.query as getIpoQueries;
@@ -69,4 +74,58 @@ const getIpoRequest = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(201, ipo.data, "Ipo fetched successfully!"));
 });
 
-export default { getRequest, getStatsRequest, getIpoRequest };
+const postIpoRequest = asyncHandler(async (req: Request, res: Response) => {
+  const ipo = req.body;
+  const resData = await createIpo(ipo);
+  if (!resData.success) {
+    throw new ApiError(422, "Ipo not added!");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, resData.data, "Ipo added successfully!"));
+});
+
+const patchIpoRequest = asyncHandler(async (req: Request, res: Response) => {
+  const ipo = req.body;
+  const resData = await createIpo(ipo);
+  if (!resData.success) {
+    throw new ApiError(422, "Ipo not added!");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, resData.data, "Ipo added successfully!"));
+});
+
+const deleteIpoRequest = asyncHandler(async (req: Request, res: Response) => {
+  const ipo = req.body;
+  const resData = await createIpo(ipo);
+  if (!resData.success) {
+    throw new ApiError(422, "Ipo not added!");
+  }
+  return res
+    .status(200)
+    .json(new ApiResponse(200, resData.data, "Ipo added successfully!"));
+});
+
+const getTrackerRequest = asyncHandler(async (req: Request, res: Response) => {
+  const { year } = req.query as { year?: number };
+  const resData = await getTrackerData(Number(year));
+  if (!resData.success) {
+    throw new ApiError(422, "Data not found!");
+  }
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, resData.data, "Tracker data fetched successfully!")
+    );
+});
+
+export default {
+  getRequest,
+  getStatsRequest,
+  getIpoRequest,
+  postIpoRequest,
+  patchIpoRequest,
+  deleteIpoRequest,
+  getTrackerRequest,
+};
