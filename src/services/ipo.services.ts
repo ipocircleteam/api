@@ -9,7 +9,7 @@ type GetQueryTYpe = {
   select?: {};
 };
 
-const getIpoData = async (concise?: string, type?: string, count?: number) => {
+const getIpoData = async (concise?: boolean, type?: string, count?: number) => {
   try {
     const queryOptions: GetQueryTYpe = {
       where: {},

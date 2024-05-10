@@ -67,5 +67,6 @@ export enum IPO_Series {
 export type getIpoQueries = {
   concise: string | undefined;
   type: string | undefined;
-  count: number | undefined;
+  count: string | undefined;
+  page: string | undefined;
 };
