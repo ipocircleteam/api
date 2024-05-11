@@ -8,6 +8,7 @@ import {
 } from "../types/ipo.types";
 import {
   createIpo,
+  getActiveIpoGmp,
   getIpo,
   getIpoStats,
   getSuggestedIpos,
@@ -124,7 +125,7 @@ const getTrackerRequest = asyncHandler(async (req: Request, res: Response) => {
 const getSuggestedIpoRequest = asyncHandler(
   async (req: Request, res: Response) => {
     const resData = await getSuggestedIpos();
-    if (!resData.success) throw new ApiError(422, "Data not found!");
+    if (!resData.success) throw new ApiError(404, "Data not found!");
 
     return res
       .status(201)
@@ -138,6 +139,14 @@ const getSuggestedIpoRequest = asyncHandler(
   }
 );
 
+const getGmpDataRequest = asyncHandler(async (req: Request, res: Response) => {
+  const resData = await getActiveIpoGmp();
+  if (!resData.success) throw new ApiError(404, "Data not found!");
+  return res
+    .status(201)
+    .json(new ApiResponse(201, resData.data, "GMP data fetched successfully!"));
+});
+
 export default {
   getRequest,
   getStatsRequest,
@@ -147,4 +156,5 @@ export default {
   deleteIpoRequest,
   getTrackerRequest,
   getSuggestedIpoRequest,
+  getGmpDataRequest,
 };

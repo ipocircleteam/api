@@ -1,3 +1,5 @@
+import { Decimal128 } from "typeorm";
+
 export type IPO = {
   id: string;
   name: string;
@@ -83,3 +85,11 @@ export type IpoStatsResponse = {
   main?: IpoStatsType;
   sme?: IpoStatsType;
 };
+
+export interface IpoGmpData {
+  id: number;
+  ipo_id: string;
+  absolute_value: Decimal128[];
+  instant: Date;
+  percent_value: Decimal128[];
+}

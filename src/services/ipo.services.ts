@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 import logError from "../utils/logError";
-import { IPO_Series, IpoStatsType } from "../types/ipo.types";
+import { IPO, IPO_Series, IpoGmpData, IpoStatsType } from "../types/ipo.types";
 import { ApiError } from "../utils";
+import { LessThan } from "typeorm";
 
 const prisma = new PrismaClient();
 
@@ -248,11 +249,51 @@ const getSuggestedIpos = async () => {
   }
 };
 
+const getActiveIpoGmp = async () => {
+  try {
+    const activeIpos = await prisma.ipo_Dates.findMany({
+      where: {
+        closing_date: {
+          lt: new Date(),
+        },
+      },
+      select: {
+        ipo_id: true,
+      },
+    });
+
+    if (!activeIpos) throw new Error("Error fetching active IPOs");
+
+    var reqData: any[] = []; //TODO Need to fix this
+
+    activeIpos.forEach(async (ipo) => {
+      const data = await prisma.ipo_Gmp.findUnique({
+        where: {
+          ipo_id: ipo.ipo_id,
+        },
+      });
+      if (!data) throw new Error("Error fetching gmp values!");
+      reqData.push(data);
+    });
+
+    return {
+      success: true,
+      data: reqData,
+    };
+  } catch (error) {
+    logError(error);
+    return {
+      success: false,
+    };
+  }
+};
+
 export {
   getIpoData,
   getIpoStats,
-  getIpo,
   createIpo,
   getTrackerData,
+  getIpo,
   getSuggestedIpos,
+  getActiveIpoGmp,
 };
