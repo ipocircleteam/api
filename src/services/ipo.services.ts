@@ -1,18 +1,23 @@
 import { PrismaClient } from "@prisma/client";
 import logError from "../utils/logError";
 import { IPO_Series, IpoStatsType } from "../types/ipo.types";
+import { ServiceResponse } from "../types/services.types";
 
 const prisma = new PrismaClient();
 
-type GetQueryTYpe = {
+type GetQueryType = {
   where?: {};
   take?: number;
   select?: {};
 };
 
-const getIpoData = async (concise?: boolean, type?: string, count?: number) => {
+const getIpoData = async (
+  concise?: boolean,
+  type?: string,
+  count?: number
+): Promise<ServiceResponse> => {
   try {
-    const queryOptions: GetQueryTYpe = {
+    const queryOptions: GetQueryType = {
       where: {},
       take: count ? count : undefined,
       select: {},
@@ -40,14 +45,25 @@ const getIpoData = async (concise?: boolean, type?: string, count?: number) => {
     }
 
     const data = await prisma.ipo.findMany(queryOptions);
-    return data;
+    if (!data)
+      return {
+        success: false,
+        errorMsg: "Data not found!",
+      };
+
+    return {
+      success: true,
+      data,
+    };
   } catch (error) {
     logError(error);
-    return undefined;
+    return {
+      success: false,
+    };
   }
 };
 
-const getIpoStats = async (type: string): Promise<IpoStatsType | undefined> => {
+const getIpoStats = async (type: string): Promise<ServiceResponse> => {
   try {
     let totalIpos = 0;
     let positiveListings = 0;
@@ -67,6 +83,11 @@ const getIpoStats = async (type: string): Promise<IpoStatsType | undefined> => {
     };
 
     const ipos = await prisma.ipo.findMany(queryOptions);
+    if (!ipos)
+      return {
+        success: false,
+        errorMsg: "IPOs not found!",
+      };
 
     for (const ipo of ipos) {
       totalIpos++;
@@ -114,25 +135,36 @@ const getIpoStats = async (type: string): Promise<IpoStatsType | undefined> => {
     }
 
     return {
-      totalIpos,
-      positiveListings,
-      negativeListings,
-      aboveGmp,
-      belowGmp,
+      success: true,
+      data: {
+        totalIpos,
+        positiveListings,
+        negativeListings,
+        aboveGmp,
+        belowGmp,
+      },
     };
   } catch (error) {
     logError(error);
-    return undefined;
+    return {
+      success: false,
+    };
   }
 };
 
-const getIpo = async (id: string) => {
+const getIpo = async (id: string): Promise<ServiceResponse> => {
   try {
     const data = await prisma.ipo.findUniqueOrThrow({
       where: {
         id: id,
       },
     });
+
+    if (!data)
+      return {
+        success: false,
+        errorMsg: "IPO not found!",
+      };
 
     return {
       success: true,
@@ -148,7 +180,7 @@ const getIpo = async (id: string) => {
   }
 };
 
-const createIpo = async (ipoData: any) => {
+const createIpo = async (ipoData: any): Promise<ServiceResponse> => {
   try {
     const data = {};
     // const result = await prisma.ipo.create({ data: ipoData.ipo });
@@ -206,7 +238,7 @@ const createIpo = async (ipoData: any) => {
   }
 };
 
-const getTrackerData = async (year: number) => {
+const getTrackerData = async (year: number): Promise<ServiceResponse> => {
   try {
     const trackerData = await prisma.ipo_Tracker.findMany({
       where: {
@@ -214,9 +246,11 @@ const getTrackerData = async (year: number) => {
       },
     });
 
-    if (!trackerData) {
-      throw new Error("Data not found!");
-    }
+    if (!trackerData)
+      return {
+        success: false,
+        errorMsg: "Tracker data not found!",
+      };
 
     return {
       success: true,
@@ -230,10 +264,14 @@ const getTrackerData = async (year: number) => {
   }
 };
 
-const getSuggestedIpos = async () => {
+const getSuggestedIpos = async (): Promise<ServiceResponse> => {
   try {
     const data = await prisma.suggested_Ipo.findMany();
-    if (!data) throw new Error("Data not found!");
+    if (!data)
+      return {
+        success: false,
+        errorMsg: "Suggested IPOs not found!",
+      };
 
     return {
       success: true,
@@ -247,7 +285,7 @@ const getSuggestedIpos = async () => {
   }
 };
 
-const getActiveIpoGmp = async () => {
+const getActiveIpoGmp = async (): Promise<ServiceResponse> => {
   try {
     const activeIpos = await prisma.ipo_Dates.findMany({
       where: {
@@ -260,7 +298,11 @@ const getActiveIpoGmp = async () => {
       },
     });
 
-    if (!activeIpos) throw new Error("Error fetching active IPOs");
+    if (!activeIpos)
+      return {
+        success: false,
+        errorMsg: "Active IPOs not found!",
+      };
 
     //@ts-ignore
     // var reqData = []; //TODO Need to fix this

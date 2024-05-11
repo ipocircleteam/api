@@ -41,7 +41,11 @@ const getBlogFromId = async (blogId: number): Promise<ServiceResponse> => {
         id: blogId,
       },
     });
-    if (!data) throw new Error("Blog not found!");
+    if (!data)
+      return {
+        success: false,
+        errorMsg: "Blog not found!",
+      };
 
     return {
       success: true,

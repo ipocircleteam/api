@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { ipoService } from "../services";
 import { getIpoQueries } from "../types/ipo.types";
 
+// GET: Retrieve all the IPOs data with filters
 const getRequest = asyncHandler(async (req: Request, res: Response) => {
   const { concise, type, count, page } = req.query as getIpoQueries;
 
@@ -12,14 +13,13 @@ const getRequest = asyncHandler(async (req: Request, res: Response) => {
     Number(count)
   );
 
-  if (!ipoData) {
-    throw new ApiError(404, "Data not found!");
-  }
+  if (!ipoData.success)
+    throw new ApiError(404, ipoData.errorMsg || "Something went wrong!");
 
   if (page) {
     //pagination
     const pageNo = Number(page);
-    ipoData = ipoData.slice(20 * (pageNo - 1), 20 * pageNo);
+    ipoData = ipoData.data.slice(20 * (pageNo - 1), 20 * pageNo);
   }
 
   return res
@@ -27,6 +27,7 @@ const getRequest = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(201, ipoData, "Ipo Data Fetched Successfully!"));
 });
 
+// GET: Retrieve stats of all IPOs
 const getStatsRequest = asyncHandler(async (req: Request, res: Response) => {
   const { type } = req.query as { type?: string };
   var reqData;
@@ -36,7 +37,7 @@ const getStatsRequest = asyncHandler(async (req: Request, res: Response) => {
   } else if (!type) {
     const smeIpoStats = await ipoService.getIpoStats("sme");
     const mainIpoStats = await ipoService.getIpoStats("main");
-    if (!mainIpoStats || !smeIpoStats) {
+    if (!mainIpoStats.success || !smeIpoStats.success) {
       throw new ApiError(404, "Data not found!");
     }
     reqData = {
@@ -56,87 +57,90 @@ const getStatsRequest = asyncHandler(async (req: Request, res: Response) => {
     .json(new ApiResponse(201, reqData, "Ipo Stats Fetched Successfully!"));
 });
 
+// GET: Retrieve complete IPO details based on Id
 const getIpoRequest = asyncHandler(async (req: Request, res: Response) => {
   const ipoId = req.params.id;
-  const ipo = await ipoService.getIpo(ipoId);
-  if (!ipo.success) {
-    throw new ApiError(404, ipo.errorMsg);
+  const { success, data, errorMsg } = await ipoService.getIpo(ipoId);
+  if (!success) {
+    throw new ApiError(404, errorMsg || "Something went wrong!");
   }
 
   return res
     .status(201)
-    .json(new ApiResponse(201, ipo.data, "Ipo fetched successfully!"));
+    .json(new ApiResponse(201, data, "Ipo fetched successfully!"));
 });
 
+// POST: Creates a new IPO entry
 const postIpoRequest = asyncHandler(async (req: Request, res: Response) => {
   const ipo = req.body;
-  const resData = await ipoService.createIpo(ipo);
-  if (!resData.success) {
-    throw new ApiError(422, "Ipo not added!");
+  const { success, data, errorMsg } = await ipoService.createIpo(ipo);
+  if (!success) {
+    throw new ApiError(422, errorMsg || "Ipo not added!");
   }
   return res
     .status(200)
-    .json(new ApiResponse(200, resData.data, "Ipo added successfully!"));
+    .json(new ApiResponse(200, data, "Ipo added successfully!"));
 });
 
+// PATCH: Updates the IPO details
 const patchIpoRequest = asyncHandler(async (req: Request, res: Response) => {
-  const ipo = req.body;
-  const resData = await ipoService.createIpo(ipo);
-  if (!resData.success) {
-    throw new ApiError(422, "Ipo not added!");
-  }
+  //TODO
+  // const ipo = req.body;
+  // const resData = await ipoService.createIpo(ipo);
+  // if (!resData.success) {
+  //   throw new ApiError(422, "Ipo not added!");
+  // }
   return res
     .status(200)
-    .json(new ApiResponse(200, resData.data, "Ipo added successfully!"));
+    .json(new ApiResponse(200, {}, "API under maintenance!"));
 });
 
+//DELETE: Deletes the IPO and related data
 const deleteIpoRequest = asyncHandler(async (req: Request, res: Response) => {
-  const ipo = req.body;
-  const resData = await ipoService.createIpo(ipo);
-  if (!resData.success) {
-    throw new ApiError(422, "Ipo not added!");
-  }
+  //TODO
+  // const ipo = req.body;
+  // const resData = await ipoService.createIpo(ipo);
+  // if (!resData.success) {
+  //   throw new ApiError(422, "Ipo not added!");
+  // }
   return res
     .status(200)
-    .json(new ApiResponse(200, resData.data, "Ipo added successfully!"));
+    .json(new ApiResponse(200, {}, "Ipo added successfully!"));
 });
 
+//GET: Retrieves data for IPO Tracker
 const getTrackerRequest = asyncHandler(async (req: Request, res: Response) => {
   const { year } = req.query as { year?: number };
-  const resData = await ipoService.getTrackerData(Number(year));
-  if (!resData.success) {
-    throw new ApiError(422, "Data not found!");
+  const { success, data, errorMsg } = await ipoService.getTrackerData(
+    Number(year)
+  );
+  if (!success) {
+    throw new ApiError(422, errorMsg || "Something went wrong!");
   }
   return res
     .status(200)
-    .json(
-      new ApiResponse(200, resData.data, "Tracker data fetched successfully!")
-    );
+    .json(new ApiResponse(200, data, "Tracker data fetched successfully!"));
 });
 
+//GET: Retrieves list of suggested IPOs
 const getSuggestedIpoRequest = asyncHandler(
   async (req: Request, res: Response) => {
-    const resData = await ipoService.getSuggestedIpos();
-    if (!resData.success) throw new ApiError(404, "Data not found!");
+    const { success, data, errorMsg } = await ipoService.getSuggestedIpos();
+    if (!success) throw new ApiError(404, errorMsg || "Something went wrong!");
 
     return res
       .status(201)
-      .json(
-        new ApiResponse(
-          201,
-          resData.data,
-          "Suggested Ipos fetched successfully!"
-        )
-      );
+      .json(new ApiResponse(201, data, "Suggested Ipos fetched successfully!"));
   }
 );
 
+// GET: Retrieves GMP data of active IPOs
 const getGmpDataRequest = asyncHandler(async (req: Request, res: Response) => {
-  const resData = await ipoService.getActiveIpoGmp();
-  if (!resData.success) throw new ApiError(404, "Data not found!");
+  const { data, success, errorMsg } = await ipoService.getActiveIpoGmp();
+  if (!success) throw new ApiError(404, errorMsg || "Something went wrong!");
   return res
     .status(201)
-    .json(new ApiResponse(201, [], "Need to fix type error!"));
+    .json(new ApiResponse(201, data, "Need to fix type error!"));
 });
 
 export default {
