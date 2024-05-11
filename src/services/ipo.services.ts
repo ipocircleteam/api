@@ -263,22 +263,21 @@ const getActiveIpoGmp = async () => {
     if (!activeIpos) throw new Error("Error fetching active IPOs");
 
     //@ts-ignore
-    var reqData = []; //TODO Need to fix this
+    // var reqData = []; //TODO Need to fix this
 
-    activeIpos.forEach(async (ipo) => {
-      const data = await prisma.ipo_Gmp.findUnique({
-        where: {
-          ipo_id: ipo.ipo_id,
-        },
-      });
-      if (!data) throw new Error("Error fetching gmp values!");
-      reqData.push(data);
-    });
+    // activeIpos.forEach(async (ipo) => {
+    //   const data = await prisma.ipo_Gmp.findUnique({
+    //     where: {
+    //       ipo_id: ipo.ipo_id,
+    //     },
+    //   });
+    //   if (!data) throw new Error("Error fetching gmp values!");
+    //   reqData.push(data);
+    // });
 
     return {
       success: true,
-      //@ts-ignore
-      data: reqData,
+      // data: reqData,
     };
   } catch (error) {
     logError(error);

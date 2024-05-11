@@ -136,7 +136,7 @@ const getGmpDataRequest = asyncHandler(async (req: Request, res: Response) => {
   if (!resData.success) throw new ApiError(404, "Data not found!");
   return res
     .status(201)
-    .json(new ApiResponse(201, resData.data, "GMP data fetched successfully!"));
+    .json(new ApiResponse(201, [], "Need to fix type error!"));
 });
 
 export default {
