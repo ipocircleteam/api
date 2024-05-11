@@ -11,5 +11,6 @@ ipoRouter.get("/:id", ipoController.getIpoRequest);
 // ipoRouter.delete("/:id", ValidateRequest, ValidateInputs, ipoController.postIpoRequest);
 ipoRouter.get("/stats", ipoController.getStatsRequest);
 ipoRouter.get("/tracker", ipoController.getTrackerRequest);
+ipoRouter.get("/suggested", ipoController.getSuggestedIpoRequest);
 
 export default ipoRouter;

@@ -216,7 +216,7 @@ const getTrackerData = async (year: number) => {
     });
 
     if (!trackerData) {
-      throw new Error("Something went wrong!");
+      throw new Error("Data not found!");
     }
 
     return {
@@ -231,4 +231,28 @@ const getTrackerData = async (year: number) => {
   }
 };
 
-export { getIpoData, getIpoStats, getIpo, createIpo, getTrackerData };
+const getSuggestedIpos = async () => {
+  try {
+    const data = await prisma.suggested_Ipo.findMany();
+    if (!data) throw new Error("Data not found!");
+
+    return {
+      success: true,
+      data,
+    };
+  } catch (error) {
+    logError(error);
+    return {
+      success: false,
+    };
+  }
+};
+
+export {
+  getIpoData,
+  getIpoStats,
+  getIpo,
+  createIpo,
+  getTrackerData,
+  getSuggestedIpos,
+};

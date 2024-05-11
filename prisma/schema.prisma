@@ -38,6 +38,7 @@ model Ipo {
   ipoShares         Ipo_Shares?
   ipoSubscriptions  Ipo_Subscriptions?
   ipoTracker        Ipo_Tracker?
+  suggestedIpo      Suggested_Ipo?
 }
 
 model Ipo_Tracker {
@@ -260,6 +261,12 @@ model Blog {
   imageUrl    String?
   authorId    Int
   author      admin    @relation("AdminToBlog", fields: [authorId], references: [id])
+}
+
+model Suggested_Ipo {
+  id Int @id @default(autoincrement())
+  ipo_id String @unique
+  ipo        Ipo      @relation(fields: [ipo_id], references: [id])
 }
 
 enum IPO_Series {

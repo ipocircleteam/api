@@ -10,6 +10,7 @@ import {
   createIpo,
   getIpo,
   getIpoStats,
+  getSuggestedIpos,
   getTrackerData,
 } from "../services/ipo.services";
 
@@ -120,6 +121,23 @@ const getTrackerRequest = asyncHandler(async (req: Request, res: Response) => {
     );
 });
 
+const getSuggestedIpoRequest = asyncHandler(
+  async (req: Request, res: Response) => {
+    const resData = await getSuggestedIpos();
+    if (!resData.success) throw new ApiError(422, "Data not found!");
+
+    return res
+      .status(201)
+      .json(
+        new ApiResponse(
+          201,
+          resData.data,
+          "Suggested Ipos fetched successfully!"
+        )
+      );
+  }
+);
+
 export default {
   getRequest,
   getStatsRequest,
@@ -128,4 +146,5 @@ export default {
   patchIpoRequest,
   deleteIpoRequest,
   getTrackerRequest,
+  getSuggestedIpoRequest,
 };
