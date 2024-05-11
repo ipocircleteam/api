@@ -1,24 +1,16 @@
 import { ApiError, ApiResponse, asyncHandler } from "../utils";
 import { Request, Response } from "express";
-import { getIpoData } from "../services";
-import {
-  IpoStatsResponse,
-  IpoStatsType,
-  getIpoQueries,
-} from "../types/ipo.types";
-import {
-  createIpo,
-  getActiveIpoGmp,
-  getIpo,
-  getIpoStats,
-  getSuggestedIpos,
-  getTrackerData,
-} from "../services/ipo.services";
+import { ipoService } from "../services";
+import { getIpoQueries } from "../types/ipo.types";
 
 const getRequest = asyncHandler(async (req: Request, res: Response) => {
   const { concise, type, count, page } = req.query as getIpoQueries;
 
-  var ipoData = await getIpoData(Boolean(concise), type, Number(count));
+  var ipoData = await ipoService.getIpoData(
+    Boolean(concise),
+    type,
+    Number(count)
+  );
 
   if (!ipoData) {
     throw new ApiError(404, "Data not found!");
@@ -40,10 +32,10 @@ const getStatsRequest = asyncHandler(async (req: Request, res: Response) => {
   var reqData;
 
   if (type && (type === "main" || type === "sme")) {
-    reqData = await getIpoStats(type);
+    reqData = await ipoService.getIpoStats(type);
   } else if (!type) {
-    const smeIpoStats = await getIpoStats("sme");
-    const mainIpoStats = await getIpoStats("main");
+    const smeIpoStats = await ipoService.getIpoStats("sme");
+    const mainIpoStats = await ipoService.getIpoStats("main");
     if (!mainIpoStats || !smeIpoStats) {
       throw new ApiError(404, "Data not found!");
     }
@@ -66,7 +58,7 @@ const getStatsRequest = asyncHandler(async (req: Request, res: Response) => {
 
 const getIpoRequest = asyncHandler(async (req: Request, res: Response) => {
   const ipoId = req.params.id;
-  const ipo = await getIpo(ipoId);
+  const ipo = await ipoService.getIpo(ipoId);
   if (!ipo.success) {
     throw new ApiError(404, ipo.errorMsg);
   }
@@ -78,7 +70,7 @@ const getIpoRequest = asyncHandler(async (req: Request, res: Response) => {
 
 const postIpoRequest = asyncHandler(async (req: Request, res: Response) => {
   const ipo = req.body;
-  const resData = await createIpo(ipo);
+  const resData = await ipoService.createIpo(ipo);
   if (!resData.success) {
     throw new ApiError(422, "Ipo not added!");
   }
@@ -89,7 +81,7 @@ const postIpoRequest = asyncHandler(async (req: Request, res: Response) => {
 
 const patchIpoRequest = asyncHandler(async (req: Request, res: Response) => {
   const ipo = req.body;
-  const resData = await createIpo(ipo);
+  const resData = await ipoService.createIpo(ipo);
   if (!resData.success) {
     throw new ApiError(422, "Ipo not added!");
   }
@@ -100,7 +92,7 @@ const patchIpoRequest = asyncHandler(async (req: Request, res: Response) => {
 
 const deleteIpoRequest = asyncHandler(async (req: Request, res: Response) => {
   const ipo = req.body;
-  const resData = await createIpo(ipo);
+  const resData = await ipoService.createIpo(ipo);
   if (!resData.success) {
     throw new ApiError(422, "Ipo not added!");
   }
@@ -111,7 +103,7 @@ const deleteIpoRequest = asyncHandler(async (req: Request, res: Response) => {
 
 const getTrackerRequest = asyncHandler(async (req: Request, res: Response) => {
   const { year } = req.query as { year?: number };
-  const resData = await getTrackerData(Number(year));
+  const resData = await ipoService.getTrackerData(Number(year));
   if (!resData.success) {
     throw new ApiError(422, "Data not found!");
   }
@@ -124,7 +116,7 @@ const getTrackerRequest = asyncHandler(async (req: Request, res: Response) => {
 
 const getSuggestedIpoRequest = asyncHandler(
   async (req: Request, res: Response) => {
-    const resData = await getSuggestedIpos();
+    const resData = await ipoService.getSuggestedIpos();
     if (!resData.success) throw new ApiError(404, "Data not found!");
 
     return res
@@ -140,7 +132,7 @@ const getSuggestedIpoRequest = asyncHandler(
 );
 
 const getGmpDataRequest = asyncHandler(async (req: Request, res: Response) => {
-  const resData = await getActiveIpoGmp();
+  const resData = await ipoService.getActiveIpoGmp();
   if (!resData.success) throw new ApiError(404, "Data not found!");
   return res
     .status(201)

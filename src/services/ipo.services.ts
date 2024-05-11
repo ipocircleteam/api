@@ -1,8 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import logError from "../utils/logError";
-import { IPO, IPO_Series, IpoGmpData, IpoStatsType } from "../types/ipo.types";
-import { ApiError } from "../utils";
-import { LessThan } from "typeorm";
+import { IPO_Series, IpoStatsType } from "../types/ipo.types";
 
 const prisma = new PrismaClient();
 
@@ -288,7 +286,7 @@ const getActiveIpoGmp = async () => {
   }
 };
 
-export {
+export default {
   getIpoData,
   getIpoStats,
   createIpo,
