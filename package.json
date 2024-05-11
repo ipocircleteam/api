@@ -13,7 +13,8 @@
     "create-tracker-data": "npm run build && clear && node dist/script/generateTrackerData.js",
     "feed-tables-with-ipoId": "npm run build && clear && node dist/script/feedIpoIdToTables.js",
     "prepare": "husky install",
-    "pre-commit": "npx prisma generate && npx lint-staged && npm run build && npm run test"
+    "pre-commit": "npx prisma generate && npx lint-staged && npm run build && npm run test",
+    "push": "npm run test && docker build -t new-build . && git push origin main"
   },
   "author": "IPO CIRCLE",
   "license": "ISC",

@@ -262,7 +262,8 @@ const getActiveIpoGmp = async () => {
 
     if (!activeIpos) throw new Error("Error fetching active IPOs");
 
-    var reqData: any[] = []; //TODO Need to fix this
+    //@ts-ignore
+    var reqData = []; //TODO Need to fix this
 
     activeIpos.forEach(async (ipo) => {
       const data = await prisma.ipo_Gmp.findUnique({
@@ -276,6 +277,7 @@ const getActiveIpoGmp = async () => {
 
     return {
       success: true,
+      //@ts-ignore
       data: reqData,
     };
   } catch (error) {
