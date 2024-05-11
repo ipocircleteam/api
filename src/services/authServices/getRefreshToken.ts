@@ -11,4 +11,4 @@ const generateRefreshToken = (admin: any) => {
   );
 };
 
-export { generateRefreshToken };
+export default generateRefreshToken;

@@ -11,4 +11,4 @@ const generateAccessToken = (admin: any) => {
   );
 };
 
-export { generateAccessToken };
+export default generateAccessToken;

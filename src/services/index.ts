@@ -1,2 +1,2 @@
-export { default as ipoService } from "./ipo.services";
-export { default as blogService } from "./blog.services";
+export * as ipoService from "./ipoServices";
+export * as blogService from "./blogServices";
