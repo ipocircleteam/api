@@ -4,10 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = require("./app");
+const blog_routes_1 = __importDefault(require("./routes/blog.routes"));
 const ipo_routes_1 = __importDefault(require("./routes/ipo.routes"));
 function Router() {
     app_1.app.use("/api/v1/ipo", ipo_routes_1.default);
-    app_1.app.use("/api/v1/blog", () => { });
+    app_1.app.use("/api/v1/blog", blog_routes_1.default);
     app_1.app.use("/api/v1/auth", () => { });
     app_1.app.use("/api/v1/user", () => { });
 }

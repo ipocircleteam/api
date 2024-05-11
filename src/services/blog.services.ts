@@ -32,6 +32,31 @@ const getAllBlogs = async (concise: boolean): Promise<ServiceResponse> => {
   }
 };
 
+const getBlogFromId = async (blogId: number): Promise<ServiceResponse> => {
+  try {
+    if (!blogId) throw new Error("Invalid blog id!");
+
+    const data = await prisma.blog.findUnique({
+      where: {
+        id: blogId,
+      },
+    });
+    if (!data) throw new Error("Blog not found!");
+
+    return {
+      success: true,
+      data,
+    };
+  } catch (error: any) {
+    logError(error);
+    return {
+      success: false,
+      errorMsg: error.message || "Something went wrong!",
+    };
+  }
+};
+
 export default {
   getAllBlogs,
+  getBlogFromId,
 };
