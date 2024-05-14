@@ -24,7 +24,7 @@ const getRequest = asyncHandler(async (req: Request, res: Response) => {
 
   return res
     .status(201)
-    .json(new ApiResponse(201, ipoData, "Ipo Data Fetched Successfully!"));
+    .json(new ApiResponse(201, ipoData.data, "Ipo Data Fetched Successfully!"));
 });
 
 // GET: Retrieve stats of all IPOs
