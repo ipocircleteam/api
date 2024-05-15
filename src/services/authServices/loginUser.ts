@@ -1,7 +1,8 @@
 import { ServiceResponse } from "../../types/services.types";
+import generateTokens from "./generateTokens";
+import saveRefreshToken from "./saveRefreshToken";
 import { PrismaClient } from "@prisma/client";
 import { LogError } from "../../utils";
-import generateTokens from "./generateTokens";
 
 const prisma = new PrismaClient();
 
@@ -42,9 +43,19 @@ const loginUser = async ({
     }
 
     const res = await generateTokens(user);
+    if (!res.success) {
+      response.errorMsg = res.errorMsg;
+      return response;
+    }
+
+    const isTokenSaved = await saveRefreshToken(user.id, res.data.refreshToken);
+    if (!isTokenSaved.success) {
+      response.errorMsg = isTokenSaved.errorMsg;
+      return response;
+    }
 
     response.success = true;
-    response.data = res.data;
+    response.data = { accessToken: res.data.accessToken };
 
     return response;
   } catch (error) {

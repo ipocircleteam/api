@@ -276,6 +276,12 @@ model User {
   password String
 }
 
+model Active_Sessions {
+  id Int @id @default(autoincrement())
+  userId Int @unique
+  refresh_token String
+}
+
 enum IPO_Series {
   main
   sme
