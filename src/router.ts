@@ -1,11 +1,12 @@
 import { app } from "./app";
+import authRouter from "./routes/auth.routes";
 import blogRouter from "./routes/blog.routes";
 import ipoRouter from "./routes/ipo.routes";
 
 function Router() {
   app.use("/api/v1/ipo", ipoRouter);
   app.use("/api/v1/blog", blogRouter);
-  app.use("/api/v1/auth", () => {});
+  app.use("/api/v1/auth", authRouter);
   app.use("/api/v1/user", () => {});
 }
 

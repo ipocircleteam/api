@@ -26,12 +26,19 @@ const saveRefreshToken = async (
       return response;
     }
 
+    await prisma.active_Sessions.delete({
+      where: {
+        userId: userId,
+      },
+    });
+
     const saveToken = await prisma.active_Sessions.create({
       data: {
         userId,
         refresh_token: refreshToken,
       },
     });
+
     if (!saveToken) {
       response.errorMsg = "Error saving refresh token!";
       return response;

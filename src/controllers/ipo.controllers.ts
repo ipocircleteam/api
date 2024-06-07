@@ -19,7 +19,7 @@ const getRequest = asyncHandler(async (req: Request, res: Response) => {
   if (page) {
     //pagination
     const pageNo = Number(page);
-    ipoData = ipoData.data.slice(20 * (pageNo - 1), 20 * pageNo);
+    ipoData.data = ipoData.data.slice(20 * (pageNo - 1), 20 * pageNo);
   }
 
   return res
@@ -138,9 +138,7 @@ const getSuggestedIpoRequest = asyncHandler(
 const getGmpDataRequest = asyncHandler(async (req: Request, res: Response) => {
   const { data, success, errorMsg } = await ipoService.getActiveIpoGmp();
   if (!success) throw new ApiError(404, errorMsg || "Something went wrong!");
-  return res
-    .status(201)
-    .json(new ApiResponse(201, data, "Need to fix type error!"));
+  return res.status(201).json(new ApiResponse(201, data, "Fetched GMP data!"));
 });
 
 export default {

@@ -12,17 +12,19 @@ const response: ServiceResponse = {
   errorMsg: "Something went wrong!",
 };
 
-type LoginUserType = {
+type ResetPasswordType = {
   email: string;
-  password: string;
+  oldPassword: string;
+  newPassword: string;
 };
 
-const loginUser = async ({
+const resetPassword = async ({
   email,
-  password,
-}: LoginUserType): Promise<ServiceResponse> => {
+  oldPassword,
+  newPassword,
+}: ResetPasswordType): Promise<ServiceResponse> => {
   try {
-    if (!email || !password) {
+    if (!email || !oldPassword || !newPassword) {
       response.errorMsg = "Invalid inputs passed!";
     }
 
@@ -37,26 +39,26 @@ const loginUser = async ({
       return response;
     }
 
-    if (user.password !== password) {
-      response.errorMsg = "Invalid email/password!";
+    if (user.password !== oldPassword) {
+      response.errorMsg = "Invalid old password!";
       return response;
     }
 
-    const res = await generateTokens(user);
-    if (!res.success) {
-      response.errorMsg = res.errorMsg;
-      return response;
-    }
+    const isPasswordUpdated = await prisma.user.update({
+      where: {
+        email: email,
+      },
+      data: {
+        password: newPassword,
+      },
+    });
 
-    const isTokenSaved = await saveRefreshToken(user.id, res.data.refreshToken);
-    if (!isTokenSaved.success) {
-      response.errorMsg = isTokenSaved.errorMsg;
+    if (!isPasswordUpdated) {
+      response.errorMsg = "Password updation failed!";
       return response;
     }
 
     response.success = true;
-    response.data = { accessToken: res.data.accessToken };
-
     return response;
   } catch (error) {
     LogError(error);
@@ -64,4 +66,4 @@ const loginUser = async ({
   }
 };
 
-export default loginUser;
+export default resetPassword;

@@ -14,7 +14,7 @@ const response: ServiceResponse = {
 
 const generateTokens = async (user: User): Promise<ServiceResponse> => {
   try {
-    if (user) {
+    if (!user) {
       response.errorMsg = "Invalid token data!";
       return response;
     }

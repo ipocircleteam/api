@@ -20,7 +20,7 @@ const getUniqueBlogRequest = asyncHandler(
     if (!blogId) throw new ApiError(400, "Invalid blog id!");
 
     const response = await blogService.getBlogFromId(blogId);
-    if (!response.success) throw new ApiError(400, "Something went wrong!");
+    if (!response.success) throw new ApiError(400, response.errorMsg);
 
     return res
       .status(201)
