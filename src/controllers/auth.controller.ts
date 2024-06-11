@@ -46,7 +46,7 @@ const logoutUserRequest = asyncHandler(async (req: Request, res: Response) => {
     throw new ApiError(500, isUserLoggedOut.errorMsg);
   return res
     .status(201)
-    .json(new ApiResponse(201, isUserLoggedOut.data, "User login success!"));
+    .json(new ApiResponse(201, isUserLoggedOut.data, "User logout success!"));
 });
 
 const resetPasswordRequest = asyncHandler(

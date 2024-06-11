@@ -1,6 +1,7 @@
 import { ServiceResponse } from "../../types/services.types";
 import { PrismaClient } from "@prisma/client";
 import { LogError } from "../../utils";
+import logError from "../../utils/logError";
 
 const prisma = new PrismaClient();
 
@@ -26,11 +27,22 @@ const saveRefreshToken = async (
       return response;
     }
 
-    await prisma.active_Sessions.delete({
-      where: {
-        userId: userId,
-      },
-    });
+    prisma.active_Sessions
+      .findUniqueOrThrow({
+        where: {
+          userId: userId,
+        },
+      })
+      .then(async () => {
+        await prisma.active_Sessions.delete({
+          where: {
+            userId: userId,
+          },
+        });
+      })
+      .catch((e: any) => {
+        logError("User not active!");
+      });
 
     const saveToken = await prisma.active_Sessions.create({
       data: {
