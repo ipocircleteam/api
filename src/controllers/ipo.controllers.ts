@@ -97,15 +97,14 @@ const patchIpoRequest = asyncHandler(async (req: Request, res: Response) => {
 
 //DELETE: Deletes the IPO and related data
 const deleteIpoRequest = asyncHandler(async (req: Request, res: Response) => {
-  //TODO
-  // const ipo = req.body;
-  // const resData = await ipoService.createIpo(ipo);
-  // if (!resData.success) {
-  //   throw new ApiError(422, "Ipo not added!");
-  // }
+  const ipoId = req.params.id;
+  const resData = await ipoService.deleteIpo(ipoId);
+  if (!resData.success) {
+    throw new ApiError(422, "Ipo deletion failed!");
+  }
   return res
     .status(200)
-    .json(new ApiResponse(200, {}, "Ipo added successfully!"));
+    .json(new ApiResponse(200, {}, "Ipo deleted successfully!"));
 });
 
 //GET: Retrieves data for IPO Tracker

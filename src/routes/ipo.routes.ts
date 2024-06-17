@@ -7,7 +7,7 @@ const ipoRouter = express.Router();
 ipoRouter.get("/", ipoController.getRequest);
 ipoRouter.post("/", ValidateInputs, ipoController.postIpoRequest);
 // ipoRouter.patch("/:id", ValidateRequest, ValidateInputs, ipoController.postIpoRequest);
-// ipoRouter.delete("/:id", ValidateRequest, ValidateInputs, ipoController.postIpoRequest);
+ipoRouter.delete("/:id", ipoController.deleteIpoRequest);
 ipoRouter.get("/stats", ipoController.getStatsRequest);
 ipoRouter.get("/tracker", ipoController.getTrackerRequest);
 ipoRouter.get("/suggested", ipoController.getSuggestedIpoRequest);
