@@ -1,4 +1,8 @@
 import { Decimal128 } from "typeorm";
+import { z } from "zod";
+import { IpoPostRequestSchema } from "../zod/ipo.schema";
+
+export type IpoData = z.infer<typeof IpoPostRequestSchema>;
 
 export type IPO = {
   id: string;

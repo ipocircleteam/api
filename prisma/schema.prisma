@@ -12,7 +12,7 @@ datasource db {
 model Ipo {
   ipo_id            String              @id @unique
   name              String              @db.VarChar(255)
-  series            Ipo_Series
+  series            String
   opening_date      String
   closing_date      String
   ipo_details Ipo_Details?

@@ -201,4 +201,128 @@ export const createIpoSchema = z.object({
   anchor: ipoAnchorSchema,
 });
 
+export const IpoSchema = z.object({
+  ipo_id: z.string(),
+  name: z.string(),
+  series: z.string(),
+  opening_date: z.string(),
+  closing_date: z.string(),
+});
+
+export const IpoDetailsSchema = z.object({
+  id: z.string(),
+  ipo_id: z.string(),
+  ipo_date: z.string(),
+  listing_date: z.string(),
+  face_value: z.string(),
+  price: z.string(),
+  lot_size: z.string(),
+  total_issue_size: z.string(),
+  fresh_issue: z.string(),
+  issue_type: z.string(),
+  listing_at: z.string(),
+  share_holding_pre_issue: z.string(),
+  share_holding_post_issue: z.string(),
+  market_maker_portion: z.string(),
+  about: z.string(),
+  objectOfIssue: z.string(),
+});
+
+export const IpoReservationSchema = z.object({
+  id: z.string(),
+  ipo_id: z.string(),
+  retail_shares_offerred: z.string(),
+  other_shares_offerred: z.string(),
+  total_shares_offerred: z.string(),
+  qib_shares_offerred: z.string(),
+  anchor_shares_offerred: z.string(),
+  market_maker_shares_offerred: z.string(),
+  nii_hnii_shares_offerred: z.string(),
+});
+
+export const IpoTimelineSchema = z.object({
+  id: z.string(),
+  ipo_id: z.string(),
+  open_date: z.string(),
+  close_date: z.string(),
+  basis_of_allotment: z.string(),
+  initiation_of_refunds: z.string(),
+  credit_of_shares_to_demat: z.string(),
+  listing_date: z.string(),
+  cutoff_time_for_upi_mandate: z.string(),
+});
+
+export const IpoLotsizeSchema = z.object({
+  id: z.string(),
+  ipo_id: z.string(),
+  application: z.array(z.string()),
+  lots: z.array(z.string()),
+  shares: z.array(z.string()),
+  amount: z.array(z.string()),
+});
+
+export const IpoPromoterHoldingSchema = z.object({
+  id: z.string(),
+  ipo_id: z.string(),
+  shareholding_preissue: z.string(),
+  shareholding_postissue: z.string(),
+});
+
+export const IpoFinancialsSchema = z.object({
+  id: z.string(),
+  ipo_id: z.string(),
+  period_ended: z.array(z.string()),
+  assets: z.array(z.string()),
+  revenue: z.array(z.string()),
+  profit_after_tax: z.array(z.string()),
+  net_worth: z.array(z.string()),
+  reserves_and_surplus: z.array(z.string()),
+  total_borrowing: z.array(z.string()),
+});
+
+export const IpoKpiSchema = z.object({
+  id: z.string(),
+  ipo_id: z.string(),
+  roe: z.string(),
+  roce: z.string(),
+  ronw: z.string(),
+  pbv: z.string(),
+  pat_marin_percent: z.string(),
+  eps_rs_preIpo: z.string(),
+  eps_rs_postIpo: z.string(),
+  pe_preIpo: z.string(),
+  pe_postIpo: z.string(),
+});
+
+export const IpoContactSchema = z.object({
+  id: z.string(),
+  ipo_id: z.string(),
+  address: z.string(),
+  phone: z.string(),
+  email: z.string(),
+  website: z.string(),
+});
+
+export const RegistrarContactSchema = z.object({
+  id: z.string(),
+  ipo_id: z.string(),
+  name: z.string(),
+  phone: z.string(),
+  email: z.string(),
+  website: z.string(),
+});
+
+export const IpoPostRequestSchema = z.object({
+  ipo: IpoSchema,
+  details: IpoDetailsSchema,
+  reservations: IpoReservationSchema,
+  timeline: IpoTimelineSchema,
+  lotsize: IpoLotsizeSchema,
+  promoterHoldings: IpoPromoterHoldingSchema,
+  financials: IpoFinancialsSchema,
+  kpi: IpoKpiSchema,
+  contact: IpoContactSchema,
+  registrar: RegistrarContactSchema,
+});
+
 export const updateIpoQuerySchema = z.object({ ipoId: z.number() });
