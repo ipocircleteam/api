@@ -1,8 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import logError from "../../utils/logError";
 import { ServiceResponse } from "../../types/services.types";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 type GetQueryType = {
   where?: {};

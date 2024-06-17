@@ -4,9 +4,10 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("DATABASE_URL")
+  url       = env("DATABASE_ACCELERATE_URL")
   directUrl = env("DIRECT_URL")
 }
+
 
 
 model Ipo {

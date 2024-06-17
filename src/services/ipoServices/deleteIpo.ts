@@ -1,7 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import logError from "../../utils/logError";
 import { ServiceResponse } from "../../types/services.types";
-const prisma = new PrismaClient();
+import { withAccelerate } from "@prisma/extension-accelerate";
+
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 const deleteIpo = async (id: string): Promise<ServiceResponse> => {
   try {

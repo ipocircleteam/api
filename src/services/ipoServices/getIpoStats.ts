@@ -2,8 +2,9 @@ import { PrismaClient } from "@prisma/client";
 import logError from "../../utils/logError";
 import { ServiceResponse } from "../../types/services.types";
 import { IPO_Series } from "../../types/ipo.types";
+import { withAccelerate } from "@prisma/extension-accelerate";
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient().$extends(withAccelerate());
 
 const getIpoStats = async (type: string): Promise<ServiceResponse> => {
   try {
