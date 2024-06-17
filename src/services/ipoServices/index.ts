@@ -6,3 +6,4 @@ export { default as getIpoStats } from "./getIpoStats";
 export { default as getSuggestedIpos } from "./getSuggestedIpos";
 export { default as getTrackerData } from "./getTrackerData";
 export { default as deleteIpo } from "./deleteIpo";
+export { default as deleteAllIpos } from "./deleteAllIpo";

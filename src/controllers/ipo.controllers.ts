@@ -98,7 +98,10 @@ const patchIpoRequest = asyncHandler(async (req: Request, res: Response) => {
 //DELETE: Deletes the IPO and related data
 const deleteIpoRequest = asyncHandler(async (req: Request, res: Response) => {
   const ipoId = req.params.id;
-  const resData = await ipoService.deleteIpo(ipoId);
+  var resData;
+  if (ipoId === "all") resData = await ipoService.deleteAllIpos();
+  else resData = await ipoService.deleteIpo(ipoId);
+
   if (!resData.success) {
     throw new ApiError(422, "Ipo deletion failed!");
   }
