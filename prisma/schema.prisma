@@ -8,231 +8,140 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
+
 model Ipo {
-  id                String              @id @unique
+  ipo_id            String              @id @unique
   name              String              @db.VarChar(255)
-  series            IPO_Series
-  description       String
-  face_value        Decimal
-  total_issue       String
-  fresh_issue       String
-  issue_type        String
-  listing_at        String[]
-  pre_open_nse      String
-  pre_open_bse      String
-  lot_size          BigInt
-  priceband_min     Decimal
-  priceband_max     Decimal
-  objectIssueData   String
-  ipoAnchor         Ipo_Anchor?
-  ipoContactDetails Ipo_ContactDetails?
-  ipoDates          Ipo_Dates?
-  ipoFinProgress    Ipo_FinProgress?
-  ipoFinances       Ipo_Finances?
-  ipoGmp            Ipo_Gmp?
-  ipoLots           Ipo_Lots?
-  ipoOtherDetails   Ipo_OtherDetails?
-  ipoPrices         Ipo_Prices?
-  ipoReservations   Ipo_Reservations?
-  ipoReview         Ipo_Review?
-  ipoShares         Ipo_Shares?
-  ipoSubscriptions  Ipo_Subscriptions?
-  ipoTracker        Ipo_Tracker?
-  suggestedIpo      Suggested_Ipo?
+  series            Ipo_Series
+  opening_date      String
+  closing_date      String
+  ipo_details Ipo_Details?
+  ipo_reservations Ipo_reservation?
+  ipo_timeline Ipo_Timeline?
+  ipo_lotsize Ipo_Lotsize?
+  ipo_promoterHolding Ipo_PromoterHolding?
+  ipo_financials Ipo_Financials?
+  ipo_kpi Ipo_Kpi?
+  ipo_contact Ipo_Contact?
+  registrar_contact Registrar_Contact?
+  suggested_ipo Suggested_Ipo?
 }
 
-model Ipo_Tracker {
-  id            Int     @id @unique @default(autoincrement())
-  ipo_id        String  @unique
-  company_name  String
-  sector        String
-  issue_price   Decimal
-  current_price Decimal
-  listing_price Decimal
-  dayend_price  Decimal
-  year          Int
-  ipo           Ipo     @relation(fields: [ipo_id], references: [id])
+enum Ipo_Series {
+  main
+  sme
 }
 
-model Ipo_Prices {
-  id           Int     @id @unique @default(autoincrement())
-  ipo_id       String  @unique
-  min_price    Decimal
-  max_price    Decimal
-  dayend_price Decimal
-  final_price  Decimal
-  ipo          Ipo     @relation(fields: [ipo_id], references: [id])
-}
-
-model Ipo_ContactDetails {
-  id                Int    @id @unique @default(autoincrement())
-  ipo_id            String @unique
-  company_address   String
-  company_phone     String
-  company_email     String
-  company_website   String
-  company_logo      String
-  registrar_address String
-  registrar_phone   String
-  registrar_email   String
-  registrar_website String
-  registrar_name    String
-  ipo               Ipo    @relation(fields: [ipo_id], references: [id])
-}
-
-model Ipo_Lots {
-  id                Int      @id @unique @default(autoincrement())
-  ipo_id            String   @unique
-  category          String[]
-  lots_max          Int[]
-  lots_min          Int[]
-  max_bhni_lots     Int[]
-  max_bhni_price    Int[]
-  max_bhni_shares   Int[]
-  max_retail_lots   Int[]
-  max_retail_price  Int[]
-  max_retail_shares Int[]
-  max_shni_lots     Int[]
-  max_shni_price    Int[]
-  max_shni_shares   Int[]
-  min_bhni_lots     Int[]
-  min_bhni_price    Int[]
-  min_bhni_shares   Int[]
-  min_retail_lots   Int[]
-  min_retail_price  Int[]
-  min_retail_shares Int[]
-  min_shni_lots     Int[]
-  min_shni_price    Int[]
-  min_shni_shares   Int[]
-  ipo               Ipo      @relation(fields: [ipo_id], references: [id])
-}
-
-model Ipo_OtherDetails {
-  id                    Int      @id @unique @default(autoincrement())
-  ipo_id                String   @unique
-  bse_code              String
-  bse_url               String
-  nse_code              String
-  nse_url               String
-  drhp                  String
-  anchor_list           String[]
-  defunct               Boolean
-  retail_discount       String
-  employee_discount     String
-  ofs                   String
-  credit_of             String
-  time_upf              String
-  gen_holding_pre       String
-  gen_holding_post      String
-  promoter_holding_pre  String
-  promoter_holding_post String
-  ipo                   Ipo      @relation(fields: [ipo_id], references: [id])
-}
-
-model Ipo_Review {
-  id     Int    @id @unique @default(autoincrement())
+model Ipo_Details {
+  id String @id @unique
   ipo_id String @unique
-  review String
-  ipo    Ipo    @relation(fields: [ipo_id], references: [id])
+  ipo_date String
+  listing_date String
+  face_value String
+  price String
+  lot_size String
+  total_issue_size String
+  fresh_issue String
+  issue_type String
+  listing_at String
+  share_holding_pre_issue String
+  share_holding_post_issue String
+  market_maker_portion String
+  about String
+  objectOfIssue String
+  ipo Ipo @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
-model Ipo_Reservations {
-  id              Int      @id @unique @default(autoincrement())
-  ipo_id          String   @unique
-  shares_offerred Int[]
-  category        String[]
-  ipo             Ipo      @relation(fields: [ipo_id], references: [id])
+model Ipo_reservation {
+  id String @id @unique
+  ipo_id String @unique
+  retail_shares_offerred String
+  other_shares_offerred String
+  total_shares_offerred String
+  qib_shares_offerred String
+  anchor_shares_offerred String
+  market_maker_shares_offerred String
+  nii_hnii_shares_offerred String
+  ipo Ipo @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
-model Ipo_Gmp {
-  id             Int        @id @unique @default(autoincrement())
-  ipo_id         String     @unique
-  absolute_value Decimal[]
-  instant        DateTime[]
-  percent_value  Decimal[]
-  ipo            Ipo        @relation(fields: [ipo_id], references: [id])
+model Ipo_Timeline {
+  id String @id @unique
+  ipo_id String @unique
+  open_date String
+  close_date String
+  basis_of_allotment String
+  initiation_of_refunds String
+  credit_of_shares_to_demat String
+  listing_date String
+  cutoff_time_for_upi_mandate String
+  ipo Ipo @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
-model Ipo_Anchor {
-  id                     Int      @id @unique @default(autoincrement())
-  ipo_id                 String   @unique
-  anchor_bid_date        DateTime
-  anchor_lockin_half     DateTime
-  anchor_lockin_full     DateTime
-  anchor_lockin_rest     DateTime
-  anchor_portion         Decimal
-  anchor_shares_offerred Int
-  ipo                    Ipo      @relation(fields: [ipo_id], references: [id])
+model Ipo_Lotsize {
+  id String @id @unique
+  ipo_id String @unique
+  application String[] 
+  lots String[]
+  shares String[]
+  amount String[]
+  ipo Ipo @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
-model Ipo_Dates {
-  id                        Int      @id @unique @default(autoincrement())
-  ipo_id                    String   @unique
-  opening_date              DateTime
-  closing_date              DateTime
-  basis_date                DateTime
-  init_refunds              DateTime
-  credit_of_shares_to_demat DateTime
-  listing_date              DateTime
-  cutoff_mandate            DateTime
-  allotment_date            DateTime
-  ipo                       Ipo      @relation(fields: [ipo_id], references: [id])
+model Ipo_PromoterHolding {
+  id String @id @unique
+  ipo_id String @unique
+  shareholding_preissue String 
+  shareholding_postissue String
+  ipo Ipo @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
-model Ipo_Shares {
-  id                       Int    @id @unique @default(autoincrement())
-  ipo_id                   String @unique
-  anchor_shares_offerred   Int
-  qib_shares_offerred      Int
-  nii_bnii_shares_offerred Int
-  nii_snii_shares_offerred Int
-  retail_shares_offerred   Int
-  ipo                      Ipo    @relation(fields: [ipo_id], references: [id])
+model Ipo_Financials {
+  id String @id @unique
+  ipo_id String @unique
+  period_ended String[]
+  assets String[]
+  revenue String[]
+  profit_after_tax String[]
+  net_worth String[]
+  reserves_and_surplus String[]
+  total_borrowing String[]
+  ipo Ipo @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
-model Ipo_Finances {
-  id         Int     @id @unique @default(autoincrement())
-  ipo_id     String  @unique
-  pe         Decimal
-  market_cap Decimal
-  roe        Decimal
-  roce       Decimal
-  eps        Decimal
-  ronw       Decimal
-  debt       Decimal
-  ipo        Ipo     @relation(fields: [ipo_id], references: [id])
+model Ipo_Kpi {
+  id String @id @unique
+  ipo_id String @unique
+  roe String
+  roce String
+  ronw String
+  pbv String
+  pat_marin_percent String
+  eps_rs_preIpo String
+  eps_rs_postIpo String
+  pe_preIpo String
+  pe_postIpo String
+  ipo Ipo @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
-model Ipo_Subscriptions {
-  id         Int      @id @unique @default(autoincrement())
-  ipo_id     String   @unique
-  shares_bid Decimal
-  qib        Decimal
-  nii_snii   Decimal
-  nii_bnii   Decimal
-  retail     Decimal
-  updated_at DateTime
-  ipo        Ipo      @relation(fields: [ipo_id], references: [id])
+model Ipo_Contact {
+  id String @id @unique
+  ipo_id String @unique
+  address String
+  phone String
+  email String
+  website String
+  ipo Ipo @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
-model Ipo_FinProgress {
-  id      Int                @id @unique @default(autoincrement())
-  ipo_id  String             @unique
-  details Financial_Details?
-  ipo     Ipo                @relation(fields: [ipo_id], references: [id])
-}
-
-model Financial_Details {
-  id                Int             @id @unique @default(autoincrement())
-  ipoFinProgress_id Int             @unique
-  period_ended      String
-  assets            Decimal
-  revenue           Decimal
-  profit_after_tax  Decimal
-  networth          Decimal
-  reserves          Decimal
-  borrowing         Decimal
-  ipoFinProgress    Ipo_FinProgress @relation(fields: [ipoFinProgress_id], references: [id])
+model Registrar_Contact {
+  id String @id @unique
+  ipo_id String @unique
+  name String
+  phone String
+  email String
+  website String
+  ipo Ipo @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
 model admin {
@@ -266,7 +175,7 @@ model Blog {
 model Suggested_Ipo {
   id Int @id @default(autoincrement())
   ipo_id String @unique
-  ipo        Ipo      @relation(fields: [ipo_id], references: [id])
+  ipo        Ipo      @relation(fields: [ipo_id], references: [ipo_id], onDelete: Cascade)
 }
 
 model User {
