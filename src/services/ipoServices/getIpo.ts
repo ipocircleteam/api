@@ -8,7 +8,7 @@ const getIpo = async (id: string): Promise<ServiceResponse> => {
   try {
     const data = await prisma.ipo.findUniqueOrThrow({
       where: {
-        id: id,
+        ipo_id: id,
       },
     });
 

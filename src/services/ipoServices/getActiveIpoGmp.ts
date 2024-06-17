@@ -6,22 +6,22 @@ const prisma = new PrismaClient();
 
 const getActiveIpoGmp = async (): Promise<ServiceResponse> => {
   try {
-    const activeIpos = await prisma.ipo_Dates.findMany({
-      where: {
-        closing_date: {
-          lt: new Date(),
-        },
-      },
-      select: {
-        ipo_id: true,
-      },
-    });
+    // const activeIpos = await prisma.ipo_Dates.findMany({
+    //   where: {
+    //     closing_date: {
+    //       lt: new Date(),
+    //     },
+    //   },
+    //   select: {
+    //     ipo_id: true,
+    //   },
+    // });
 
-    if (!activeIpos)
-      return {
-        success: false,
-        errorMsg: "Active IPOs not found!",
-      };
+    // if (!activeIpos)
+    //   return {
+    //     success: false,
+    //     errorMsg: "Active IPOs not found!",
+    //   };
 
     //@ts-ignore
     // var reqData = []; //TODO Need to fix this
