@@ -7,7 +7,7 @@ const prisma = new PrismaClient().$extends(withAccelerate());
 
 const deleteAllIpos = async (): Promise<ServiceResponse> => {
   try {
-    await prisma.ipo.deleteMany().catch((e) => {
+    await prisma.ipo.deleteMany().catch((e: any) => {
       throw new Error(e);
     });
     return {
