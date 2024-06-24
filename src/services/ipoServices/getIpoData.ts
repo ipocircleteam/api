@@ -31,14 +31,11 @@ const getIpoData = async (
 
     if (concise) {
       queryOptions.select = {
-        id: true,
+        ipo_id: true,
         name: true,
-        ipoDates: {
-          select: {
-            opening_date: true,
-            closing_date: true,
-          },
-        },
+        series: true,
+        opening_date: true,
+        closing_date: true,
       };
     } else {
       delete queryOptions.select;
